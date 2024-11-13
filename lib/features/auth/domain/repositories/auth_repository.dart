@@ -1,0 +1,9 @@
+import 'package:clean_architecture_rivaan_ranawat/config/error/failure.dart';
+import 'package:fpdart/fpdart.dart';
+
+abstract interface class AuthRepository {
+  Future<Either<Failure, String>> loginWithEmailPassword({
+    required String email,
+    required String password,
+  });
+}
