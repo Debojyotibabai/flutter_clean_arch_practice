@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/recommendation_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/use_cases/get_recommedation_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

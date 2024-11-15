@@ -1,16 +1,19 @@
 import 'package:clean_architecture_rivaan_ranawat/config/error/failure.dart';
 import 'package:clean_architecture_rivaan_ranawat/config/use_case/use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/recommendation_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/repositories/recommendation_repository.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:fpdart/fpdart.dart';
 
-class GetRecommedationUseCase implements UseCase<String, Params> {
+class GetRecommedationUseCase
+    implements UseCase<List<RecommendationEntity>, Params> {
   final RecommendationRepository recommendationRepositoryImpl;
 
   GetRecommedationUseCase({required this.recommendationRepositoryImpl});
 
   @override
-  Future<Either<Failure, String>> call(Params params) async {
+  Future<Either<Failure, List<RecommendationEntity>>> call(
+      Params params) async {
     return await recommendationRepositoryImpl.getRecommendation(
       page: params.page,
       size: params.size,

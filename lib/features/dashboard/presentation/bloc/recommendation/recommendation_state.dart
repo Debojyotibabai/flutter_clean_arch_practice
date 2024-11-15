@@ -8,7 +8,7 @@ final class RecommendationInitial extends RecommendationState {}
 final class RecommendationLoading extends RecommendationState {}
 
 final class RecommendationSuccess extends RecommendationState {
-  final String recommendations;
+  final List<RecommendationEntity> recommendations;
   RecommendationSuccess({required this.recommendations});
 }
 
