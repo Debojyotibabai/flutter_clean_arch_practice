@@ -2,6 +2,7 @@ import 'package:clean_architecture_rivaan_ranawat/config/navigation/app_navigati
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,7 @@ void main() {
         BlocProvider(create: (_) => serviceLocator<AuthenticationBloc>()),
         BlocProvider(create: (_) => serviceLocator<LoginBloc>()),
         BlocProvider(create: (_) => serviceLocator<FoodCategoryBloc>()),
+        BlocProvider(create: (_) => serviceLocator<RecommendationBloc>()),
       ],
       child: const MyApp(),
     ),

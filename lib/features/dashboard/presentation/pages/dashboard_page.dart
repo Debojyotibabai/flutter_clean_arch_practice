@@ -1,4 +1,5 @@
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/widgets/recommendation_card.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dropdown/dropdown_with_icon.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +20,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int page = 1;
 
   final int size = 10;
-  final int unit = 10;
+  final String unit = "Mile";
   final double latitude = 40.758701;
   final double longitude = -111.876183;
 
   @override
   void initState() {
     BlocProvider.of<FoodCategoryBloc>(context).add(GetFoodCategoryEvent());
+    getRecommendation();
     super.initState();
+  }
+
+  void getRecommendation() {
+    BlocProvider.of<RecommendationBloc>(context).add(
+      GetRecommendationEvent(
+        page: page,
+        size: size,
+        latitude: latitude,
+        longitude: longitude,
+        unit: unit,
+      ),
+    );
   }
 
   @override

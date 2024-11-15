@@ -5,10 +5,15 @@ import 'package:clean_architecture_rivaan_ranawat/features/auth/domain/use_cases
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/data/data_sources/food_category_data_source.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/data/data_sources/recommendation_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/data/repositories/food_category_repository_impl.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/data/repositories/recommendation_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/repositories/food_category_repository.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/repositories/recommendation_repository.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/use_cases/get_food_category_use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/use_cases/get_recommedation_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -17,6 +22,7 @@ void initiDependencies() {
   _initAuthenticationDependencies();
   _initLoginDependencies();
   _initFoodCategoryDependencies();
+  _initRecommendationDependencies();
 }
 
 void _initAuthenticationDependencies() {
@@ -56,5 +62,23 @@ void _initFoodCategoryDependencies() {
     )
     ..registerLazySingleton(
       () => FoodCategoryBloc(getFoodCategoryUseCase: serviceLocator()),
+    );
+}
+
+void _initRecommendationDependencies() {
+  serviceLocator
+    ..registerFactory<RecommendationDataSource>(
+      () => RecommendationDataSourceImpl(),
+    )
+    ..registerFactory<RecommendationRepository>(
+      () => RecommendationRepositoryImpl(
+          recommendationDataSourceImpl: serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetRecommedationUseCase(
+          recommendationRepositoryImpl: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => RecommendationBloc(getRecommedationUseCase: serviceLocator()),
     );
 }
