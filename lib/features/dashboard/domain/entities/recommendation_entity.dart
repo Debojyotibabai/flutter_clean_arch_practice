@@ -4,7 +4,7 @@ abstract class RecommendationEntity {
   final double? matchPercentage;
   final double? givenPercentage;
   final String restaurantName;
-  final double addressDistanceFromMyLocation;
+  final String addressDistanceFromMyLocation;
   final double price;
 
   RecommendationEntity({

@@ -5,6 +5,7 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dropdown/dropdow
 import 'package:flutter/material.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -104,9 +105,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: RecommendationCard(),
+            Expanded(
+              child: BlocBuilder<RecommendationBloc, RecommendationState>(
+                builder: (context, state) {
+                  if (state is RecommendationLoading) {
+                    return Center(
+                      child: SpinKitThreeInOut(
+                        color: Colors.yellow[700],
+                      ),
+                    );
+                  } else if (state is RecommendationSuccess) {
+                    return Container(
+                      margin: const EdgeInsets.only(top: 15),
+                      child: ListView.builder(
+                        itemCount: state.recommendations.length,
+                        itemBuilder: (context, index) {
+                          return RecommendationCard(
+                            foodName: state.recommendations[index].foodItemName,
+                            restaurantName:
+                                state.recommendations[index].restaurantName,
+                            rating: state
+                                    .recommendations[index].givenPercentage ??
+                                state.recommendations[index].matchPercentage ??
+                                0,
+                            distance: state.recommendations[index]
+                                .addressDistanceFromMyLocation,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  return Container();
+                },
+              ),
             ),
           ],
         ),

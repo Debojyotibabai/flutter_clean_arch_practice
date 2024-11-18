@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 
 class RecommendationCard extends StatelessWidget {
-  const RecommendationCard({super.key});
+  const RecommendationCard({
+    super.key,
+    required this.foodName,
+    required this.rating,
+    required this.restaurantName,
+    required this.distance,
+  });
+
+  final String foodName;
+  final double rating;
+  final String restaurantName;
+  final String distance;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        bottom: 15,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -33,10 +49,10 @@ class RecommendationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      constraints: const BoxConstraints(maxWidth: 170),
-                      child: const Text(
-                        "Ploughman's Salad",
-                        style: TextStyle(
+                      constraints: const BoxConstraints(maxWidth: 150),
+                      child: Text(
+                        foodName,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
                         ),
@@ -46,9 +62,9 @@ class RecommendationCard extends StatelessWidget {
                       width: 15,
                     ),
                     Container(
-                      constraints: const BoxConstraints(maxWidth: 100),
+                      constraints: const BoxConstraints(maxWidth: 120),
                       child: Text(
-                        "100% match",
+                        "$rating% match",
                         style: TextStyle(
                           color: Colors.green[600],
                           fontSize: 16,
@@ -67,11 +83,11 @@ class RecommendationCard extends StatelessWidget {
                   children: [
                     Container(
                       constraints: const BoxConstraints(maxWidth: 180),
-                      child: const Text(
-                        "Thai House Cuisine",
+                      child: Text(
+                        restaurantName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black54,
                           fontSize: 17,
                         ),
@@ -91,11 +107,11 @@ class RecommendationCard extends StatelessWidget {
                         ),
                         Container(
                           constraints: const BoxConstraints(maxWidth: 80),
-                          child: const Text(
-                            "2.3 mi",
+                          child: Text(
+                            "$distance mi",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 16,
                             ),

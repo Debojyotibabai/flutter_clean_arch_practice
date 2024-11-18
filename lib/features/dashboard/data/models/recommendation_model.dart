@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final recommendationModel = recommendationModelFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/recommendation_entity.dart';
@@ -28,8 +24,10 @@ class RecommendationModel extends RecommendationEntity {
     required super.id,
     required super.foodItemName,
     required super.price,
-    required super.matchPercentage,
-    required super.givenPercentage,
+    required super.restaurantName,
+    required super.addressDistanceFromMyLocation,
+    super.matchPercentage,
+    super.givenPercentage,
     this.restaurant,
     this.foodCategory,
     this.foodItemImageUrl,
@@ -43,7 +41,16 @@ class RecommendationModel extends RecommendationEntity {
 
   factory RecommendationModel.fromJson(Map<String, dynamic> json) =>
       RecommendationModel(
-        id: json["id"],
+        id: json["id"]?.toString() ?? "",
+        foodItemName: json["foodItemName"] ?? "",
+        price: json["price"].toDouble(),
+        matchPercentage: json["matchPercentage"]?.toDouble() ?? 0.0,
+        givenPercentage: json["givenPercentage"]?.toDouble(),
+        restaurantName: json["restaurant"]?["restaurantName"] ?? "",
+        addressDistanceFromMyLocation: json["restaurant"]?["nearestLocation"]
+                    ?["addressDistanceFromMyLocation"]
+                ?.toString() ??
+            "0",
         restaurant: json["restaurant"] == null
             ? null
             : Restaurant.fromJson(json["restaurant"]),
@@ -51,41 +58,39 @@ class RecommendationModel extends RecommendationEntity {
             ? null
             : FoodCategory.fromJson(json["foodCategory"]),
         foodItemImageUrl: json["FoodItemImageUrl"],
-        foodItemName: json["foodItemName"],
         description: json["description"],
-        price: json["price"]?.toDouble(),
         isFeatured: json["isFeatured"],
-        tags: json["tags"] == null
-            ? []
-            : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
+        tags: json["tags"] is List
+            ? List<Tag>.from(json["tags"].map((x) => Tag.fromJson(x)))
+            : [],
         extraAttributes: json["extraAttributes"] == null
             ? null
             : ExtraAttributes.fromJson(json["extraAttributes"]),
-        deals: json["deals"] == null
-            ? []
-            : List<dynamic>.from(json["deals"]!.map((x) => x)),
-        matchPercentage: json["matchPercentage"]?.toDouble(),
-        givenRating: json["givenRating"],
-        givenPercentage: json["givenPercentage"],
+        deals: json["deals"] is List
+            ? List<dynamic>.from(json["deals"].map((x) => x))
+            : [],
+        givenRating: json["givenRating"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "foodItemName": foodItemName,
+        "price": price,
+        "matchPercentage": matchPercentage,
+        "givenPercentage": givenPercentage,
+        "restaurantName": restaurantName,
+        "addressDistanceFromMyLocation": addressDistanceFromMyLocation,
         "restaurant": restaurant?.toJson(),
         "foodCategory": foodCategory?.toJson(),
         "FoodItemImageUrl": foodItemImageUrl,
-        "foodItemName": foodItemName,
         "description": description,
-        "price": price,
         "isFeatured": isFeatured,
         "tags": tags == null
             ? []
             : List<dynamic>.from(tags!.map((x) => x.toJson())),
         "extraAttributes": extraAttributes?.toJson(),
         "deals": deals == null ? [] : List<dynamic>.from(deals!.map((x) => x)),
-        "matchPercentage": matchPercentage,
         "givenRating": givenRating,
-        "givenPercentage": givenPercentage,
       };
 }
 
@@ -112,26 +117,26 @@ class ExtraAttributes {
 
   factory ExtraAttributes.fromJson(Map<String, dynamic> json) =>
       ExtraAttributes(
-        dietary: json["Dietary"],
-        mealtime: json["Mealtime"] == null
-            ? []
-            : List<String>.from(json["Mealtime"]!.map((x) => x)),
-        flavorTypes: json["Flavor Types"] == null
-            ? []
-            : List<String>.from(json["Flavor Types"]!.map((x) => x)),
-        foodConcepts: json["Food Concepts"] == null
-            ? []
-            : List<String>.from(json["Food Concepts"]!.map((x) => x)),
-        isReprocessed: json["isReprocessed"],
-        foodDescription: json["Food Description"] == null
-            ? []
-            : List<String>.from(json["Food Description"]!.map((x) => x)),
-        foodCategoryName: json["foodCategoryName"] == null
-            ? []
-            : List<String>.from(json["foodCategoryName"]!.map((x) => x)),
-        foodPreparationStyles: json["Food Preparation Styles"] == null
-            ? []
-            : List<String>.from(json["Food Preparation Styles"]!.map((x) => x)),
+        dietary: json["Dietary"] is String ? json["Dietary"] : "",
+        mealtime: json["Mealtime"] is List
+            ? List<String>.from(json["Mealtime"].map((x) => x))
+            : [],
+        flavorTypes: json["Flavor Types"] is List
+            ? List<String>.from(json["Flavor Types"].map((x) => x))
+            : [],
+        foodConcepts: json["Food Concepts"] is List
+            ? List<String>.from(json["Food Concepts"].map((x) => x))
+            : [],
+        isReprocessed: json["isReprocessed"] ?? false,
+        foodDescription: json["Food Description"] is List
+            ? List<String>.from(json["Food Description"].map((x) => x))
+            : [],
+        foodCategoryName: json["foodCategoryName"] is List
+            ? List<String>.from(json["foodCategoryName"].map((x) => x))
+            : [],
+        foodPreparationStyles: json["Food Preparation Styles"] is List
+            ? List<String>.from(json["Food Preparation Styles"].map((x) => x))
+            : [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -167,7 +172,7 @@ class FoodCategory {
   });
 
   factory FoodCategory.fromJson(Map<String, dynamic> json) => FoodCategory(
-        categoryId: json["categoryId"],
+        categoryId: json["categoryId"]?.toString(),
         categoryName: json["categoryName"],
       );
 
@@ -189,7 +194,7 @@ class Restaurant {
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
-        restaurantId: json["restaurantId"],
+        restaurantId: json["restaurantId"]?.toString(),
         restaurantName: json["restaurantName"],
         nearestLocation: json["nearestLocation"] == null
             ? null
@@ -216,8 +221,9 @@ class NearestLocation {
 
   factory NearestLocation.fromJson(Map<String, dynamic> json) =>
       NearestLocation(
-        addressId: json["addressId"],
-        addressDistanceFromMyLocation: json["addressDistanceFromMyLocation"],
+        addressId: json["addressId"]?.toString(),
+        addressDistanceFromMyLocation:
+            json["addressDistanceFromMyLocation"]?.toString(),
         addressDistanceFromMyLocationUnit:
             json["addressDistanceFromMyLocationUnit"],
       );
@@ -239,7 +245,7 @@ class Tag {
   });
 
   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-        tagId: json["tagId"],
+        tagId: json["tagId"]?.toString(),
         tagName: json["tagName"],
       );
 

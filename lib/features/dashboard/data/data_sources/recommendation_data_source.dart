@@ -57,8 +57,6 @@ class RecommendationDataSourceImpl implements RecommendationDataSource {
       final data = recommendationModelFromJson(
           json.encode(response.data["recommendedFoods"]));
 
-      log(data.toString());
-
       return data;
     } catch (err) {
       log(err.toString());
