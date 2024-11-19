@@ -46,6 +46,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Future<void> _handleRefresh() async {
+    setState(() {
+      page = 1;
+      selectedSortByOption = null;
+      restaurantCategoryIds = null;
+    });
+
+    getRecommendation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,23 +145,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     } else {
                       return Container(
                         margin: const EdgeInsets.only(top: 15),
-                        child: ListView.builder(
-                          itemCount: state.recommendations.length,
-                          itemBuilder: (context, index) {
-                            return RecommendationCard(
-                              foodName:
-                                  state.recommendations[index].foodItemName,
-                              restaurantName:
-                                  state.recommendations[index].restaurantName,
-                              rating: state
-                                      .recommendations[index].givenPercentage ??
-                                  state
-                                      .recommendations[index].matchPercentage ??
-                                  0,
-                              distance: state.recommendations[index]
-                                  .addressDistanceFromMyLocation,
-                            );
-                          },
+                        child: RefreshIndicator(
+                          onRefresh: _handleRefresh,
+                          child: ListView.builder(
+                            itemCount: state.recommendations.length,
+                            itemBuilder: (context, index) {
+                              return RecommendationCard(
+                                foodName:
+                                    state.recommendations[index].foodItemName,
+                                restaurantName:
+                                    state.recommendations[index].restaurantName,
+                                rating: state.recommendations[index]
+                                        .givenPercentage ??
+                                    state.recommendations[index]
+                                        .matchPercentage ??
+                                    0,
+                                distance: state.recommendations[index]
+                                    .addressDistanceFromMyLocation,
+                              );
+                            },
+                          ),
                         ),
                       );
                     }
