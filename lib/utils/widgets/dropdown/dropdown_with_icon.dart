@@ -7,11 +7,13 @@ class DropdownWithIcon extends StatefulWidget {
     required this.selectTitle,
     this.options = const [],
     this.onChanged,
+    this.resetValue,
   });
 
   final String selectTitle;
   final List<String> options;
   final Function(int?)? onChanged;
+  final String? resetValue;
 
   @override
   State<DropdownWithIcon> createState() => _DropdownWithIconState();
@@ -19,6 +21,16 @@ class DropdownWithIcon extends StatefulWidget {
 
 class _DropdownWithIconState extends State<DropdownWithIcon> {
   String? selectedValue;
+
+  @override
+  void didUpdateWidget(covariant DropdownWithIcon oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.resetValue != selectedValue) {
+      setState(() {
+        selectedValue = widget.resetValue;
+      });
+    }
+  }
 
   List<DropdownMenuItem<String>> _buildDropdownMenuItems() {
     if (widget.options.isEmpty) {

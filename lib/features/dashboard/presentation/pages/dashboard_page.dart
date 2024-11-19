@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/food_category_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/widgets/recommendation_card.dart';
@@ -16,7 +17,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   RecommendedFoodsSortByOption? selectedSortByOption;
-  String? restaurantCategoryIds;
+  FoodCategoryEntity? restaurantCategoryIds;
 
   int page = 1;
 
@@ -41,7 +42,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         longitude: longitude,
         unit: unit,
         sortByOption: selectedSortByOption,
-        restaurantCategoryIds: restaurantCategoryIds,
+        restaurantCategoryIds: restaurantCategoryIds?.restaurantCategoryId,
       ),
     );
   }
@@ -88,6 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                           getRecommendation();
                         },
+                        resetValue: selectedSortByOption?.label,
                       ),
                     ),
                     SizedBox(
@@ -102,13 +104,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   .toList(),
                               onChanged: (index) {
                                 setState(() {
-                                  restaurantCategoryIds = state
-                                      .foodCategory[index!]
-                                      .restaurantCategoryId;
+                                  restaurantCategoryIds =
+                                      state.foodCategory[index!];
                                 });
 
                                 getRecommendation();
                               },
+                              resetValue:
+                                  restaurantCategoryIds?.restaurantCategoryName,
                             );
                           }
                           return const DropdownWithIcon(
