@@ -40,6 +40,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         latitude: latitude,
         longitude: longitude,
         unit: unit,
+        sortByOption: selectedSortByOption,
+        restaurantCategoryIds: restaurantCategoryIds,
       ),
     );
   }
@@ -73,6 +75,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             selectedSortByOption =
                                 Constants.recommendedFoodsSortByOptions[index!];
                           });
+
+                          getRecommendation();
                         },
                       ),
                     ),
@@ -92,6 +96,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       .foodCategory[index!]
                                       .restaurantCategoryId;
                                 });
+
+                                getRecommendation();
                               },
                             );
                           }
@@ -115,25 +121,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     );
                   } else if (state is RecommendationSuccess) {
-                    return Container(
-                      margin: const EdgeInsets.only(top: 15),
-                      child: ListView.builder(
-                        itemCount: state.recommendations.length,
-                        itemBuilder: (context, index) {
-                          return RecommendationCard(
-                            foodName: state.recommendations[index].foodItemName,
-                            restaurantName:
-                                state.recommendations[index].restaurantName,
-                            rating: state
-                                    .recommendations[index].givenPercentage ??
-                                state.recommendations[index].matchPercentage ??
-                                0,
-                            distance: state.recommendations[index]
-                                .addressDistanceFromMyLocation,
-                          );
-                        },
-                      ),
-                    );
+                    if (state.recommendations.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          "No recommendations found",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: ListView.builder(
+                          itemCount: state.recommendations.length,
+                          itemBuilder: (context, index) {
+                            return RecommendationCard(
+                              foodName:
+                                  state.recommendations[index].foodItemName,
+                              restaurantName:
+                                  state.recommendations[index].restaurantName,
+                              rating: state
+                                      .recommendations[index].givenPercentage ??
+                                  state
+                                      .recommendations[index].matchPercentage ??
+                                  0,
+                              distance: state.recommendations[index]
+                                  .addressDistanceFromMyLocation,
+                            );
+                          },
+                        ),
+                      );
+                    }
                   }
                   return Container();
                 },
