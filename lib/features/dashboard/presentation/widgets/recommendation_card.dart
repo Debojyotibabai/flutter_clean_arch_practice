@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/utils/rating_color_generator.dart';
 import 'package:flutter/material.dart';
 
 class RecommendationCard extends StatelessWidget {
@@ -27,7 +28,7 @@ class RecommendationCard extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withOpacity(0.20),
             spreadRadius: 0,
             blurRadius: 10,
             offset: const Offset(0, 4),
@@ -66,7 +67,12 @@ class RecommendationCard extends StatelessWidget {
                       child: Text(
                         "$rating% match",
                         style: TextStyle(
-                          color: Colors.green[600],
+                          color: ratingColorGenerator(rating: rating) == "good"
+                              ? Colors.green[600]
+                              : ratingColorGenerator(rating: rating) ==
+                                      "average"
+                                  ? Colors.yellow[800]
+                                  : Colors.red[500],
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                         ),
