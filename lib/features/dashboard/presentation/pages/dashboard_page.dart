@@ -122,31 +122,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             Expanded(
-              child: BlocBuilder<RecommendationBloc, RecommendationState>(
-                builder: (context, state) {
-                  if (state is RecommendationLoading) {
-                    return Center(
-                      child: SpinKitThreeInOut(
-                        color: Colors.yellow[700],
-                      ),
-                    );
-                  } else if (state is RecommendationSuccess) {
-                    if (state.recommendations.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          "No recommendations found",
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
+              child: RefreshIndicator(
+                onRefresh: _handleRefresh,
+                child: BlocBuilder<RecommendationBloc, RecommendationState>(
+                  builder: (context, state) {
+                    if (state is RecommendationLoading) {
+                      return Center(
+                        child: SpinKitThreeInOut(
+                          color: Colors.yellow[700],
                         ),
                       );
-                    } else {
-                      return Container(
-                        margin: const EdgeInsets.only(top: 15),
-                        child: RefreshIndicator(
-                          onRefresh: _handleRefresh,
+                    } else if (state is RecommendationSuccess) {
+                      if (state.recommendations.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No recommendations found",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          margin: const EdgeInsets.only(top: 15),
                           child: ListView.builder(
                             itemCount: state.recommendations.length,
                             itemBuilder: (context, index) {
@@ -165,12 +165,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               );
                             },
                           ),
-                        ),
-                      );
+                        );
+                      }
                     }
-                  }
-                  return Container();
-                },
+                    return Container();
+                  },
+                ),
               ),
             ),
           ],
