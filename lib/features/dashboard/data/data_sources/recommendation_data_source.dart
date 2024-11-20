@@ -55,8 +55,6 @@ class RecommendationDataSourceImpl implements RecommendationDataSource {
 
       final data = RecommendationModel.fromMap(response.data);
 
-      log(data.toString());
-
       return data;
     } catch (err, s) {
       log(err.toString() + s.toString());

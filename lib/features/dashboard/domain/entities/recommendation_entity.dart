@@ -1,14 +1,8 @@
 abstract class PaginationEntity {
   final int? totalItems;
-  final int? perPage;
-  final int? currentPage;
-  final int? lastPage;
 
   PaginationEntity({
     this.totalItems,
-    this.perPage,
-    this.currentPage,
-    this.lastPage,
   });
 }
 

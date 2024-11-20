@@ -9,25 +9,22 @@ class RecommendationModel extends RecommendationEntity {
   factory RecommendationModel.fromMap(Map<String, dynamic> json) =>
       RecommendationModel(
         pagination: PaginationModel.fromMap(json["pagination"]),
-        recommendedFoods: List<RecommendedFood>.from(
-          json["recommendedFoods"].map((x) => RecommendedFood.fromMap(x)),
+        recommendedFoods: List<RecommendedFoodModel>.from(
+          json["recommendedFoods"].map((x) => RecommendedFoodModel.fromMap(x)),
         ),
       );
-
-  Map<String, dynamic> toMap() => {
-        "pagination": (pagination as PaginationModel).toMap(),
-        "recommendedFoods": recommendedFoods
-            .map((x) => (x as RecommendedFood).toMap())
-            .toList(),
-      };
 }
 
 class PaginationModel extends PaginationEntity {
+  final int? perPage;
+  final int? currentPage;
+  final int? lastPage;
+
   PaginationModel({
     required super.totalItems,
-    required super.perPage,
-    required super.currentPage,
-    required super.lastPage,
+    this.perPage,
+    this.currentPage,
+    this.lastPage,
   });
 
   factory PaginationModel.fromMap(Map<String, dynamic> json) => PaginationModel(
@@ -36,16 +33,9 @@ class PaginationModel extends PaginationEntity {
         currentPage: json["currentPage"],
         lastPage: json["lastPage"],
       );
-
-  Map<String, dynamic> toMap() => {
-        "totalItems": totalItems,
-        "perPage": perPage,
-        "currentPage": currentPage,
-        "lastPage": lastPage,
-      };
 }
 
-class RecommendedFood extends RecommendedFoodEntity {
+class RecommendedFoodModel extends RecommendedFoodEntity {
   final Restaurant? restaurant;
   final FoodCategory? foodCategory;
   final dynamic foodItemImageUrl;
@@ -57,7 +47,7 @@ class RecommendedFood extends RecommendedFoodEntity {
   final List<dynamic>? deals;
   final double? givenRating;
 
-  RecommendedFood({
+  RecommendedFoodModel({
     this.restaurant,
     this.foodCategory,
     this.foodItemImageUrl,
@@ -76,7 +66,8 @@ class RecommendedFood extends RecommendedFoodEntity {
     super.givenPercentage,
   });
 
-  factory RecommendedFood.fromMap(Map<String, dynamic> json) => RecommendedFood(
+  factory RecommendedFoodModel.fromMap(Map<String, dynamic> json) =>
+      RecommendedFoodModel(
         id: json["id"],
         foodItemName: json["foodItemName"],
         matchPercentage: json["matchPercentage"],
@@ -107,25 +98,6 @@ class RecommendedFood extends RecommendedFoodEntity {
             : List<dynamic>.from(json["deals"]!.map((x) => x)),
         givenRating: json["givenRating"],
       );
-
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "foodItemName": foodItemName,
-        "matchPercentage": matchPercentage,
-        "givenPercentage": givenPercentage,
-        "restaurantName": restaurantName,
-        "addressDistanceFromMyLocation": addressDistanceFromMyLocation,
-        "restaurant": restaurant?.toMap(),
-        "foodCategory": foodCategory?.toMap(),
-        "FoodItemImageUrl": foodItemImageUrl,
-        "description": description,
-        "price": price,
-        "isFeatured": isFeatured,
-        "tags": tags?.map((x) => x.toMap()).toList(),
-        "extraAttributes": extraAttributes?.toMap(),
-        "deals": deals,
-        "givenRating": givenRating,
-      };
 }
 
 class ExtraAttributes {
@@ -176,17 +148,6 @@ class ExtraAttributes {
                 json["Food Preparation Styles"].map((x) => x.toString()))
             : [], // Handle non-list cases
       );
-
-  Map<String, dynamic> toMap() => {
-        "Dietary": dietary,
-        "Mealtime": mealtime,
-        "Flavor Types": flavorTypes,
-        "Food Concepts": foodConcepts,
-        "isReprocessed": isReprocessed,
-        "Food Description": foodDescription,
-        "foodCategoryName": foodCategoryName,
-        "Food Preparation Styles": foodPreparationStyles,
-      };
 }
 
 class FoodCategory {
@@ -203,11 +164,6 @@ class FoodCategory {
         categoryName:
             json["categoryName"]?.toString(), // Safely convert to String
       );
-
-  Map<String, dynamic> toMap() => {
-        "categoryId": categoryId,
-        "categoryName": categoryName,
-      };
 }
 
 class Restaurant {
@@ -228,12 +184,6 @@ class Restaurant {
             ? null
             : NearestLocation.fromMap(json["nearestLocation"]),
       );
-
-  Map<String, dynamic> toMap() => {
-        "restaurantId": restaurantId,
-        "restaurantName": restaurantName,
-        "nearestLocation": nearestLocation?.toMap(),
-      };
 }
 
 class NearestLocation {
@@ -254,12 +204,6 @@ class NearestLocation {
         addressDistanceFromMyLocationUnit:
             json["addressDistanceFromMyLocationUnit"],
       );
-
-  Map<String, dynamic> toMap() => {
-        "addressId": addressId,
-        "addressDistanceFromMyLocation": addressDistanceFromMyLocation,
-        "addressDistanceFromMyLocationUnit": addressDistanceFromMyLocationUnit,
-      };
 }
 
 class Tag {
@@ -275,9 +219,4 @@ class Tag {
         tagId: json["tagId"],
         tagName: json["tagName"],
       );
-
-  Map<String, dynamic> toMap() => {
-        "tagId": tagId,
-        "tagName": tagName,
-      };
 }
