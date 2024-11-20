@@ -136,7 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       );
                     } else if (state is RecommendationSuccess) {
-                      if (state.recommendations.isEmpty) {
+                      if (state.recommendations.recommendedFoods.isEmpty) {
                         return const Center(
                           child: Text(
                             "No recommendations found",
@@ -151,20 +151,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         return Container(
                           margin: const EdgeInsets.only(top: 15),
                           child: ListView.builder(
-                            itemCount: state.recommendations.length,
+                            itemCount:
+                                state.recommendations.recommendedFoods.length,
                             itemBuilder: (context, index) {
                               return RecommendationCard(
-                                foodName:
-                                    state.recommendations[index].foodItemName,
-                                restaurantName:
-                                    state.recommendations[index].restaurantName,
-                                rating: state.recommendations[index]
+                                foodName: state.recommendations
+                                    .recommendedFoods[index].foodItemName!,
+                                restaurantName: state.recommendations
+                                    .recommendedFoods[index].restaurantName!,
+                                rating: state
+                                        .recommendations
+                                        .recommendedFoods[index]
                                         .givenPercentage ??
-                                    state.recommendations[index]
+                                    state
+                                        .recommendations
+                                        .recommendedFoods[index]
                                         .matchPercentage ??
                                     0,
-                                distance: state.recommendations[index]
-                                    .addressDistanceFromMyLocation,
+                                distance: state
+                                    .recommendations
+                                    .recommendedFoods[index]
+                                    .addressDistanceFromMyLocation!,
                               );
                             },
                           ),

@@ -5,15 +5,13 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/repo
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:fpdart/fpdart.dart';
 
-class GetRecommedationUseCase
-    implements UseCase<List<RecommendationEntity>, Params> {
+class GetRecommedationUseCase implements UseCase<RecommendationEntity, Params> {
   final RecommendationRepository recommendationRepositoryImpl;
 
   GetRecommedationUseCase({required this.recommendationRepositoryImpl});
 
   @override
-  Future<Either<Failure, List<RecommendationEntity>>> call(
-      Params params) async {
+  Future<Either<Failure, RecommendationEntity>> call(Params params) async {
     return await recommendationRepositoryImpl.getRecommendation(
       page: params.page,
       size: params.size,

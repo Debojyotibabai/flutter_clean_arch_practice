@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
@@ -6,7 +5,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/data/models
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 
 abstract interface class RecommendationDataSource {
-  Future<List<RecommendationModel>> getRecommendation({
+  Future<RecommendationModel> getRecommendation({
     required int page,
     required int size,
     required double latitude,
@@ -19,7 +18,7 @@ abstract interface class RecommendationDataSource {
 
 class RecommendationDataSourceImpl implements RecommendationDataSource {
   @override
-  Future<List<RecommendationModel>> getRecommendation({
+  Future<RecommendationModel> getRecommendation({
     required int page,
     required int size,
     required double latitude,
@@ -54,12 +53,13 @@ class RecommendationDataSourceImpl implements RecommendationDataSource {
         param: param,
       );
 
-      final data = recommendationModelFromJson(
-          json.encode(response.data["recommendedFoods"]));
+      final data = RecommendationModel.fromMap(response.data);
+
+      log(data.toString());
 
       return data;
-    } catch (err) {
-      log(err.toString());
+    } catch (err, s) {
+      log(err.toString() + s.toString());
       throw err.toString();
     }
   }

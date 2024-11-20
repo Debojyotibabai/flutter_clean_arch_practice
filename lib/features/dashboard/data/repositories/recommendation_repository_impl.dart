@@ -11,7 +11,7 @@ class RecommendationRepositoryImpl implements RecommendationRepository {
   RecommendationRepositoryImpl({required this.recommendationDataSourceImpl});
 
   @override
-  Future<Either<Failure, List<RecommendationEntity>>> getRecommendation({
+  Future<Either<Failure, RecommendationEntity>> getRecommendation({
     required int page,
     required int size,
     required double latitude,

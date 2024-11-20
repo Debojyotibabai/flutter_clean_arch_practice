@@ -4,7 +4,7 @@ import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract interface class RecommendationRepository {
-  Future<Either<Failure, List<RecommendationEntity>>> getRecommendation({
+  Future<Either<Failure, RecommendationEntity>> getRecommendation({
     required int page,
     required int size,
     required double latitude,
