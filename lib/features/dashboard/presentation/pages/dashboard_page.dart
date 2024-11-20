@@ -176,6 +176,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
             ),
+            BlocBuilder<RecommendationBloc, RecommendationState>(
+              builder: (context, state) {
+                if (state is RecommendationSuccess) {
+                  return Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          page++;
+                        });
+                        getRecommendation();
+                      },
+                      child: const Text(
+                        "Load More",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ],
         ),
       ),
