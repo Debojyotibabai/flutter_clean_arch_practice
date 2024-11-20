@@ -5,7 +5,6 @@ abstract class RecommendationEntity {
   final double? givenPercentage;
   final String restaurantName;
   final String addressDistanceFromMyLocation;
-  final double price;
 
   RecommendationEntity({
     required this.id,
@@ -14,6 +13,5 @@ abstract class RecommendationEntity {
     this.givenPercentage,
     required this.restaurantName,
     required this.addressDistanceFromMyLocation,
-    required this.price,
   });
 }

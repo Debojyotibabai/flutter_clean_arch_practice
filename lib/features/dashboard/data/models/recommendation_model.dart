@@ -19,15 +19,16 @@ class RecommendationModel extends RecommendationEntity {
   ExtraAttributes? extraAttributes;
   List<dynamic>? deals;
   double? givenRating;
+  double? price;
 
   RecommendationModel({
     required super.id,
     required super.foodItemName,
-    required super.price,
     required super.restaurantName,
     required super.addressDistanceFromMyLocation,
     super.matchPercentage,
     super.givenPercentage,
+    this.price,
     this.restaurant,
     this.foodCategory,
     this.foodItemImageUrl,
