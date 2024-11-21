@@ -2,7 +2,7 @@ abstract class PaginationEntity {
   final int? totalItems;
 
   PaginationEntity({
-    this.totalItems,
+    required this.totalItems,
   });
 }
 
@@ -17,16 +17,16 @@ abstract class RecommendedFoodEntity {
   RecommendedFoodEntity({
     required this.id,
     required this.foodItemName,
-    this.matchPercentage,
-    this.givenPercentage,
+    required this.matchPercentage,
+    required this.givenPercentage,
     required this.restaurantName,
     required this.addressDistanceFromMyLocation,
   });
 }
 
 abstract class RecommendationEntity {
-  final PaginationEntity pagination;
-  final List<RecommendedFoodEntity> recommendedFoods;
+  final PaginationEntity? pagination;
+  final List<RecommendedFoodEntity>? recommendedFoods;
 
   RecommendationEntity({
     required this.pagination,
