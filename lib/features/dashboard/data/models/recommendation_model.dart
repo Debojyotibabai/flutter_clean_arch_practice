@@ -21,10 +21,10 @@ class PaginationModel extends PaginationEntity {
   final int? lastPage;
 
   PaginationModel({
-    required super.totalItems,
     this.perPage,
     this.currentPage,
     this.lastPage,
+    required super.totalItems,
   });
 
   factory PaginationModel.fromMap(Map<String, dynamic> json) => PaginationModel(
