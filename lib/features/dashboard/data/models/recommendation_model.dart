@@ -62,8 +62,8 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
     required super.foodItemName,
     required super.addressDistanceFromMyLocation,
     required super.restaurantName,
-    super.matchPercentage,
-    super.givenPercentage,
+    required super.matchPercentage,
+    required super.givenPercentage,
   });
 
   factory RecommendedFoodModel.fromMap(Map<String, dynamic> json) =>
