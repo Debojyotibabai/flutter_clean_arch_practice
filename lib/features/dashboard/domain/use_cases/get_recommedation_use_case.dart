@@ -31,8 +31,8 @@ class Params {
     required this.latitude,
     required this.longitude,
     required this.unit,
-    this.sortByOption,
-    this.restaurantCategoryIds,
+    required this.sortByOption,
+    required this.restaurantCategoryIds,
   });
 
   final int page;
@@ -40,6 +40,6 @@ class Params {
   final double latitude;
   final double longitude;
   final String unit;
-  RecommendedFoodsSortByOption? sortByOption;
-  String? restaurantCategoryIds;
+  final RecommendedFoodsSortByOption? sortByOption;
+  final String? restaurantCategoryIds;
 }
