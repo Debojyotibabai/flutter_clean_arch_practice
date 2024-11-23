@@ -18,7 +18,7 @@ final class GetRecommendationEvent extends RecommendationEvent {
     required this.latitude,
     required this.longitude,
     required this.unit,
-    this.sortByOption,
-    this.restaurantCategoryIds,
+    required this.sortByOption,
+    required this.restaurantCategoryIds,
   });
 }
