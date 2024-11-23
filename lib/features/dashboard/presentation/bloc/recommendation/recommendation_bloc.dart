@@ -14,7 +14,9 @@ class RecommendationBloc
   RecommendationBloc({required this.getRecommedationUseCase})
       : super(RecommendationInitial()) {
     on<GetRecommendationEvent>((event, emit) async {
-      emit(RecommendationLoading());
+      if (event.page == 1) {
+        emit(RecommendationLoading());
+      }
 
       final response = await getRecommedationUseCase(Params(
         page: event.page,

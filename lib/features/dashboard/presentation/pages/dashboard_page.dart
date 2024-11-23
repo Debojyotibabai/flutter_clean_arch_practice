@@ -185,7 +185,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             BlocBuilder<RecommendationBloc, RecommendationState>(
               builder: (context, state) {
-                if (state is RecommendationSuccess) {
+                if (state is RecommendationSuccess &&
+                    state.recommendations.pagination!.totalItems! >
+                        state.recommendations.recommendedFoods!.length) {
                   return Center(
                     child: GestureDetector(
                       onTap: () {
