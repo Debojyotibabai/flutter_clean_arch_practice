@@ -10,7 +10,7 @@ abstract interface class RecommendationRepository {
     required double latitude,
     required double longitude,
     required String unit,
-    RecommendedFoodsSortByOption? sortByOption,
-    String? restaurantCategoryIds,
+    required RecommendedFoodsSortByOption? sortByOption,
+    required String? restaurantCategoryIds,
   });
 }
