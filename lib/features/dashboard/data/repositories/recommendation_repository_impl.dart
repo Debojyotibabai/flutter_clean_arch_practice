@@ -1,6 +1,6 @@
 import 'package:clean_architecture_rivaan_ranawat/config/error/failure.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/data/data_sources/recommendation_data_source.dart';
-import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/recommendation_entity.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/data/models/recommendation_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/repositories/recommendation_repository.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:fpdart/fpdart.dart';
@@ -11,7 +11,7 @@ class RecommendationRepositoryImpl implements RecommendationRepository {
   RecommendationRepositoryImpl({required this.recommendationDataSourceImpl});
 
   @override
-  Future<Either<Failure, RecommendationEntity>> getRecommendation({
+  Future<Either<Failure, RecommendationModel>> getRecommendation({
     required int page,
     required int size,
     required double latitude,
