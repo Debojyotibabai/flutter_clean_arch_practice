@@ -33,5 +33,42 @@ class RecommendationBloc
         (res) => emit(RecommendationSuccess(recommendations: res)),
       );
     });
+
+    on<UpdateIsReportFoodOptionAvailabilityEvent>((event, emit) {
+      final updatedRecommendedFoods = (state as RecommendationSuccess)
+          .recommendations
+          .recommendedFoods
+          ?.map((item) {
+        if (item.id == event.id) {
+          return RecommendedFoodEntity(
+            id: item.id,
+            foodItemName: item.foodItemName,
+            addressDistanceFromMyLocation: item.addressDistanceFromMyLocation,
+            givenPercentage: item.givenPercentage,
+            matchPercentage: item.matchPercentage,
+            restaurantName: item.restaurantName,
+            isReportFoodOptionVisible: !item.isReportFoodOptionVisible!,
+          );
+        }
+        return RecommendedFoodEntity(
+          id: item.id,
+          foodItemName: item.foodItemName,
+          addressDistanceFromMyLocation: item.addressDistanceFromMyLocation,
+          givenPercentage: item.givenPercentage,
+          matchPercentage: item.matchPercentage,
+          restaurantName: item.restaurantName,
+          isReportFoodOptionVisible: false,
+        );
+      });
+
+      emit(
+        RecommendationSuccess(
+          recommendations:
+              (state as RecommendationSuccess).recommendations.copyWith(
+                    recommendedFoods: updatedRecommendedFoods?.toList(),
+                  ),
+        ),
+      );
+    });
   }
 }

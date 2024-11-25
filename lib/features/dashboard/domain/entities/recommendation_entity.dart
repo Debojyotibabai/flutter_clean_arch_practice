@@ -6,13 +6,15 @@ abstract class PaginationEntity {
   });
 }
 
-abstract class RecommendedFoodEntity {
+class RecommendedFoodEntity {
   final String? id;
   final String? foodItemName;
   final double? matchPercentage;
   final double? givenPercentage;
   final String? restaurantName;
   final String? addressDistanceFromMyLocation;
+
+  final bool? isReportFoodOptionVisible;
 
   RecommendedFoodEntity({
     required this.id,
@@ -21,10 +23,11 @@ abstract class RecommendedFoodEntity {
     required this.givenPercentage,
     required this.restaurantName,
     required this.addressDistanceFromMyLocation,
+    this.isReportFoodOptionVisible = false,
   });
 }
 
-abstract class RecommendationEntity {
+class RecommendationEntity {
   final PaginationEntity? pagination;
   final List<RecommendedFoodEntity>? recommendedFoods;
 
@@ -32,4 +35,14 @@ abstract class RecommendationEntity {
     required this.pagination,
     required this.recommendedFoods,
   });
+
+  RecommendationEntity copyWith({
+    PaginationEntity? pagination,
+    List<RecommendedFoodEntity>? recommendedFoods,
+  }) {
+    return RecommendationEntity(
+      pagination: pagination ?? this.pagination,
+      recommendedFoods: recommendedFoods ?? this.recommendedFoods,
+    );
+  }
 }

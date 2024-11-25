@@ -155,6 +155,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 state.recommendations.recommendedFoods?.length,
                             itemBuilder: (context, index) {
                               return RecommendationCard(
+                                id: state.recommendations
+                                    .recommendedFoods![index].id!,
                                 foodName: state.recommendations
                                     .recommendedFoods![index].foodItemName!,
                                 restaurantName: state.recommendations
@@ -172,6 +174,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     .recommendations
                                     .recommendedFoods![index]
                                     .addressDistanceFromMyLocation!,
+                                isReportFoodOptionVisible: state
+                                    .recommendations
+                                    .recommendedFoods![index]
+                                    .isReportFoodOptionVisible!,
                               );
                             },
                           ),

@@ -22,3 +22,10 @@ final class GetRecommendationEvent extends RecommendationEvent {
     required this.restaurantCategoryIds,
   });
 }
+
+final class UpdateIsReportFoodOptionAvailabilityEvent
+    extends RecommendationEvent {
+  final String id;
+
+  UpdateIsReportFoodOptionAvailabilityEvent({required this.id});
+}
