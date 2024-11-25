@@ -25,6 +25,28 @@ class RecommendedFoodEntity {
     required this.addressDistanceFromMyLocation,
     this.isReportFoodOptionVisible = false,
   });
+
+  RecommendedFoodEntity copyWith({
+    String? id,
+    String? foodItemName,
+    double? matchPercentage,
+    double? givenPercentage,
+    String? restaurantName,
+    String? addressDistanceFromMyLocation,
+    bool? isReportFoodOptionVisible,
+  }) {
+    return RecommendedFoodEntity(
+      id: id ?? this.id,
+      foodItemName: foodItemName ?? this.foodItemName,
+      matchPercentage: matchPercentage ?? this.matchPercentage,
+      givenPercentage: givenPercentage ?? this.givenPercentage,
+      restaurantName: restaurantName ?? this.restaurantName,
+      addressDistanceFromMyLocation:
+          addressDistanceFromMyLocation ?? this.addressDistanceFromMyLocation,
+      isReportFoodOptionVisible:
+          isReportFoodOptionVisible ?? this.isReportFoodOptionVisible,
+    );
+  }
 }
 
 class RecommendationEntity {

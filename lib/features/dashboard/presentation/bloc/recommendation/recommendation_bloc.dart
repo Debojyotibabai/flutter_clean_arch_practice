@@ -14,9 +14,7 @@ class RecommendationBloc
   RecommendationBloc({required this.getRecommedationUseCase})
       : super(RecommendationInitial()) {
     on<GetRecommendationEvent>((event, emit) async {
-      if (event.page == 1) {
-        emit(RecommendationLoading());
-      }
+      emit(RecommendationLoading());
 
       final response = await getRecommedationUseCase(Params(
         page: event.page,
@@ -40,23 +38,11 @@ class RecommendationBloc
           .recommendedFoods
           ?.map((item) {
         if (item.id == event.id) {
-          return RecommendedFoodEntity(
-            id: item.id,
-            foodItemName: item.foodItemName,
-            addressDistanceFromMyLocation: item.addressDistanceFromMyLocation,
-            givenPercentage: item.givenPercentage,
-            matchPercentage: item.matchPercentage,
-            restaurantName: item.restaurantName,
+          return item.copyWith(
             isReportFoodOptionVisible: !item.isReportFoodOptionVisible!,
           );
         }
-        return RecommendedFoodEntity(
-          id: item.id,
-          foodItemName: item.foodItemName,
-          addressDistanceFromMyLocation: item.addressDistanceFromMyLocation,
-          givenPercentage: item.givenPercentage,
-          matchPercentage: item.matchPercentage,
-          restaurantName: item.restaurantName,
+        return item.copyWith(
           isReportFoodOptionVisible: false,
         );
       });
