@@ -14,7 +14,16 @@ class RecommendationBloc
   RecommendationBloc({required this.getRecommedationUseCase})
       : super(RecommendationInitial()) {
     on<GetRecommendationEvent>((event, emit) async {
-      emit(RecommendationLoading());
+      if (event.page == 1) {
+        emit(RecommendationLoading());
+      }
+
+      List<RecommendedFoodEntity>? previousRecommendedFoods;
+
+      if (state is RecommendationSuccess) {
+        previousRecommendedFoods =
+            (state as RecommendationSuccess).recommendations.recommendedFoods;
+      }
 
       final response = await getRecommedationUseCase(Params(
         page: event.page,
@@ -28,7 +37,21 @@ class RecommendationBloc
 
       response.fold(
         (err) => emit(RecommendationError(message: err.message)),
-        (res) => emit(RecommendationSuccess(recommendations: res)),
+        (res) {
+          if (event.page == 1) {
+            emit(RecommendationSuccess(recommendations: res));
+          } else if (event.page > 1 && state is RecommendationSuccess) {
+            final updatedRecommendedFoods = [
+              ...previousRecommendedFoods!,
+              ...res.recommendedFoods!
+            ];
+
+            emit(RecommendationSuccess(
+              recommendations:
+                  res.copyWith(recommendedFoods: updatedRecommendedFoods),
+            ));
+          }
+        },
       );
     });
 
