@@ -4,9 +4,9 @@ class FoodReportDialog extends StatelessWidget {
   FoodReportDialog({super.key});
 
   final List<String> buttonContent = [
-    "I don't like it",
-    "Tried it too many times",
-    "Not an entree",
+    "I Don't Like It",
+    "Tried It Too Many Times'",
+    "Not An Entree",
   ];
 
   @override

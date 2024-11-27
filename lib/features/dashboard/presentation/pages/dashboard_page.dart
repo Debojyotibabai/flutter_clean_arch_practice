@@ -83,6 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             .toList(),
                         onChanged: (index) {
                           setState(() {
+                            page = 1;
                             selectedSortByOption =
                                 Constants.recommendedFoodsSortByOptions[index!];
                           });
@@ -104,6 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   .toList(),
                               onChanged: (index) {
                                 setState(() {
+                                  page = 1;
                                   restaurantCategoryIds =
                                       state.foodCategory[index!];
                                 });
