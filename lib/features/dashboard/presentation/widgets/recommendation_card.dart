@@ -1,4 +1,5 @@
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/widgets/food_report_dialog.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/rating_color_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -195,7 +196,14 @@ class RecommendationCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return FoodReportDialog();
+                            },
+                          );
+                        },
                         child: const Text(
                           "Don't Show This Item",
                           style: TextStyle(
