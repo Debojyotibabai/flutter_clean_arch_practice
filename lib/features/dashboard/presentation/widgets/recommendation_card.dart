@@ -13,6 +13,7 @@ class RecommendationCard extends StatelessWidget {
     required this.restaurantName,
     required this.distance,
     required this.isReportFoodOptionVisible,
+    required this.isDealAvailable,
   });
 
   final String id;
@@ -21,6 +22,7 @@ class RecommendationCard extends StatelessWidget {
   final String restaurantName;
   final String distance;
   final bool isReportFoodOptionVisible;
+  final bool isDealAvailable;
 
   @override
   Widget build(BuildContext context) {
@@ -152,11 +154,13 @@ class RecommendationCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.bookmark,
-                          color: Colors.green[800],
-                          size: 28,
-                        ),
+                        isDealAvailable
+                            ? Icon(
+                                Icons.bookmark,
+                                color: Colors.green[800],
+                                size: 28,
+                              )
+                            : Container(),
                         const SizedBox(
                           width: 5,
                         ),

@@ -44,7 +44,6 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
   final bool? isFeatured;
   final List<Tag>? tags;
   final ExtraAttributes? extraAttributes;
-  final List<dynamic>? deals;
   final double? givenRating;
 
   RecommendedFoodModel({
@@ -56,7 +55,6 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
     this.isFeatured,
     this.tags,
     this.extraAttributes,
-    this.deals,
     this.givenRating,
     required super.id,
     required super.foodItemName,
@@ -64,6 +62,7 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
     required super.restaurantName,
     required super.matchPercentage,
     required super.givenPercentage,
+    required super.deals,
   });
 
   factory RecommendedFoodModel.fromMap(Map<String, dynamic> json) =>

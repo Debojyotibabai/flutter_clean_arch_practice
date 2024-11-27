@@ -178,6 +178,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     .recommendations
                                     .recommendedFoods![index]
                                     .isReportFoodOptionVisible!,
+                                isDealAvailable: state.recommendations
+                                    .recommendedFoods![index].deals!.isNotEmpty,
                               );
                             },
                           ),

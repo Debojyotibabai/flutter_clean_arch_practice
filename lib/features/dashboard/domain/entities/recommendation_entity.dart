@@ -13,8 +13,8 @@ class RecommendedFoodEntity {
   final double? givenPercentage;
   final String? restaurantName;
   final String? addressDistanceFromMyLocation;
-
   final bool? isReportFoodOptionVisible;
+  final List<dynamic>? deals;
 
   RecommendedFoodEntity({
     required this.id,
@@ -24,6 +24,7 @@ class RecommendedFoodEntity {
     required this.restaurantName,
     required this.addressDistanceFromMyLocation,
     this.isReportFoodOptionVisible = false,
+    required this.deals,
   });
 
   RecommendedFoodEntity copyWith({
@@ -34,6 +35,7 @@ class RecommendedFoodEntity {
     String? restaurantName,
     String? addressDistanceFromMyLocation,
     bool? isReportFoodOptionVisible,
+    List<dynamic>? deals,
   }) {
     return RecommendedFoodEntity(
       id: id ?? this.id,
@@ -45,6 +47,7 @@ class RecommendedFoodEntity {
           addressDistanceFromMyLocation ?? this.addressDistanceFromMyLocation,
       isReportFoodOptionVisible:
           isReportFoodOptionVisible ?? this.isReportFoodOptionVisible,
+      deals: deals ?? this.deals,
     );
   }
 }
