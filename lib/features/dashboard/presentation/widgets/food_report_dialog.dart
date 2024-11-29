@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/report_recommendation/report_recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/init_dependencies.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dialog/success_dialog.dart';
@@ -33,6 +34,8 @@ class FoodReportDialog extends StatelessWidget {
             BlocConsumer<ReportRecommendationBloc, ReportRecommendationState>(
           listener: (context, state) {
             if (state is ReportRecommendationSuccess) {
+              BlocProvider.of<RecommendationBloc>(context)
+                  .add(UpdateRecommendationEvent(id: id));
               Navigator.pop(context);
               showDialog(
                 context: context,

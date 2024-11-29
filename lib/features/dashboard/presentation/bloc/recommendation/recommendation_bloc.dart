@@ -83,5 +83,23 @@ class RecommendationBloc
         );
       },
     );
+
+    on<UpdateRecommendationEvent>(
+      (event, emit) {
+        final updatedRecommendedFoods = (state as RecommendationSuccess)
+            .recommendations
+            .recommendedFoods
+            ?.where((food) => food.id != event.id)
+            .toList();
+
+        emit(
+          RecommendationSuccess(
+            recommendations: (state as RecommendationSuccess)
+                .recommendations
+                .copyWith(recommendedFoods: updatedRecommendedFoods),
+          ),
+        );
+      },
+    );
   }
 }

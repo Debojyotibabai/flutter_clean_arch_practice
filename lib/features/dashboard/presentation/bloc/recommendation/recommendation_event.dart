@@ -29,3 +29,9 @@ final class UpdateIsReportFoodOptionAvailabilityEvent
 
   UpdateIsReportFoodOptionAvailabilityEvent({required this.id});
 }
+
+final class UpdateRecommendationEvent extends RecommendationEvent {
+  final String id;
+
+  UpdateRecommendationEvent({required this.id});
+}
