@@ -92,7 +92,7 @@ class RecommendationBloc
             ?.where((food) => food.id != event.id)
             .toList();
 
-        final updatePagination = (state as RecommendationSuccess)
+        final updatedPagination = (state as RecommendationSuccess)
             .recommendations
             .pagination
             ?.copyWith(
@@ -107,7 +107,7 @@ class RecommendationBloc
             recommendations:
                 (state as RecommendationSuccess).recommendations.copyWith(
                       recommendedFoods: updatedRecommendedFoods,
-                      pagination: updatePagination,
+                      pagination: updatedPagination,
                     ),
           ),
         );
