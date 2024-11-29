@@ -204,7 +204,7 @@ class RecommendationCard extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return FoodReportDialog();
+                              return FoodReportDialog(id: id);
                             },
                           );
                         },

@@ -12,8 +12,10 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/repo
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/repositories/recommendation_repository.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/use_cases/get_food_category_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/use_cases/get_recommedation_use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/use_cases/report_recommended_food_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/report_recommendation/report_recommendation_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -80,5 +82,13 @@ void _initRecommendationDependencies() {
     )
     ..registerLazySingleton(
       () => RecommendationBloc(getRecommedationUseCase: serviceLocator()),
+    )
+    ..registerFactory(
+      () => ReportRecommendedFoodUseCase(
+          recommendationRepositoryImpl: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => ReportRecommendationBloc(
+          reportRecommendedFoodUseCase: serviceLocator()),
     );
 }

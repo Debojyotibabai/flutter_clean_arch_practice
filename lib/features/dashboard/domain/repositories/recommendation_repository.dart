@@ -13,4 +13,9 @@ abstract interface class RecommendationRepository {
     required RecommendedFoodsSortByOption? sortByOption,
     required String? restaurantCategoryIds,
   });
+
+  Future<Either<Failure, String>> reportRecommendedFood({
+    required String foodId,
+    required String reportType,
+  });
 }

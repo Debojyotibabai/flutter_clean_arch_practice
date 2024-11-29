@@ -36,4 +36,21 @@ class RecommendationRepositoryImpl implements RecommendationRepository {
       return left(Failure(err.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> reportRecommendedFood({
+    required String foodId,
+    required String reportType,
+  }) async {
+    try {
+      final response = await recommendationDataSourceImpl.reportRecommendedFood(
+        foodId: foodId,
+        reportType: reportType,
+      );
+
+      return right(response);
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
 }

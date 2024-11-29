@@ -14,6 +14,11 @@ abstract interface class RecommendationDataSource {
     RecommendedFoodsSortByOption? sortByOption,
     String? restaurantCategoryIds,
   });
+
+  Future<String> reportRecommendedFood({
+    required String foodId,
+    required String reportType,
+  });
 }
 
 class RecommendationDataSourceImpl implements RecommendationDataSource {
@@ -56,6 +61,29 @@ class RecommendationDataSourceImpl implements RecommendationDataSource {
       final data = RecommendationModel.fromMap(response.data);
 
       return data;
+    } catch (err, s) {
+      log(err.toString() + s.toString());
+      throw err.toString();
+    }
+  }
+
+  @override
+  Future<String> reportRecommendedFood({
+    required String foodId,
+    required String reportType,
+  }) async {
+    try {
+      final response = await APIService.instance.request(
+        "/food-report/save-food-report",
+        DioMethod.post,
+        param: {
+          "food_id": foodId,
+          "report_type": reportType,
+        },
+        contentType: ContentType.json,
+      );
+
+      return response.data["message"];
     } catch (err, s) {
       log(err.toString() + s.toString());
       throw err.toString();

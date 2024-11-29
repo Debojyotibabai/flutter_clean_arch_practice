@@ -13,71 +13,75 @@ class RecommendationBloc
 
   RecommendationBloc({required this.getRecommedationUseCase})
       : super(RecommendationInitial()) {
-    on<GetRecommendationEvent>((event, emit) async {
-      if (event.page == 1) {
-        emit(RecommendationLoading());
-      }
-
-      List<RecommendedFoodEntity>? previousRecommendedFoods;
-
-      if (state is RecommendationSuccess) {
-        previousRecommendedFoods =
-            (state as RecommendationSuccess).recommendations.recommendedFoods;
-      }
-
-      final response = await getRecommedationUseCase(Params(
-        page: event.page,
-        size: event.size,
-        latitude: event.latitude,
-        longitude: event.longitude,
-        unit: event.unit,
-        sortByOption: event.sortByOption,
-        restaurantCategoryIds: event.restaurantCategoryIds,
-      ));
-
-      response.fold(
-        (err) => emit(RecommendationError(message: err.message)),
-        (res) {
-          if (event.page == 1) {
-            emit(RecommendationSuccess(recommendations: res));
-          } else if (event.page > 1 && state is RecommendationSuccess) {
-            final updatedRecommendedFoods = [
-              ...previousRecommendedFoods!,
-              ...res.recommendedFoods!
-            ];
-
-            emit(RecommendationSuccess(
-              recommendations:
-                  res.copyWith(recommendedFoods: updatedRecommendedFoods),
-            ));
-          }
-        },
-      );
-    });
-
-    on<UpdateIsReportFoodOptionAvailabilityEvent>((event, emit) {
-      final updatedRecommendedFoods = (state as RecommendationSuccess)
-          .recommendations
-          .recommendedFoods
-          ?.map((item) {
-        if (item.id == event.id) {
-          return item.copyWith(
-            isReportFoodOptionVisible: !item.isReportFoodOptionVisible!,
-          );
+    on<GetRecommendationEvent>(
+      (event, emit) async {
+        if (event.page == 1) {
+          emit(RecommendationLoading());
         }
-        return item.copyWith(
-          isReportFoodOptionVisible: false,
-        );
-      });
 
-      emit(
-        RecommendationSuccess(
-          recommendations:
-              (state as RecommendationSuccess).recommendations.copyWith(
-                    recommendedFoods: updatedRecommendedFoods?.toList(),
-                  ),
-        ),
-      );
-    });
+        List<RecommendedFoodEntity>? previousRecommendedFoods;
+
+        if (state is RecommendationSuccess) {
+          previousRecommendedFoods =
+              (state as RecommendationSuccess).recommendations.recommendedFoods;
+        }
+
+        final response = await getRecommedationUseCase(Params(
+          page: event.page,
+          size: event.size,
+          latitude: event.latitude,
+          longitude: event.longitude,
+          unit: event.unit,
+          sortByOption: event.sortByOption,
+          restaurantCategoryIds: event.restaurantCategoryIds,
+        ));
+
+        response.fold(
+          (err) => emit(RecommendationError(message: err.message)),
+          (res) {
+            if (event.page == 1) {
+              emit(RecommendationSuccess(recommendations: res));
+            } else if (event.page > 1 && state is RecommendationSuccess) {
+              final updatedRecommendedFoods = [
+                ...previousRecommendedFoods!,
+                ...res.recommendedFoods!
+              ];
+
+              emit(RecommendationSuccess(
+                recommendations:
+                    res.copyWith(recommendedFoods: updatedRecommendedFoods),
+              ));
+            }
+          },
+        );
+      },
+    );
+
+    on<UpdateIsReportFoodOptionAvailabilityEvent>(
+      (event, emit) {
+        final updatedRecommendedFoods = (state as RecommendationSuccess)
+            .recommendations
+            .recommendedFoods
+            ?.map((item) {
+          if (item.id == event.id) {
+            return item.copyWith(
+              isReportFoodOptionVisible: !item.isReportFoodOptionVisible!,
+            );
+          }
+          return item.copyWith(
+            isReportFoodOptionVisible: false,
+          );
+        });
+
+        emit(
+          RecommendationSuccess(
+            recommendations:
+                (state as RecommendationSuccess).recommendations.copyWith(
+                      recommendedFoods: updatedRecommendedFoods?.toList(),
+                    ),
+          ),
+        );
+      },
+    );
   }
 }
