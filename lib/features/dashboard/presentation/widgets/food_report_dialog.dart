@@ -1,5 +1,6 @@
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/report_recommendation/report_recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/init_dependencies.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dialog/success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -28,7 +29,26 @@ class FoodReportDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(30),
-        child: BlocBuilder<ReportRecommendationBloc, ReportRecommendationState>(
+        child:
+            BlocConsumer<ReportRecommendationBloc, ReportRecommendationState>(
+          listener: (context, state) {
+            if (state is ReportRecommendationSuccess) {
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SuccessDialog(message: state.message);
+                },
+              );
+            } else if (state is ReportRecommendationError) {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
+            }
+          },
           builder: (context, state) {
             if (state is ReportRecommendationLoading) {
               return SizedBox(
@@ -42,6 +62,8 @@ class FoodReportDialog extends StatelessWidget {
             }
             return Column(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   "Why do you want to hide this item?",

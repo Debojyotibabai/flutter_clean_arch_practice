@@ -66,7 +66,7 @@ class RecommendationCard extends StatelessWidget {
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               constraints: const BoxConstraints(maxWidth: 150),
