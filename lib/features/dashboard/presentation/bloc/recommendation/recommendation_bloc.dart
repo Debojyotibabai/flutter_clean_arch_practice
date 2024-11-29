@@ -92,11 +92,23 @@ class RecommendationBloc
             ?.where((food) => food.id != event.id)
             .toList();
 
+        final updatePagination = (state as RecommendationSuccess)
+            .recommendations
+            .pagination
+            ?.copyWith(
+                totalItems: (state as RecommendationSuccess)
+                        .recommendations
+                        .pagination!
+                        .totalItems! -
+                    1);
+
         emit(
           RecommendationSuccess(
-            recommendations: (state as RecommendationSuccess)
-                .recommendations
-                .copyWith(recommendedFoods: updatedRecommendedFoods),
+            recommendations:
+                (state as RecommendationSuccess).recommendations.copyWith(
+                      recommendedFoods: updatedRecommendedFoods,
+                      pagination: updatePagination,
+                    ),
           ),
         );
       },

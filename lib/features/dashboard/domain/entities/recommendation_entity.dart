@@ -1,9 +1,17 @@
-abstract class PaginationEntity {
+class PaginationEntity {
   final int? totalItems;
 
   PaginationEntity({
     required this.totalItems,
   });
+
+  PaginationEntity copyWith({
+    int? totalItems,
+  }) {
+    return PaginationEntity(
+      totalItems: totalItems ?? this.totalItems,
+    );
+  }
 }
 
 class RecommendedFoodEntity {
