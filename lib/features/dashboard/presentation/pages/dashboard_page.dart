@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/config/navigation/routes.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/food_category_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -182,6 +184,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     .isReportFoodOptionVisible!,
                                 isDealAvailable: state.recommendations
                                     .recommendedFoods![index].deals!.isNotEmpty,
+                                onTap: () {
+                                  context.goNamed(
+                                    Routes.recommendationDetails,
+                                    pathParameters: {
+                                      'foodId': state.recommendations
+                                          .recommendedFoods![index].id!,
+                                    },
+                                  );
+                                },
                               );
                             },
                           ),

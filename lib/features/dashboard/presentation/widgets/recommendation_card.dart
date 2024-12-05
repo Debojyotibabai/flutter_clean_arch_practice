@@ -14,6 +14,7 @@ class RecommendationCard extends StatelessWidget {
     required this.distance,
     required this.isReportFoodOptionVisible,
     required this.isDealAvailable,
+    this.onTap,
   });
 
   final String id;
@@ -23,6 +24,7 @@ class RecommendationCard extends StatelessWidget {
   final String distance;
   final bool isReportFoodOptionVisible;
   final bool isDealAvailable;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class RecommendationCard extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
+            onTap: onTap ?? () {},
             onLongPress: () {
               BlocProvider.of<RecommendationBloc>(context)
                   .add(UpdateIsReportFoodOptionAvailabilityEvent(id: id));
@@ -73,6 +76,7 @@ class RecommendationCard extends StatelessWidget {
                               child: Text(
                                 foodName,
                                 style: const TextStyle(
+                                  color: Colors.black87,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 18,
                                 ),
@@ -156,7 +160,7 @@ class RecommendationCard extends StatelessWidget {
                       children: [
                         isDealAvailable
                             ? Icon(
-                                Icons.bookmark,
+                                Icons.sell,
                                 color: Colors.green[800],
                                 size: 28,
                               )
@@ -167,7 +171,7 @@ class RecommendationCard extends StatelessWidget {
                         Icon(
                           Icons.star,
                           color: Colors.yellow[700],
-                          size: 28,
+                          size: 30,
                         ),
                       ],
                     ),

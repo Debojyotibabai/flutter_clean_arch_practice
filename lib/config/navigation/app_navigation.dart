@@ -4,6 +4,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/blo
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/pages/login_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/pages/signup_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/pages/recommendation_details_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,7 +28,7 @@ class AppNavigation {
       // otherwise redirect them to the login page
       return '/login';
     },
-    initialLocation: "/",
+    initialLocation: "/recommendationDetails/1",
     routes: [
       GoRoute(
         path: "/login",
@@ -43,6 +44,15 @@ class AppNavigation {
         path: "/",
         name: Routes.dashboard,
         builder: (context, state) => const DashboardScreen(),
+        routes: [
+          GoRoute(
+            path: "recommendationDetails/:foodId",
+            name: Routes.recommendationDetails,
+            builder: (context, state) => RecommendationDetailsScreen(
+              foodId: state.pathParameters['foodId']!,
+            ),
+          ),
+        ],
       ),
     ],
   );
