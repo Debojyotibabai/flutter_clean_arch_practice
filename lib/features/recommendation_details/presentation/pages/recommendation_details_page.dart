@@ -103,21 +103,19 @@ class _RecommendationDetailsScreenState
               ],
             ),
             const SizedBox(height: 20),
-            selectedTab == 1
-                ? Expanded(
-                    child: ListView.builder(
+            Expanded(
+              child: selectedTab == 1
+                  ? ListView.builder(
                       itemCount: 5,
                       itemBuilder: (context, index) =>
                           RecommendationDetailsCard(index: index + 1),
-                    ),
-                  )
-                : Expanded(
-                    child: ListView.builder(
+                    )
+                  : ListView.builder(
                       itemCount: 10,
                       itemBuilder: (context, index) =>
                           const RecommendationDetailsCard(),
                     ),
-                  ),
+            ),
           ],
         ),
       ),
