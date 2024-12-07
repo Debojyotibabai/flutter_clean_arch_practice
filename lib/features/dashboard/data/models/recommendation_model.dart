@@ -63,6 +63,7 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
     required super.matchPercentage,
     required super.givenPercentage,
     required super.deals,
+    required super.nearestLocationRestaurantAddressId,
   });
 
   factory RecommendedFoodModel.fromMap(Map<String, dynamic> json) =>
@@ -76,6 +77,8 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
                     ?["addressDistanceFromMyLocation"]
                 ?.toString() ??
             "0",
+        nearestLocationRestaurantAddressId:
+            json["restaurant"]?["nearestLocation"]?["addressId"]?.toString(),
         restaurant: json["restaurant"] == null
             ? null
             : Restaurant.fromMap(json["restaurant"]),

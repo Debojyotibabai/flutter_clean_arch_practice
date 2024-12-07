@@ -28,7 +28,8 @@ class AppNavigation {
       // otherwise redirect them to the login page
       return '/login';
     },
-    initialLocation: "/recommendationDetails/1",
+    initialLocation:
+        "/recommendationDetails/0c8a7c87-6432-4848-9ea5-896305fbb5e4",
     routes: [
       GoRoute(
         path: "/login",
@@ -46,10 +47,10 @@ class AppNavigation {
         builder: (context, state) => const DashboardScreen(),
         routes: [
           GoRoute(
-            path: "recommendationDetails/:foodId",
+            path: "recommendationDetails/:restaurantId",
             name: Routes.recommendationDetails,
             builder: (context, state) => RecommendationDetailsScreen(
-              foodId: state.pathParameters['foodId']!,
+              restaurantId: state.pathParameters['restaurantId']!,
             ),
           ),
         ],

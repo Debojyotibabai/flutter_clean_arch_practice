@@ -4,12 +4,14 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/image_banner_scr
 import 'package:flutter/material.dart';
 
 class RecommendationDetailsScreen extends StatefulWidget {
-  const RecommendationDetailsScreen({
+  RecommendationDetailsScreen({
     super.key,
-    required this.foodId,
-  });
+    required this.restaurantId,
+  }) {
+    print(restaurantId);
+  }
 
-  final String foodId;
+  final String restaurantId;
 
   @override
   State<RecommendationDetailsScreen> createState() =>
