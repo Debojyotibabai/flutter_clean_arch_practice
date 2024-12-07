@@ -1,15 +1,15 @@
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/recommendation_details/recommendation_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/widgets/recommendation_details_card.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/widgets/tab_option.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/image_banner_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RecommendationDetailsScreen extends StatefulWidget {
-  RecommendationDetailsScreen({
+  const RecommendationDetailsScreen({
     super.key,
     required this.restaurantId,
-  }) {
-    print(restaurantId);
-  }
+  });
 
   final String restaurantId;
 
@@ -21,6 +21,14 @@ class RecommendationDetailsScreen extends StatefulWidget {
 class _RecommendationDetailsScreenState
     extends State<RecommendationDetailsScreen> {
   int selectedTab = 1;
+
+  @override
+  void initState() {
+    BlocProvider.of<RecommendationDetailsBloc>(context).add(
+      GetRecommendationDetailsEvent(restaurantId: widget.restaurantId),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

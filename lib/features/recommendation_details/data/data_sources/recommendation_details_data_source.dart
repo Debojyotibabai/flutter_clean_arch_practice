@@ -3,16 +3,20 @@ import 'dart:developer';
 import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
 
 abstract interface class RecommendationDetailsDataSource {
-  Future<String> getRecommendationDetails();
+  Future<String> getRecommendationDetails({
+    required String restaurantId,
+  });
 }
 
 class RecommendationDetailsDataSourceImpl
     implements RecommendationDetailsDataSource {
   @override
-  Future<String> getRecommendationDetails() async {
+  Future<String> getRecommendationDetails({
+    required String restaurantId,
+  }) async {
     try {
       final response = await APIService.instance.request(
-        "/restaurant/get-restaurant-location-details/0c8a7c87-6432-4848-9ea5-896305fbb5e4",
+        "/restaurant/get-restaurant-location-details/$restaurantId",
         DioMethod.get,
       );
 
