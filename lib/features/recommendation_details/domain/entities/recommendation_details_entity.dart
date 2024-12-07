@@ -1,7 +1,5 @@
-abstract class RecommendationDetailsEntity {
-  final String? restaurantId;
-  final List<dynamic>? images;
-  final String? restaurantName;
+abstract class RestaurantLocationDetailsEntity {
+  final List<dynamic>? locationSpecificImages;
   final String? phoneCountryCode;
   final String? phoneNumber;
   final String? streetAddress;
@@ -9,15 +7,27 @@ abstract class RecommendationDetailsEntity {
   final String? state;
   final String? city;
 
-  RecommendationDetailsEntity({
-    required this.restaurantId,
-    required this.images,
-    required this.restaurantName,
+  RestaurantLocationDetailsEntity({
+    required this.locationSpecificImages,
     required this.phoneCountryCode,
     required this.phoneNumber,
     required this.streetAddress,
     required this.country,
     required this.state,
     required this.city,
+  });
+}
+
+abstract class RecommendationDetailsEntity {
+  final String? restaurantId;
+  final String? restaurantName;
+  final List<dynamic>? companyWideImages;
+  final RestaurantLocationDetailsEntity? restaurantLocationDetails;
+
+  RecommendationDetailsEntity({
+    required this.restaurantId,
+    required this.restaurantName,
+    required this.companyWideImages,
+    required this.restaurantLocationDetails,
   });
 }

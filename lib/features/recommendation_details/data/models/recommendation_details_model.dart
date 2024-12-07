@@ -4,23 +4,17 @@
 
 import 'dart:convert';
 
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/entities/recommendation_details_entity.dart';
+
 RecommendationDetailsModel recommendationDetailsModelFromMap(String str) =>
     RecommendationDetailsModel.fromMap(json.decode(str));
 
-String recommendationDetailsModelToMap(RecommendationDetailsModel data) =>
-    json.encode(data.toMap());
-
-class RecommendationDetailsModel {
-  final String? restaurantId;
-  final String? restaurantName;
-  final List<dynamic>? companyWideImages;
-  final RestaurantLocationDetails? restaurantLocationDetails;
-
+class RecommendationDetailsModel extends RecommendationDetailsEntity {
   RecommendationDetailsModel({
-    this.restaurantId,
-    this.restaurantName,
-    this.companyWideImages,
-    this.restaurantLocationDetails,
+    required super.restaurantId,
+    required super.restaurantName,
+    required super.companyWideImages,
+    required super.restaurantLocationDetails,
   });
 
   factory RecommendationDetailsModel.fromMap(Map<String, dynamic> json) =>
@@ -32,53 +26,37 @@ class RecommendationDetailsModel {
             : List<dynamic>.from(json["companyWideImages"]!.map((x) => x)),
         restaurantLocationDetails: json["restaurantLocationDetails"] == null
             ? null
-            : RestaurantLocationDetails.fromMap(
+            : RestaurantLocationDetailsModel.fromMap(
                 json["restaurantLocationDetails"]),
       );
-
-  Map<String, dynamic> toMap() => {
-        "restaurantId": restaurantId,
-        "restaurantName": restaurantName,
-        "companyWideImages": companyWideImages == null
-            ? []
-            : List<dynamic>.from(companyWideImages!.map((x) => x)),
-        "restaurantLocationDetails": restaurantLocationDetails?.toMap(),
-      };
 }
 
-class RestaurantLocationDetails {
+class RestaurantLocationDetailsModel extends RestaurantLocationDetailsEntity {
   final String? addressId;
-  final String? streetAddress;
-  final String? country;
-  final String? state;
-  final String? city;
   final String? zipCode;
   final String? latitude;
   final String? longitude;
-  final String? phoneCountryCode;
-  final String? phoneNumber;
   final DateTime? addedOn;
-  final List<dynamic>? locationSpecificImages;
   final List<Food>? foods;
 
-  RestaurantLocationDetails({
+  RestaurantLocationDetailsModel({
     this.addressId,
-    this.streetAddress,
-    this.country,
-    this.state,
-    this.city,
     this.zipCode,
     this.latitude,
     this.longitude,
-    this.phoneCountryCode,
-    this.phoneNumber,
     this.addedOn,
-    this.locationSpecificImages,
     this.foods,
+    required super.streetAddress,
+    required super.country,
+    required super.state,
+    required super.city,
+    required super.phoneCountryCode,
+    required super.phoneNumber,
+    required super.locationSpecificImages,
   });
 
-  factory RestaurantLocationDetails.fromMap(Map<String, dynamic> json) =>
-      RestaurantLocationDetails(
+  factory RestaurantLocationDetailsModel.fromMap(Map<String, dynamic> json) =>
+      RestaurantLocationDetailsModel(
         addressId: json["addressId"],
         streetAddress: json["streetAddress"],
         country: json["country"],
@@ -98,26 +76,6 @@ class RestaurantLocationDetails {
             ? []
             : List<Food>.from(json["foods"]!.map((x) => Food.fromMap(x))),
       );
-
-  Map<String, dynamic> toMap() => {
-        "addressId": addressId,
-        "streetAddress": streetAddress,
-        "country": country,
-        "state": state,
-        "city": city,
-        "zipCode": zipCode,
-        "latitude": latitude,
-        "longitude": longitude,
-        "phoneCountryCode": phoneCountryCode,
-        "phoneNumber": phoneNumber,
-        "addedOn": addedOn?.toIso8601String(),
-        "locationSpecificImages": locationSpecificImages == null
-            ? []
-            : List<dynamic>.from(locationSpecificImages!.map((x) => x)),
-        "foods": foods == null
-            ? []
-            : List<dynamic>.from(foods!.map((x) => x.toMap())),
-      };
 }
 
 class Food {
@@ -179,24 +137,6 @@ class Food {
         givenRating: json["givenRating"],
         givenPercentage: json["givenPercentage"],
       );
-
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "restaurant": restaurant?.toMap(),
-        "foodCategory": foodCategory?.toMap(),
-        "FoodItemImageUrl": foodItemImageUrl,
-        "foodItemName": foodItemName,
-        "description": description,
-        "price": price,
-        "isFeatured": isFeatured,
-        "tags":
-            tags == null ? [] : List<dynamic>.from(tags!.map((x) => x.toMap())),
-        "extraAttributes": extraAttributes?.toMap(),
-        "deals": deals == null ? [] : List<dynamic>.from(deals!.map((x) => x)),
-        "matchPercentage": matchPercentage,
-        "givenRating": givenRating,
-        "givenPercentage": givenPercentage,
-      };
 }
 
 class ExtraAttributes {
@@ -244,29 +184,6 @@ class ExtraAttributes {
             ? []
             : List<String>.from(json["Food Preparation Styles"]!.map((x) => x)),
       );
-
-  Map<String, dynamic> toMap() => {
-        "Dietary":
-            dietary == null ? [] : List<dynamic>.from(dietary!.map((x) => x)),
-        "Mealtime":
-            mealtime == null ? [] : List<dynamic>.from(mealtime!.map((x) => x)),
-        "Flavor Types": flavorTypes == null
-            ? []
-            : List<dynamic>.from(flavorTypes!.map((x) => x)),
-        "Food Concepts": foodConcepts == null
-            ? []
-            : List<dynamic>.from(foodConcepts!.map((x) => x)),
-        "isReprocessed": isReprocessed,
-        "Food Description": foodDescription == null
-            ? []
-            : List<dynamic>.from(foodDescription!.map((x) => x)),
-        "foodCategoryName": foodCategoryName == null
-            ? []
-            : List<dynamic>.from(foodCategoryName!.map((x) => x)),
-        "Food Preparation Styles": foodPreparationStyles == null
-            ? []
-            : List<dynamic>.from(foodPreparationStyles!.map((x) => x)),
-      };
 }
 
 class FoodCategory {
@@ -282,11 +199,6 @@ class FoodCategory {
         categoryId: json["categoryId"],
         categoryName: json["categoryName"],
       );
-
-  Map<String, dynamic> toMap() => {
-        "categoryId": categoryId,
-        "categoryName": categoryName,
-      };
 }
 
 class Restaurant {
@@ -307,12 +219,6 @@ class Restaurant {
             ? null
             : NearestLocation.fromMap(json["nearestLocation"]),
       );
-
-  Map<String, dynamic> toMap() => {
-        "restaurantId": restaurantId,
-        "restaurantName": restaurantName,
-        "nearestLocation": nearestLocation?.toMap(),
-      };
 }
 
 class NearestLocation {
@@ -332,12 +238,6 @@ class NearestLocation {
         addressDistanceFromMyLocationUnit:
             json["addressDistanceFromMyLocationUnit"],
       );
-
-  Map<String, dynamic> toMap() => {
-        "addressId": addressId,
-        "addressDistanceFromMyLocation": addressDistanceFromMyLocation,
-        "addressDistanceFromMyLocationUnit": addressDistanceFromMyLocationUnit,
-      };
 }
 
 class Tag {
@@ -353,9 +253,4 @@ class Tag {
         tagId: json["tagId"],
         tagName: json["tagName"],
       );
-
-  Map<String, dynamic> toMap() => {
-        "tagId": tagId,
-        "tagName": tagName,
-      };
 }
