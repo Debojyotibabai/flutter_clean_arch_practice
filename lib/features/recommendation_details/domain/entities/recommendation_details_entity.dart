@@ -1,3 +1,19 @@
+abstract class FoodEntity {
+  final String? id;
+  final String? foodItemName;
+  final double? price;
+  final double? matchPercentage;
+  final dynamic givenPercentage;
+
+  FoodEntity({
+    required this.id,
+    required this.foodItemName,
+    required this.price,
+    required this.matchPercentage,
+    required this.givenPercentage,
+  });
+}
+
 abstract class RestaurantLocationDetailsEntity {
   final List<dynamic>? locationSpecificImages;
   final String? phoneCountryCode;
@@ -6,6 +22,7 @@ abstract class RestaurantLocationDetailsEntity {
   final String? country;
   final String? state;
   final String? city;
+  final List<FoodEntity>? foods;
 
   RestaurantLocationDetailsEntity({
     required this.locationSpecificImages,
@@ -15,6 +32,7 @@ abstract class RestaurantLocationDetailsEntity {
     required this.country,
     required this.state,
     required this.city,
+    required this.foods,
   });
 }
 

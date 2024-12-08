@@ -131,7 +131,29 @@ class _RecommendationDetailsScreenState
                         ? ListView.builder(
                             itemCount: 5,
                             itemBuilder: (context, index) =>
-                                RecommendationDetailsCard(index: index + 1),
+                                RecommendationDetailsCard(
+                              index: index + 1,
+                              foodName: state
+                                  .recommendationDetails
+                                  .restaurantLocationDetails!
+                                  .foods![index]
+                                  .foodItemName,
+                              rating: state
+                                      .recommendationDetails
+                                      .restaurantLocationDetails!
+                                      .foods![index]
+                                      .givenPercentage ??
+                                  state
+                                      .recommendationDetails
+                                      .restaurantLocationDetails!
+                                      .foods![index]
+                                      .matchPercentage,
+                              price: state
+                                  .recommendationDetails
+                                  .restaurantLocationDetails!
+                                  .foods![index]
+                                  .price,
+                            ),
                           )
                         : ListView.builder(
                             itemCount: 10,

@@ -5,9 +5,15 @@ class RecommendationDetailsCard extends StatelessWidget {
   const RecommendationDetailsCard({
     super.key,
     this.index,
+    this.foodName,
+    this.rating,
+    this.price,
   });
 
   final int? index;
+  final String? foodName;
+  final double? rating;
+  final double? price;
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +66,9 @@ class RecommendationDetailsCard extends StatelessWidget {
                   children: [
                     Container(
                       constraints: const BoxConstraints(maxWidth: 275),
-                      child: const Text(
-                        "Nacho Cheese Doritos Locos Taco",
-                        style: TextStyle(
+                      child: Text(
+                        foodName!,
+                        style: const TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
@@ -77,11 +83,12 @@ class RecommendationDetailsCard extends StatelessWidget {
                         Container(
                           constraints: const BoxConstraints(maxWidth: 150),
                           child: Text(
-                            "100% match",
+                            "$rating% match",
                             style: TextStyle(
-                              color: ratingColorGenerator(rating: 100) == "good"
+                              color: ratingColorGenerator(rating: rating!) ==
+                                      "good"
                                   ? Colors.green[600]
-                                  : ratingColorGenerator(rating: 100) ==
+                                  : ratingColorGenerator(rating: rating!) ==
                                           "average"
                                       ? Colors.yellow[800]
                                       : Colors.red[500],
@@ -106,7 +113,7 @@ class RecommendationDetailsCard extends StatelessWidget {
                             Container(
                               constraints: const BoxConstraints(maxWidth: 160),
                               child: Text(
-                                "\$1.99",
+                                "\$$price",
                                 style: TextStyle(
                                   color: Colors.green[900],
                                   fontSize: 16,

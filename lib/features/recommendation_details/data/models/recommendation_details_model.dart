@@ -37,7 +37,6 @@ class RestaurantLocationDetailsModel extends RestaurantLocationDetailsEntity {
   final String? latitude;
   final String? longitude;
   final DateTime? addedOn;
-  final List<Food>? foods;
 
   RestaurantLocationDetailsModel({
     this.addressId,
@@ -45,7 +44,6 @@ class RestaurantLocationDetailsModel extends RestaurantLocationDetailsEntity {
     this.latitude,
     this.longitude,
     this.addedOn,
-    this.foods,
     required super.streetAddress,
     required super.country,
     required super.state,
@@ -53,6 +51,7 @@ class RestaurantLocationDetailsModel extends RestaurantLocationDetailsEntity {
     required super.phoneCountryCode,
     required super.phoneNumber,
     required super.locationSpecificImages,
+    required super.foods,
   });
 
   factory RestaurantLocationDetailsModel.fromMap(Map<String, dynamic> json) =>
@@ -74,44 +73,40 @@ class RestaurantLocationDetailsModel extends RestaurantLocationDetailsEntity {
             : List<dynamic>.from(json["locationSpecificImages"]!.map((x) => x)),
         foods: json["foods"] == null
             ? []
-            : List<Food>.from(json["foods"]!.map((x) => Food.fromMap(x))),
+            : List<FoodModel>.from(
+                json["foods"]!.map((x) => FoodModel.fromMap(x))),
       );
 }
 
-class Food {
-  final String? id;
+class FoodModel extends FoodEntity {
   final Restaurant? restaurant;
   final FoodCategory? foodCategory;
   final dynamic foodItemImageUrl;
-  final String? foodItemName;
   final String? description;
-  final double? price;
   final bool? isFeatured;
   final List<Tag>? tags;
   final ExtraAttributes? extraAttributes;
   final List<dynamic>? deals;
-  final double? matchPercentage;
   final dynamic givenRating;
-  final dynamic givenPercentage;
 
-  Food({
-    this.id,
+  FoodModel({
     this.restaurant,
     this.foodCategory,
     this.foodItemImageUrl,
-    this.foodItemName,
     this.description,
-    this.price,
     this.isFeatured,
     this.tags,
     this.extraAttributes,
     this.deals,
-    this.matchPercentage,
     this.givenRating,
-    this.givenPercentage,
+    required super.id,
+    required super.foodItemName,
+    required super.price,
+    required super.matchPercentage,
+    required super.givenPercentage,
   });
 
-  factory Food.fromMap(Map<String, dynamic> json) => Food(
+  factory FoodModel.fromMap(Map<String, dynamic> json) => FoodModel(
         id: json["id"],
         restaurant: json["restaurant"] == null
             ? null
