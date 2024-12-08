@@ -76,7 +76,7 @@ class _RecommendationDetailsScreenState
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              "(801) 123-1234",
+                              "${state.recommendationDetails.restaurantLocationDetails!.phoneCountryCode!} ${state.recommendationDetails.restaurantLocationDetails!.phoneNumber!}",
                               style: TextStyle(
                                 color: Colors.red[900],
                                 fontSize: 17,
@@ -86,22 +86,24 @@ class _RecommendationDetailsScreenState
                           ],
                         ),
                         const SizedBox(height: 10),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.location_pin,
                               size: 17,
                               color: Colors.grey,
                             ),
-                            SizedBox(width: 10),
-                            Text(
-                              "571 N State St, Lindon, UT 84042",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                "${state.recommendationDetails.restaurantLocationDetails!.streetAddress!}, ${state.recommendationDetails.restaurantLocationDetails!.city!}, ${state.recommendationDetails.restaurantLocationDetails!.state!}, ${state.recommendationDetails.restaurantLocationDetails!.country!}",
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ],

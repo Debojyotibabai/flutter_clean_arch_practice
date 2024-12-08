@@ -2,7 +2,9 @@ import 'package:clean_architecture_rivaan_ranawat/assets/images.dart';
 import 'package:flutter/material.dart';
 
 class ImageBannerScrollView extends StatelessWidget {
-  const ImageBannerScrollView({super.key});
+  const ImageBannerScrollView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
