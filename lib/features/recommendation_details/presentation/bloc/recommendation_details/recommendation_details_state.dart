@@ -8,7 +8,7 @@ final class RecommendationDetailsInitial extends RecommendationDetailsState {}
 final class RecommendationDetailsIsLoading extends RecommendationDetailsState {}
 
 final class RecommendationDetailsSuccess extends RecommendationDetailsState {
-  final String recommendationDetails;
+  final RecommendationDetailsEntity recommendationDetails;
 
   RecommendationDetailsSuccess({
     required this.recommendationDetails,

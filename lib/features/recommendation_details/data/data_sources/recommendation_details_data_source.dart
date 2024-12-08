@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/models/recommendation_details_model.dart';
 
 abstract interface class RecommendationDetailsDataSource {
-  Future<String> getRecommendationDetails({
+  Future<RecommendationDetailsModel> getRecommendationDetails({
     required String restaurantId,
   });
 }
@@ -11,7 +12,7 @@ abstract interface class RecommendationDetailsDataSource {
 class RecommendationDetailsDataSourceImpl
     implements RecommendationDetailsDataSource {
   @override
-  Future<String> getRecommendationDetails({
+  Future<RecommendationDetailsModel> getRecommendationDetails({
     required String restaurantId,
   }) async {
     try {
@@ -20,9 +21,9 @@ class RecommendationDetailsDataSourceImpl
         DioMethod.get,
       );
 
-      log(response.toString());
+      final data = RecommendationDetailsModel.fromMap((response.data));
 
-      return "";
+      return data;
     } catch (e, s) {
       log(e.toString() + s.toString());
       throw e.toString();

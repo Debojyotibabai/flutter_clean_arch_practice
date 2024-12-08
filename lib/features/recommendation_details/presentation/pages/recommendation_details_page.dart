@@ -56,9 +56,9 @@ class _RecommendationDetailsScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Taco Bell",
-                          style: TextStyle(
+                        Text(
+                          state.recommendationDetails.restaurantName!,
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                             fontSize: 25,

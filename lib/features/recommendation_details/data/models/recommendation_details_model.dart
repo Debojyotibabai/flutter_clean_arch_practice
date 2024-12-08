@@ -140,7 +140,7 @@ class Food {
 }
 
 class ExtraAttributes {
-  final List<String>? dietary;
+  final String? dietary;
   final List<String>? mealtime;
   final List<String>? flavorTypes;
   final List<String>? foodConcepts;
@@ -161,28 +161,31 @@ class ExtraAttributes {
   });
 
   factory ExtraAttributes.fromMap(Map<String, dynamic> json) => ExtraAttributes(
-        dietary: json["Dietary"] == null
-            ? []
-            : List<String>.from(json["Dietary"]!.map((x) => x)),
-        mealtime: json["Mealtime"] == null
-            ? []
-            : List<String>.from(json["Mealtime"]!.map((x) => x)),
-        flavorTypes: json["Flavor Types"] == null
-            ? []
-            : List<String>.from(json["Flavor Types"]!.map((x) => x)),
-        foodConcepts: json["Food Concepts"] == null
-            ? []
-            : List<String>.from(json["Food Concepts"]!.map((x) => x)),
-        isReprocessed: json["isReprocessed"],
-        foodDescription: json["Food Description"] == null
-            ? []
-            : List<String>.from(json["Food Description"]!.map((x) => x)),
-        foodCategoryName: json["foodCategoryName"] == null
-            ? []
-            : List<String>.from(json["foodCategoryName"]!.map((x) => x)),
-        foodPreparationStyles: json["Food Preparation Styles"] == null
-            ? []
-            : List<String>.from(json["Food Preparation Styles"]!.map((x) => x)),
+        dietary: json["Dietary"] is String
+            ? json["Dietary"] as String
+            : (json["Dietary"]?.toString()),
+        mealtime: json["Mealtime"] is List
+            ? List<String>.from(json["Mealtime"].map((x) => x.toString()))
+            : [], // Handle non-list cases
+        flavorTypes: json["Flavor Types"] is List
+            ? List<String>.from(json["Flavor Types"].map((x) => x.toString()))
+            : [], // Handle non-list cases
+        foodConcepts: json["Food Concepts"] is List
+            ? List<String>.from(json["Food Concepts"].map((x) => x.toString()))
+            : [], // Handle non-list cases
+        isReprocessed: json["isReprocessed"] ?? false,
+        foodDescription: json["Food Description"] is List
+            ? List<String>.from(
+                json["Food Description"].map((x) => x.toString()))
+            : [], // Handle non-list cases
+        foodCategoryName: json["foodCategoryName"] is List
+            ? List<String>.from(
+                json["foodCategoryName"].map((x) => x.toString()))
+            : [], // Handle non-list cases
+        foodPreparationStyles: json["Food Preparation Styles"] is List
+            ? List<String>.from(
+                json["Food Preparation Styles"].map((x) => x.toString()))
+            : [], // Handle non-list cases
       );
 }
 
