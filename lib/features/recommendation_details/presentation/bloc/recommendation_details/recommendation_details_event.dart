@@ -4,9 +4,9 @@ part of 'recommendation_details_bloc.dart';
 sealed class RecommendationDetailsEvent {}
 
 final class GetRecommendationDetailsEvent extends RecommendationDetailsEvent {
-  final String restaurantId;
+  final String restaurantAddressId;
 
   GetRecommendationDetailsEvent({
-    required this.restaurantId,
+    required this.restaurantAddressId,
   });
 }

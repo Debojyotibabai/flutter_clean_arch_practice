@@ -14,11 +14,11 @@ class RecommendationDetailsRepositoryImpl
 
   @override
   Future<Either<Failure, RecommendationDetailsModel>> getRecommendationDetails(
-      {required String restaurantId}) async {
+      {required String restaurantAddressId}) async {
     try {
       final response =
           await recommendationDetailsDataSourceImpl.getRecommendationDetails(
-        restaurantId: restaurantId,
+        restaurantAddressId: restaurantAddressId,
       );
 
       return right(response);

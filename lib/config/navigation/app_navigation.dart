@@ -47,10 +47,10 @@ class AppNavigation {
         builder: (context, state) => const DashboardScreen(),
         routes: [
           GoRoute(
-            path: "recommendationDetails/:restaurantId",
+            path: "recommendationDetails/:restaurantAddressId",
             name: Routes.recommendationDetails,
             builder: (context, state) => RecommendationDetailsScreen(
-              restaurantId: state.pathParameters['restaurantId']!,
+              restaurantAddressId: state.pathParameters['restaurantAddressId']!,
             ),
           ),
         ],

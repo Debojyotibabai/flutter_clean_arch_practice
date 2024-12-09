@@ -5,7 +5,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/recommendation_detail
 
 abstract interface class RecommendationDetailsDataSource {
   Future<RecommendationDetailsModel> getRecommendationDetails({
-    required String restaurantId,
+    required String restaurantAddressId,
   });
 
   Future<String> getAllFoodsForParticularRestaurant({
@@ -19,11 +19,11 @@ class RecommendationDetailsDataSourceImpl
     implements RecommendationDetailsDataSource {
   @override
   Future<RecommendationDetailsModel> getRecommendationDetails({
-    required String restaurantId,
+    required String restaurantAddressId,
   }) async {
     try {
       final response = await APIService.instance.request(
-        "/restaurant/get-restaurant-location-details/$restaurantId",
+        "/restaurant/get-restaurant-location-details/$restaurantAddressId",
         DioMethod.get,
       );
 

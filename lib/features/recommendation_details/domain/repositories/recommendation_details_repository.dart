@@ -5,7 +5,7 @@ import 'package:fpdart/fpdart.dart';
 abstract interface class RecommendationDetailsRepository {
   Future<Either<Failure, RecommendationDetailsEntity>>
       getRecommendationDetails({
-    required String restaurantId,
+    required String restaurantAddressId,
   });
 
   Future<Either<Failure, String>> getAllFoodsForParticularRestaurant({

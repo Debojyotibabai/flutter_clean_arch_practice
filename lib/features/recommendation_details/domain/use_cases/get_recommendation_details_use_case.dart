@@ -16,13 +16,13 @@ class GetRecommendationDetailsUseCase
   Future<Either<Failure, RecommendationDetailsEntity>> call(
       Params params) async {
     return await recommendationDetailsRepositoryImpl.getRecommendationDetails(
-      restaurantId: params.restaurantId,
+      restaurantAddressId: params.restaurantAddressId,
     );
   }
 }
 
 class Params {
-  final String restaurantId;
+  final String restaurantAddressId;
 
-  Params({required this.restaurantId});
+  Params({required this.restaurantAddressId});
 }

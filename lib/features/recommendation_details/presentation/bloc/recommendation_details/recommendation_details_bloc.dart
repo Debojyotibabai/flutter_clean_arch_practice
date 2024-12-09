@@ -18,7 +18,7 @@ class RecommendationDetailsBloc
         emit(RecommendationDetailsIsLoading());
 
         final response = await getRecommendationDetailsUseCase(Params(
-          restaurantId: event.restaurantId,
+          restaurantAddressId: event.restaurantAddressId,
         ));
 
         response.fold(
