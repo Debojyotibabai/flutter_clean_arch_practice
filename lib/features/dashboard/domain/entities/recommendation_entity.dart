@@ -14,8 +14,17 @@ class PaginationEntity {
   }
 }
 
+class RestaurantEntity {
+  final String? restaurantId;
+
+  RestaurantEntity({
+    required this.restaurantId,
+  });
+}
+
 class RecommendedFoodEntity {
   final String? id;
+  final RestaurantEntity? restaurant;
   final String? foodItemName;
   final double? matchPercentage;
   final double? givenPercentage;
@@ -27,6 +36,7 @@ class RecommendedFoodEntity {
 
   RecommendedFoodEntity({
     required this.id,
+    required this.restaurant,
     required this.foodItemName,
     required this.matchPercentage,
     required this.givenPercentage,
@@ -39,6 +49,7 @@ class RecommendedFoodEntity {
 
   RecommendedFoodEntity copyWith({
     String? id,
+    RestaurantEntity? restaurant,
     String? foodItemName,
     double? matchPercentage,
     double? givenPercentage,
@@ -50,6 +61,7 @@ class RecommendedFoodEntity {
   }) {
     return RecommendedFoodEntity(
       id: id ?? this.id,
+      restaurant: restaurant ?? this.restaurant,
       foodItemName: foodItemName ?? this.foodItemName,
       matchPercentage: matchPercentage ?? this.matchPercentage,
       givenPercentage: givenPercentage ?? this.givenPercentage,

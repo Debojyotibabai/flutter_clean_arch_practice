@@ -30,9 +30,9 @@ class RecommendationDetailsDataSourceImpl
       final data = RecommendationDetailsModel.fromMap((response.data));
 
       return data;
-    } catch (e, s) {
-      log(e.toString() + s.toString());
-      throw e.toString();
+    } catch (err, s) {
+      log(err.toString() + s.toString());
+      throw err.toString();
     }
   }
 
@@ -43,21 +43,23 @@ class RecommendationDetailsDataSourceImpl
     required int size,
   }) async {
     try {
+      final Map<String, dynamic> param = {
+        "page": page,
+        "size": size,
+      };
+
       final response = await APIService.instance.request(
         "/food/get-restaurant-foods/$restaurantId",
         DioMethod.get,
-        param: {
-          "page": page,
-          "size": size,
-        },
+        param: param,
       );
 
-      log(response.data);
+      log(response.data.toString());
 
       return "";
-    } catch (e, s) {
-      log(e.toString() + s.toString());
-      throw e.toString();
+    } catch (err, s) {
+      log(err.toString() + s.toString());
+      throw err.toString();
     }
   }
 }

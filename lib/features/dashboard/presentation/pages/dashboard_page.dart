@@ -193,8 +193,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           .recommendedFoods![index]
                                           .nearestLocationRestaurantAddressId!,
                                     },
-                                    extra: state.recommendations
-                                        .recommendedFoods![index].id!,
+                                    extra: state
+                                        .recommendations
+                                        .recommendedFoods![index]
+                                        .restaurant!
+                                        .restaurantId!,
                                   );
                                 },
                               );

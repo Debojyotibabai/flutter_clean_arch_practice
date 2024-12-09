@@ -36,7 +36,6 @@ class PaginationModel extends PaginationEntity {
 }
 
 class RecommendedFoodModel extends RecommendedFoodEntity {
-  final Restaurant? restaurant;
   final FoodCategory? foodCategory;
   final dynamic foodItemImageUrl;
   final String? description;
@@ -47,7 +46,6 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
   final double? givenRating;
 
   RecommendedFoodModel({
-    this.restaurant,
     this.foodCategory,
     this.foodItemImageUrl,
     this.description,
@@ -57,6 +55,7 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
     this.extraAttributes,
     this.givenRating,
     required super.id,
+    required super.restaurant,
     required super.foodItemName,
     required super.addressDistanceFromMyLocation,
     required super.restaurantName,
@@ -81,7 +80,7 @@ class RecommendedFoodModel extends RecommendedFoodEntity {
             json["restaurant"]?["nearestLocation"]?["addressId"]?.toString(),
         restaurant: json["restaurant"] == null
             ? null
-            : Restaurant.fromMap(json["restaurant"]),
+            : RestaurantModel.fromMap(json["restaurant"]),
         foodCategory: json["foodCategory"] == null
             ? null
             : FoodCategory.fromMap(json["foodCategory"]),
@@ -168,18 +167,17 @@ class FoodCategory {
       );
 }
 
-class Restaurant {
-  final String? restaurantId;
+class RestaurantModel extends RestaurantEntity {
   final String? restaurantName;
   final NearestLocation? nearestLocation;
 
-  Restaurant({
-    this.restaurantId,
+  RestaurantModel({
     this.restaurantName,
     this.nearestLocation,
+    required super.restaurantId,
   });
 
-  factory Restaurant.fromMap(Map<String, dynamic> json) => Restaurant(
+  factory RestaurantModel.fromMap(Map<String, dynamic> json) => RestaurantModel(
         restaurantId: json["restaurantId"],
         restaurantName: json["restaurantName"],
         nearestLocation: json["nearestLocation"] == null
