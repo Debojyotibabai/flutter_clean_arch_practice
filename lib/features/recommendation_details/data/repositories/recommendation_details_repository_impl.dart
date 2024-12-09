@@ -26,4 +26,24 @@ class RecommendationDetailsRepositoryImpl
       return left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> getAllFoodsForParticularRestaurant({
+    required String restaurantId,
+    required int page,
+    required int size,
+  }) async {
+    try {
+      final response = await recommendationDetailsDataSourceImpl
+          .getAllFoodsForParticularRestaurant(
+        restaurantId: restaurantId,
+        page: page,
+        size: size,
+      );
+
+      return right(response);
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
 }

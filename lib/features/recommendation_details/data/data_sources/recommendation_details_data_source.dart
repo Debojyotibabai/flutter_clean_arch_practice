@@ -7,6 +7,12 @@ abstract interface class RecommendationDetailsDataSource {
   Future<RecommendationDetailsModel> getRecommendationDetails({
     required String restaurantId,
   });
+
+  Future<String> getAllFoodsForParticularRestaurant({
+    required String restaurantId,
+    required int page,
+    required int size,
+  });
 }
 
 class RecommendationDetailsDataSourceImpl
@@ -24,6 +30,31 @@ class RecommendationDetailsDataSourceImpl
       final data = RecommendationDetailsModel.fromMap((response.data));
 
       return data;
+    } catch (e, s) {
+      log(e.toString() + s.toString());
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<String> getAllFoodsForParticularRestaurant({
+    required String restaurantId,
+    required int page,
+    required int size,
+  }) async {
+    try {
+      final response = await APIService.instance.request(
+        "/food/get-restaurant-foods/$restaurantId",
+        DioMethod.get,
+        param: {
+          "page": page,
+          "size": size,
+        },
+      );
+
+      log(response.data);
+
+      return "";
     } catch (e, s) {
       log(e.toString() + s.toString());
       throw e.toString();

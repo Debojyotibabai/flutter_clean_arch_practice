@@ -19,7 +19,9 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentatio
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/data_sources/recommendation_details_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/repositories/recommendation_details_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/repositories/recommendation_details_repository.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/use_cases/get_all_foods_for_particular_restaurant.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/use_cases/get_recommendation_details_use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/particular_restaurant_foods/particular_restaurant_foods_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/recommendation_details/recommendation_details_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -30,7 +32,7 @@ void initiDependencies() {
   _initLoginDependencies();
   _initFoodCategoryDependencies();
   _initRecommendationDependencies();
-  _initRecommendationDetailsDependencies();
+  _initRecommendationDetailsAndGetParticularRestaurantAllFoodDependencies();
 }
 
 void _initAuthenticationDependencies() {
@@ -99,7 +101,7 @@ void _initRecommendationDependencies() {
     );
 }
 
-void _initRecommendationDetailsDependencies() {
+void _initRecommendationDetailsAndGetParticularRestaurantAllFoodDependencies() {
   serviceLocator
     ..registerFactory<RecommendationDetailsDataSource>(
       () => RecommendationDetailsDataSourceImpl(),
@@ -115,5 +117,13 @@ void _initRecommendationDetailsDependencies() {
     ..registerLazySingleton(
       () => RecommendationDetailsBloc(
           getRecommendationDetailsUseCase: serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetAllFoodsForParticularRestaurantUseCase(
+          recommendationDetailsRepositoryImpl: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => ParticularRestaurantFoodsBloc(
+          getAllFoodsForParticularRestaurantUseCase: serviceLocator()),
     );
 }

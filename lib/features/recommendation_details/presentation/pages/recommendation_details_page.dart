@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/particular_restaurant_foods/particular_restaurant_foods_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/recommendation_details/recommendation_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/widgets/recommendation_details_card.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/widgets/tab_option.dart';
@@ -23,11 +24,23 @@ class _RecommendationDetailsScreenState
     extends State<RecommendationDetailsScreen> {
   int selectedTab = 1;
 
+  int page = 1;
+  int size = 10;
+
   @override
   void initState() {
     BlocProvider.of<RecommendationDetailsBloc>(context).add(
       GetRecommendationDetailsEvent(restaurantId: widget.restaurantId),
     );
+
+    BlocProvider.of<ParticularRestaurantFoodsBloc>(context).add(
+      GetAllFoodsForParticularRestaurantEvent(
+        restaurantId: widget.restaurantId,
+        page: page,
+        size: size,
+      ),
+    );
+
     super.initState();
   }
 

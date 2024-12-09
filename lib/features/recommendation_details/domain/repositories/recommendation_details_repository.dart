@@ -7,4 +7,10 @@ abstract interface class RecommendationDetailsRepository {
       getRecommendationDetails({
     required String restaurantId,
   });
+
+  Future<Either<Failure, String>> getAllFoodsForParticularRestaurant({
+    required String restaurantId,
+    required int page,
+    required int size,
+  });
 }
