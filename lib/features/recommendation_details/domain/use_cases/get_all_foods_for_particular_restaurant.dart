@@ -1,10 +1,11 @@
 import 'package:clean_architecture_rivaan_ranawat/config/error/failure.dart';
 import 'package:clean_architecture_rivaan_ranawat/config/use_case/use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/entities/foods_for_particular_restaurant_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/repositories/recommendation_details_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class GetAllFoodsForParticularRestaurantUseCase
-    implements UseCase<String, Params> {
+    implements UseCase<FoodsForParticularRestaurantEntity, Params> {
   final RecommendationDetailsRepository recommendationDetailsRepositoryImpl;
 
   GetAllFoodsForParticularRestaurantUseCase({
@@ -12,7 +13,8 @@ class GetAllFoodsForParticularRestaurantUseCase
   });
 
   @override
-  Future<Either<Failure, String>> call(Params params) async {
+  Future<Either<Failure, FoodsForParticularRestaurantEntity>> call(
+      Params params) async {
     return await recommendationDetailsRepositoryImpl
         .getAllFoodsForParticularRestaurant(
       restaurantId: params.restaurantId,

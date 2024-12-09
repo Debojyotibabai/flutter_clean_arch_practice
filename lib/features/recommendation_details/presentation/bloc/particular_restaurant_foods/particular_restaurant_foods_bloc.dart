@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/entities/foods_for_particular_restaurant_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/use_cases/get_all_foods_for_particular_restaurant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';

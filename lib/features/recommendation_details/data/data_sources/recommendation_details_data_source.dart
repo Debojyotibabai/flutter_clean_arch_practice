@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/models/foods_for_particular_restaurant_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/models/recommendation_details_model.dart';
 
 abstract interface class RecommendationDetailsDataSource {
@@ -8,7 +9,7 @@ abstract interface class RecommendationDetailsDataSource {
     required String restaurantAddressId,
   });
 
-  Future<String> getAllFoodsForParticularRestaurant({
+  Future<FoodsForParticularRestaurantModel> getAllFoodsForParticularRestaurant({
     required String restaurantId,
     required int page,
     required int size,
@@ -37,7 +38,7 @@ class RecommendationDetailsDataSourceImpl
   }
 
   @override
-  Future<String> getAllFoodsForParticularRestaurant({
+  Future<FoodsForParticularRestaurantModel> getAllFoodsForParticularRestaurant({
     required String restaurantId,
     required int page,
     required int size,
@@ -54,9 +55,9 @@ class RecommendationDetailsDataSourceImpl
         param: param,
       );
 
-      log(response.data.toString());
+      final data = FoodsForParticularRestaurantModel.fromMap(response.data);
 
-      return "";
+      return data;
     } catch (err, s) {
       log(err.toString() + s.toString());
       throw err.toString();

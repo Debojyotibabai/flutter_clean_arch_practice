@@ -11,7 +11,7 @@ final class ParticularRestaurantFoodsIsLoading
 
 final class ParticularRestaurantFoodsSuccess
     extends ParticularRestaurantFoodsState {
-  final String foods;
+  final FoodsForParticularRestaurantEntity foods;
 
   ParticularRestaurantFoodsSuccess({required this.foods});
 }
