@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/entities/foods_for_particular_restaurant_entity.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/entities/recommendation_details_entity.dart';
 
 FoodsForParticularRestaurantModel foodsForParticularRestaurantModelFromMap(
         String str) =>
@@ -154,7 +155,7 @@ class FoodCategory {
 
 class Restaurant {
   final String? restaurantId;
-  final RestaurantName? restaurantName;
+  final String? restaurantName;
   final NearestLocation? nearestLocation;
 
   Restaurant({
@@ -165,7 +166,7 @@ class Restaurant {
 
   factory Restaurant.fromMap(Map<String, dynamic> json) => Restaurant(
         restaurantId: json["restaurantId"],
-        restaurantName: restaurantNameValues.map[json["restaurantName"]]!,
+        restaurantName: json["restaurantName"],
         nearestLocation: json["nearestLocation"] == null
             ? null
             : NearestLocation.fromMap(json["nearestLocation"]),
@@ -190,10 +191,6 @@ class NearestLocation {
             json["addressDistanceFromMyLocationUnit"],
       );
 }
-
-enum RestaurantName { TOASTERS }
-
-final restaurantNameValues = EnumValues({"toasters": RestaurantName.TOASTERS});
 
 class Tag {
   final String? tagId;

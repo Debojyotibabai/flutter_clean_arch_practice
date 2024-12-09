@@ -171,10 +171,31 @@ class _RecommendationDetailsScreenState
                                   .price,
                             ),
                           )
-                        : ListView.builder(
-                            itemCount: 10,
-                            itemBuilder: (context, index) =>
-                                const RecommendationDetailsCard(),
+                        : BlocBuilder<ParticularRestaurantFoodsBloc,
+                            ParticularRestaurantFoodsState>(
+                            builder: (context, state) {
+                              if (state is ParticularRestaurantFoodsIsLoading) {
+                                return SpinKitThreeInOut(
+                                  color: Colors.yellow[700],
+                                );
+                              }
+                              if (state is ParticularRestaurantFoodsSuccess) {
+                                return ListView.builder(
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) =>
+                                      RecommendationDetailsCard(
+                                    foodName:
+                                        state.foods.foods![index].foodItemName,
+                                    rating: state.foods.foods![index]
+                                            .givenPercentage ??
+                                        state.foods.foods![index]
+                                            .matchPercentage,
+                                    price: state.foods.foods![index].price,
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
                           ),
                   ),
                 ],

@@ -1,24 +1,10 @@
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/entities/recommendation_details_entity.dart';
+
 class PaginationEntity {
   final int? totalItems;
 
   PaginationEntity({
     required this.totalItems,
-  });
-}
-
-abstract class FoodEntity {
-  final String? id;
-  final String? foodItemName;
-  final double? price;
-  final double? matchPercentage;
-  final dynamic givenPercentage;
-
-  FoodEntity({
-    required this.id,
-    required this.foodItemName,
-    required this.price,
-    required this.matchPercentage,
-    required this.givenPercentage,
   });
 }
 
