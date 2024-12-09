@@ -10,9 +10,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class RecommendationDetailsScreen extends StatefulWidget {
   const RecommendationDetailsScreen({
     super.key,
+    required this.restaurantId,
     required this.restaurantAddressId,
   });
 
+  final String restaurantId;
   final String restaurantAddressId;
 
   @override
@@ -36,7 +38,7 @@ class _RecommendationDetailsScreenState
 
     BlocProvider.of<ParticularRestaurantFoodsBloc>(context).add(
       GetAllFoodsForParticularRestaurantEvent(
-        restaurantId: widget.restaurantAddressId,
+        restaurantId: widget.restaurantId,
         page: page,
         size: size,
       ),

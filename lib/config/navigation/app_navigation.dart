@@ -51,6 +51,7 @@ class AppNavigation {
             name: Routes.recommendationDetails,
             builder: (context, state) => RecommendationDetailsScreen(
               restaurantAddressId: state.pathParameters['restaurantAddressId']!,
+              restaurantId: state.extra! as String,
             ),
           ),
         ],

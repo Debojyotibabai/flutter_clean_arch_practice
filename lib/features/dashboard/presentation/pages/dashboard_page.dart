@@ -188,11 +188,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   context.goNamed(
                                     Routes.recommendationDetails,
                                     pathParameters: {
-                                      'restaurantAddressId': state
+                                      "restaurantAddressId": state
                                           .recommendations
                                           .recommendedFoods![index]
                                           .nearestLocationRestaurantAddressId!,
                                     },
+                                    extra: state.recommendations
+                                        .recommendedFoods![index].id!,
                                   );
                                 },
                               );
