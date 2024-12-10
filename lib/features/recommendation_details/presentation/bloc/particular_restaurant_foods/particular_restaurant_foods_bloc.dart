@@ -1,4 +1,5 @@
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/entities/foods_for_particular_restaurant_entity.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/entities/recommendation_details_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/use_cases/get_all_foods_for_particular_restaurant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -14,20 +15,45 @@ class ParticularRestaurantFoodsBloc extends Bloc<ParticularRestaurantFoodsEvent,
   ParticularRestaurantFoodsBloc({
     required this.getAllFoodsForParticularRestaurantUseCase,
   }) : super(ParticularRestaurantFoodsInitial()) {
-    on<GetAllFoodsForParticularRestaurantEvent>((event, emit) async {
-      emit(ParticularRestaurantFoodsIsLoading());
+    on<GetAllFoodsForParticularRestaurantEvent>(
+      (event, emit) async {
+        if (event.page == 1) {
+          emit(ParticularRestaurantFoodsIsLoading());
+        }
 
-      final response = await getAllFoodsForParticularRestaurantUseCase(Params(
-        restaurantId: event.restaurantId,
-        page: event.page,
-        size: event.size,
-      ));
+        List<FoodEntity>? previousFoods;
 
-      response.fold((err) {
-        emit(ParticularRestaurantFoodsError(message: err.message));
-      }, (res) {
-        emit(ParticularRestaurantFoodsSuccess(foods: res));
-      });
-    });
+        if (state is ParticularRestaurantFoodsSuccess) {
+          previousFoods =
+              (state as ParticularRestaurantFoodsSuccess).foods.foods;
+        }
+
+        final response = await getAllFoodsForParticularRestaurantUseCase(
+          Params(
+            restaurantId: event.restaurantId,
+            page: event.page,
+            size: event.size,
+          ),
+        );
+
+        response.fold(
+          (err) {
+            emit(ParticularRestaurantFoodsError(message: err.message));
+          },
+          (res) {
+            if (event.page == 1) {
+              emit(ParticularRestaurantFoodsSuccess(foods: res));
+            } else {
+              emit(ParticularRestaurantFoodsSuccess(
+                  foods: (state as ParticularRestaurantFoodsSuccess)
+                      .foods
+                      .copyWith(
+                foods: [...previousFoods!, ...res.foods!],
+              )));
+            }
+          },
+        );
+      },
+    );
   }
 }

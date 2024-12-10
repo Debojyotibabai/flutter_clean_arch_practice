@@ -219,9 +219,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   return Center(
                     child: GestureDetector(
                       onTap: () {
-                        setState(() {
-                          page++;
-                        });
+                        page++;
+
                         getRecommendation();
                       },
                       child: const Text(

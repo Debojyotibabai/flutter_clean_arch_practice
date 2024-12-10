@@ -29,13 +29,10 @@ class _RecommendationDetailsScreenState
   int page = 1;
   int size = 10;
 
-  @override
-  void initState() {
-    BlocProvider.of<RecommendationDetailsBloc>(context).add(
-      GetRecommendationDetailsEvent(
-          restaurantAddressId: widget.restaurantAddressId),
-    );
+  ScrollController scrollController = ScrollController();
+  bool isLoadingFoodsForParticularRestaurant = false;
 
+  void getAllFoodsForParticularRestaurant() {
     BlocProvider.of<ParticularRestaurantFoodsBloc>(context).add(
       GetAllFoodsForParticularRestaurantEvent(
         restaurantId: widget.restaurantId,
@@ -43,6 +40,32 @@ class _RecommendationDetailsScreenState
         size: size,
       ),
     );
+  }
+
+  @override
+  void initState() {
+    BlocProvider.of<RecommendationDetailsBloc>(context).add(
+      GetRecommendationDetailsEvent(
+        restaurantAddressId: widget.restaurantAddressId,
+      ),
+    );
+
+    getAllFoodsForParticularRestaurant();
+
+    scrollController.addListener(() {
+      if (isLoadingFoodsForParticularRestaurant) return;
+
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          isLoadingFoodsForParticularRestaurant = true;
+        });
+
+        page++;
+
+        getAllFoodsForParticularRestaurant();
+      }
+    });
 
     super.initState();
   }
@@ -171,8 +194,15 @@ class _RecommendationDetailsScreenState
                                   .price,
                             ),
                           )
-                        : BlocBuilder<ParticularRestaurantFoodsBloc,
+                        : BlocConsumer<ParticularRestaurantFoodsBloc,
                             ParticularRestaurantFoodsState>(
+                            listener: (context, state) {
+                              if (state is ParticularRestaurantFoodsSuccess) {
+                                setState(() {
+                                  isLoadingFoodsForParticularRestaurant = false;
+                                });
+                              }
+                            },
                             builder: (context, state) {
                               if (state is ParticularRestaurantFoodsIsLoading) {
                                 return SpinKitThreeInOut(
@@ -181,7 +211,8 @@ class _RecommendationDetailsScreenState
                               }
                               if (state is ParticularRestaurantFoodsSuccess) {
                                 return ListView.builder(
-                                  itemCount: 10,
+                                  controller: scrollController,
+                                  itemCount: state.foods.foods?.length,
                                   itemBuilder: (context, index) =>
                                       RecommendationDetailsCard(
                                     foodName:

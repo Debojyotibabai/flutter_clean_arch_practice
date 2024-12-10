@@ -16,4 +16,14 @@ class FoodsForParticularRestaurantEntity {
     required this.pagination,
     required this.foods,
   });
+
+  FoodsForParticularRestaurantEntity copyWith({
+    PaginationEntity? pagination,
+    List<FoodEntity>? foods,
+  }) {
+    return FoodsForParticularRestaurantEntity(
+      pagination: pagination ?? this.pagination,
+      foods: foods ?? this.foods,
+    );
+  }
 }
