@@ -3,6 +3,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/enti
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/widgets/recommendation_card.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/widgets/custom_drawer.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dropdown/dropdown_with_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
@@ -20,6 +21,8 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   RecommendedFoodsSortByOption? selectedSortByOption;
   FoodCategoryEntity? restaurantCategoryIds;
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   int page = 1;
 
@@ -62,6 +65,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.green[800],
+        leading: IconButton(
+          icon: const Icon(
+            Icons.menu,
+            size: 35,
+            color: Colors.white,
+          ),
+          onPressed: () => scaffoldKey.currentState?.openDrawer(),
+        ),
+      ),
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -4,6 +4,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/blo
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/pages/login_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/pages/signup_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/pages/edit_profile_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/pages/recommendation_details_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
@@ -56,6 +57,11 @@ class AppNavigation {
           ),
         ],
       ),
+      GoRoute(
+        path: "/editProfile",
+        name: Routes.editProfile,
+        builder: (context, state) => EditProfile(),
+      )
     ],
   );
 }
