@@ -57,7 +57,7 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 45,
                     ),
                   ],
                 );

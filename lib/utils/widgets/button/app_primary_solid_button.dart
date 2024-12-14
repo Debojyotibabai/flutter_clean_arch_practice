@@ -8,7 +8,7 @@ class AppPrimarySoidButton extends StatelessWidget {
     required this.onPressed,
     required this.buttonText,
     required this.width,
-    this.height = 50,
+    this.height = 48,
     this.backgroundColor = Colors.black,
     this.textColor = Colors.white,
   });
@@ -28,6 +28,10 @@ class AppPrimarySoidButton extends StatelessWidget {
       style: ButtonStyle(
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
+            side: BorderSide(
+              color: textColor == Colors.white ? backgroundColor : textColor,
+              width: 2.5,
+            ),
             borderRadius: BorderRadius.circular(8),
           ),
         ),
