@@ -6,6 +6,7 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/image_banner_scr
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 
 class RecommendationDetailsScreen extends StatefulWidget {
   const RecommendationDetailsScreen({
@@ -73,6 +74,17 @@ class _RecommendationDetailsScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green[800],
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            size: 29,
+            color: Colors.white,
+          ),
+          onPressed: () => context.pop(),
+        ),
+      ),
       body: SafeArea(
         child:
             BlocBuilder<RecommendationDetailsBloc, RecommendationDetailsState>(
