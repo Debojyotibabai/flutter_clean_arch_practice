@@ -1,6 +1,9 @@
 class RecommendedFoodsSortByOption {
-  RecommendedFoodsSortByOption(
-      {required this.label, required this.value, required this.order});
+  RecommendedFoodsSortByOption({
+    required this.label,
+    required this.value,
+    required this.order,
+  });
 
   final String label;
   final String value;
@@ -36,4 +39,8 @@ abstract class Constants {
       order: "desc",
     ),
   ];
+
+  static final RegExp emailAddress =
+      RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+');
+  static final RegExp phoneNumber = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
 }

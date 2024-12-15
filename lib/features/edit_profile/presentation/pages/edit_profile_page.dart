@@ -1,4 +1,5 @@
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/widgets/avatar_selection.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/custom_drawer.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_with_label.dart';
@@ -16,11 +17,19 @@ class EditProfile extends StatelessWidget {
   final TextEditingController phoneNumberController = TextEditingController();
 
   String? _validateEmail(String? value) {
-    const emailPattern = r'^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+';
     if (value == null || value.isEmpty) {
       return 'email address is required';
-    } else if (!RegExp(emailPattern).hasMatch(value)) {
+    } else if (!Constants.emailAddress.hasMatch(value)) {
       return 'enter a valid email address';
+    }
+    return null;
+  }
+
+  String? _validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'phone number is required';
+    } else if (!Constants.phoneNumber.hasMatch(value)) {
+      return 'enter a valid phone number';
     }
     return null;
   }
@@ -105,6 +114,7 @@ class EditProfile extends StatelessWidget {
                 controller: phoneNumberController,
                 hintText: "Phone Number",
                 label: "Phone Number",
+                validator: _validatePhoneNumber,
               ),
               const Spacer(),
               Row(

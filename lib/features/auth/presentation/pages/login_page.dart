@@ -1,5 +1,6 @@
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_with_label.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_password_with_label.dart';
@@ -29,10 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String? _validateEmail(String? value) {
-    const emailPattern = r'^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+';
     if (value == null || value.isEmpty) {
       return 'email address is required';
-    } else if (!RegExp(emailPattern).hasMatch(value)) {
+    } else if (!Constants.emailAddress.hasMatch(value)) {
       return 'enter a valid email address';
     }
     return null;
