@@ -11,6 +11,7 @@ class AvatarSelection extends StatelessWidget {
       onTap: () => showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
+          backgroundColor: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(30),
             child: Column(
