@@ -19,7 +19,7 @@ class EditProfile extends StatelessWidget {
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'email address is required';
-    } else if (!Constants.emailAddress.hasMatch(value)) {
+    } else if (!Constants.regExp["emailAddress"]!.hasMatch(value)) {
       return 'enter a valid email address';
     }
     return null;
@@ -28,7 +28,7 @@ class EditProfile extends StatelessWidget {
   String? _validatePhoneNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'phone number is required';
-    } else if (!Constants.phoneNumber.hasMatch(value)) {
+    } else if (!Constants.regExp["phoneNumber"]!.hasMatch(value)) {
       return 'enter a valid phone number';
     }
     return null;

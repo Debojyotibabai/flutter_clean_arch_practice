@@ -40,7 +40,8 @@ abstract class Constants {
     ),
   ];
 
-  static final RegExp emailAddress =
-      RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+');
-  static final RegExp phoneNumber = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+  static final Map<String, RegExp> regExp = {
+    "emailAddress": RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+'),
+    "phoneNumber": RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
+  };
 }

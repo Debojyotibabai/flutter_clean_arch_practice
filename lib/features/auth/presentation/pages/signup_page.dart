@@ -43,7 +43,7 @@ class _SignupScreenState extends State<SignupScreen> {
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'email address is required';
-    } else if (!Constants.emailAddress.hasMatch(value)) {
+    } else if (!Constants.regExp["emailAddress"]!.hasMatch(value)) {
       return 'enter a valid email address';
     }
     return null;
