@@ -3,6 +3,7 @@ import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/custom_drawer.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_with_label.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_phone_input_with_label.dart';
 import 'package:flutter/material.dart';
 
 class EditProfile extends StatelessWidget {
@@ -106,15 +107,15 @@ class EditProfile extends StatelessWidget {
               AppInputWithLabel(
                 controller: emailController,
                 hintText: "example@email.com",
-                label: "Email Address",
+                label: "Contact Info",
                 validator: _validateEmail,
               ),
               const SizedBox(height: 20),
-              AppInputWithLabel(
-                controller: phoneNumberController,
-                hintText: "Phone Number",
+              AppPhoneInputWithLabel(
                 label: "Phone Number",
+                hintText: "Phone Number",
                 validator: _validatePhoneNumber,
+                phoneNumberController: phoneNumberController,
               ),
               const Spacer(),
               Row(
