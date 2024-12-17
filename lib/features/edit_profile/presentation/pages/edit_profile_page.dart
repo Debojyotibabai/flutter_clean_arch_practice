@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/widgets/avatar_selection.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
@@ -5,16 +6,26 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/custom_drawer.da
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_with_label.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_phone_input_with_label.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EditProfile extends StatelessWidget {
-  EditProfile({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
 
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController firstNameController = TextEditingController();
+
   final TextEditingController lastNameController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController phoneNumberController = TextEditingController();
 
   String? _validateEmail(String? value) {
@@ -37,6 +48,15 @@ class EditProfile extends StatelessWidget {
 
   void editProfile() {
     if (formKey.currentState!.validate()) {}
+  }
+
+  @override
+  void initState() {
+    BlocProvider.of<EditProfileBloc>(context).add(
+      GetEditProfileDataEvent(),
+    );
+
+    super.initState();
   }
 
   @override

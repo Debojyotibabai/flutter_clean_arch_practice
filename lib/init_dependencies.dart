@@ -16,6 +16,11 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/use_
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/report_recommendation/report_recommendation_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/data/data_sources/edit_profile_data_source.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/data/repositories/edit_profile_repository_impl.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/domain/repositories/edit_profile_repository.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/domain/use_cases/get_edit_profile_data_use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/data_sources/recommendation_details_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/repositories/recommendation_details_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/repositories/recommendation_details_repository.dart';
@@ -33,6 +38,7 @@ void initiDependencies() {
   _initFoodCategoryDependencies();
   _initRecommendationDependencies();
   _initRecommendationDetailsAndGetParticularRestaurantAllFoodDependencies();
+  _editProfileDependencies();
 }
 
 void _initAuthenticationDependencies() {
@@ -125,5 +131,23 @@ void _initRecommendationDetailsAndGetParticularRestaurantAllFoodDependencies() {
     ..registerLazySingleton(
       () => ParticularRestaurantFoodsBloc(
           getAllFoodsForParticularRestaurantUseCase: serviceLocator()),
+    );
+}
+
+void _editProfileDependencies() {
+  serviceLocator
+    ..registerFactory<EditProfileDataSource>(
+      () => EditProfileDataSourceImpl(),
+    )
+    ..registerFactory<EditProfileRepository>(
+      () => EditProfileRepositoryImpl(
+          editProfileDataSourceImpl: serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetEditProfileDataUseCase(
+          editProfileRepositoryImpl: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => EditProfileBloc(getEditProfileDataUseCase: serviceLocator()),
     );
 }
