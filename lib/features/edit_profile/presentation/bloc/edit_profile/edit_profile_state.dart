@@ -1,19 +1,19 @@
 part of 'edit_profile_bloc.dart';
 
 @immutable
-sealed class EditProfileState {}
+sealed class EditProfileState extends Equatable {}
 
-final class EditProfileInitial extends EditProfileState with EquatableMixin {
+final class EditProfileInitial extends EditProfileState {
   @override
   List<Object?> get props => [];
 }
 
-final class EditProfileIsLoading extends EditProfileState with EquatableMixin {
+final class EditProfileIsLoading extends EditProfileState {
   @override
   List<Object?> get props => [];
 }
 
-final class EditProfileSuccess extends EditProfileState with EquatableMixin {
+final class EditProfileSuccess extends EditProfileState {
   final EditProfileDataEntity editProfileData;
 
   EditProfileSuccess({
@@ -24,7 +24,7 @@ final class EditProfileSuccess extends EditProfileState with EquatableMixin {
   List<Object?> get props => [editProfileData];
 }
 
-final class EditProfileError extends EditProfileState with EquatableMixin {
+final class EditProfileError extends EditProfileState {
   final String message;
   EditProfileError({
     required this.message,
