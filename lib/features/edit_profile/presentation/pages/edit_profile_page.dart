@@ -7,6 +7,7 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_phone_input_with_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -20,12 +21,13 @@ class _EditProfileState extends State<EditProfile> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  String avatar = "";
+
   final TextEditingController firstNameController = TextEditingController();
-
   final TextEditingController lastNameController = TextEditingController();
-
   final TextEditingController emailController = TextEditingController();
-
+  final TextEditingController phoneCountryCodeController =
+      TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
 
   String? _validateEmail(String? value) {
@@ -77,95 +79,122 @@ class _EditProfileState extends State<EditProfile> {
       drawer: CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(20).copyWith(bottom: 60),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Edit Your Account",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+        child: BlocConsumer<EditProfileBloc, EditProfileState>(
+          listener: (context, state) {
+            if (state is EditProfileSuccess) {
+              avatar = state.editProfileData.user!.profileImageUrl ?? "";
+              firstNameController.text = state.editProfileData.user!.firstName!;
+              lastNameController.text = state.editProfileData.user!.lastName!;
+              emailController.text = state.editProfileData.user!.emailAddress!;
+              phoneNumberController.text =
+                  state.editProfileData.user!.phoneNumber ?? "";
+            }
+          },
+          builder: (context, state) {
+            if (state is EditProfileIsLoading) {
+              return Center(
+                child: SpinKitThreeInOut(
+                  color: Colors.yellow[700],
                 ),
-              ),
-              const SizedBox(height: 50),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  AvatarSelection(),
-                ],
-              ),
-              const SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: AppInputWithLabel(
-                      controller: firstNameController,
-                      hintText: "First Name",
-                      label: "First Name",
+              );
+            }
+
+            if (state is EditProfileSuccess) {
+              return Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Edit Your Account",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: AppInputWithLabel(
-                      controller: lastNameController,
-                      hintText: "Last Name",
-                      label: "Last Name",
+                    const SizedBox(height: 50),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        AvatarSelection(avatarImage: avatar),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              AppInputWithLabel(
-                controller: emailController,
-                hintText: "example@email.com",
-                label: "Contact Info",
-                validator: _validateEmail,
-              ),
-              const SizedBox(height: 20),
-              AppPhoneInputWithLabel(
-                label: "Phone Number",
-                hintText: "Phone Number",
-                validator: _validatePhoneNumber,
-                phoneNumberController: phoneNumberController,
-              ),
-              const Spacer(),
-              Row(
-                children: [
-                  Expanded(
-                    child: AppPrimarySoidButton(
-                      onPressed: () {},
-                      buttonText: "Cancel",
-                      width: 0.5,
-                      backgroundColor: Colors.white,
-                      textColor: Colors.red[900]!,
+                    const SizedBox(height: 40),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: AppInputWithLabel(
+                            controller: firstNameController,
+                            hintText: "First Name",
+                            label: "First Name",
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: AppInputWithLabel(
+                            controller: lastNameController,
+                            hintText: "Last Name",
+                            label: "Last Name",
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: AppPrimarySoidButton(
-                      onPressed: () {
-                        editProfile();
-                      },
-                      buttonText: "Done",
-                      width: 0.4,
-                      backgroundColor: Colors.yellow[800]!,
+                    const SizedBox(height: 20),
+                    AppInputWithLabel(
+                      controller: emailController,
+                      hintText: "example@email.com",
+                      label: "Contact Info",
+                      validator: _validateEmail,
+                      isEnabled: false,
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                    const SizedBox(height: 20),
+                    AppPhoneInputWithLabel(
+                      label: "Phone Number",
+                      hintText: "Phone Number",
+                      validator: _validatePhoneNumber,
+                      phoneCountryCodeController: phoneCountryCodeController,
+                      phoneNumberController: phoneNumberController,
+                    ),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppPrimarySoidButton(
+                            onPressed: () {},
+                            buttonText: "Cancel",
+                            width: 0.5,
+                            backgroundColor: Colors.white,
+                            textColor: Colors.red[900]!,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: AppPrimarySoidButton(
+                            onPressed: () {
+                              editProfile();
+                            },
+                            buttonText: "Done",
+                            width: 0.4,
+                            backgroundColor: Colors.yellow[800]!,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );

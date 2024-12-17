@@ -4,14 +4,14 @@
 
 import 'dart:convert';
 
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/domain/entities/edit_profile_data_entity.dart';
+
 EditProfileDataModel editProfileDataModelFromMap(String str) =>
     EditProfileDataModel.fromMap(json.decode(str));
 
-class EditProfileDataModel {
-  final UserModel? user;
-
+class EditProfileDataModel extends EditProfileDataEntity {
   EditProfileDataModel({
-    this.user,
+    super.user,
   });
 
   factory EditProfileDataModel.fromMap(Map<String, dynamic> json) =>
@@ -20,41 +20,24 @@ class EditProfileDataModel {
       );
 }
 
-class UserModel {
-  final String? userId;
-  final String? userType;
-  final dynamic profilePictureUrl;
-  final String? firstName;
-  final String? lastName;
-  final dynamic profileImage;
-  final dynamic profileImageUrl;
-  final String? emailAddress;
-  final dynamic phoneCountryCode;
-  final dynamic phoneNumber;
-  final UserSettingsModel? userSettings;
-  final String? accountStatus;
-  final DateTime? registeredOn;
-  final int? numberOfUnreadNotifications;
-  final List<UserFeaturedFoodItemModel>? userFeaturedFoodItems;
-  final bool? showRecommendationTip;
-
+class UserModel extends UserEntity {
   UserModel({
-    this.userId,
-    this.userType,
-    this.profilePictureUrl,
-    this.firstName,
-    this.lastName,
-    this.profileImage,
-    this.profileImageUrl,
-    this.emailAddress,
-    this.phoneCountryCode,
-    this.phoneNumber,
-    this.userSettings,
-    this.accountStatus,
-    this.registeredOn,
-    this.numberOfUnreadNotifications,
-    this.userFeaturedFoodItems,
-    this.showRecommendationTip,
+    super.userId,
+    super.userType,
+    super.profilePictureUrl,
+    super.firstName,
+    super.lastName,
+    super.profileImage,
+    super.profileImageUrl,
+    super.emailAddress,
+    super.phoneCountryCode,
+    super.phoneNumber,
+    super.userSettings,
+    super.accountStatus,
+    super.registeredOn,
+    super.numberOfUnreadNotifications,
+    super.userFeaturedFoodItems,
+    super.showRecommendationTip,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> json) => UserModel(
@@ -85,13 +68,10 @@ class UserModel {
       );
 }
 
-class UserFeaturedFoodItemModel {
-  final String? foodId;
-  final String? foodItemName;
-
+class UserFeaturedFoodItemModel extends UserFeaturedFoodItemEntity {
   UserFeaturedFoodItemModel({
-    this.foodId,
-    this.foodItemName,
+    super.foodId,
+    super.foodItemName,
   });
 
   factory UserFeaturedFoodItemModel.fromMap(Map<String, dynamic> json) =>
@@ -101,21 +81,14 @@ class UserFeaturedFoodItemModel {
       );
 }
 
-class UserSettingsModel {
-  final bool? isAvailable;
-  final bool? isProfileCompleted;
-  final bool? needToChangePassword;
-  final int? recommendationTipCount;
-  final bool? dismissRecommendationTip;
-  final DateTime? recommendationTipLastShowTime;
-
+class UserSettingsModel extends UserSettingsEntity {
   UserSettingsModel({
-    this.isAvailable,
-    this.isProfileCompleted,
-    this.needToChangePassword,
-    this.recommendationTipCount,
-    this.dismissRecommendationTip,
-    this.recommendationTipLastShowTime,
+    super.isAvailable,
+    super.isProfileCompleted,
+    super.needToChangePassword,
+    super.recommendationTipCount,
+    super.dismissRecommendationTip,
+    super.recommendationTipLastShowTime,
   });
 
   factory UserSettingsModel.fromMap(Map<String, dynamic> json) =>

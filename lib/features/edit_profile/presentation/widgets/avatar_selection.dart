@@ -3,7 +3,9 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_prima
 import 'package:flutter/material.dart';
 
 class AvatarSelection extends StatelessWidget {
-  const AvatarSelection({super.key});
+  final String avatarImage;
+
+  const AvatarSelection({super.key, required this.avatarImage});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,9 @@ class AvatarSelection extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Image.asset(Images.avatarImage),
+          avatarImage != ""
+              ? Image.network(avatarImage)
+              : Image.asset(Images.avatarImage),
           Positioned(
             bottom: 5,
             right: 0,

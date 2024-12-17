@@ -10,6 +10,7 @@ class AppPhoneInputWithLabel extends StatelessWidget {
     this.isEnabled = true,
     this.keyboardType = TextInputType.text,
     this.validator,
+    required this.phoneCountryCodeController,
     required this.phoneNumberController,
   });
 
@@ -19,6 +20,7 @@ class AppPhoneInputWithLabel extends StatelessWidget {
   final bool isEnabled;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final TextEditingController phoneCountryCodeController;
   final TextEditingController phoneNumberController;
 
   final _border = const OutlineInputBorder(
@@ -70,9 +72,15 @@ class AppPhoneInputWithLabel extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
-          child: const CountryCodePicker(
+          child: CountryCodePicker(
             initialSelection: 'IN',
             showFlagDialog: true,
+            onInit: (value) {
+              phoneCountryCodeController.text = value!.dialCode!;
+            },
+            onChanged: (value) {
+              phoneCountryCodeController.text = value.dialCode!;
+            },
           ),
         ),
         const SizedBox(

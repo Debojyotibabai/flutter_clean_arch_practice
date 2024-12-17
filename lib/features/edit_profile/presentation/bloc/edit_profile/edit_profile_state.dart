@@ -8,13 +8,13 @@ final class EditProfileInitial extends EditProfileState with EquatableMixin {
   List<Object?> get props => [];
 }
 
-final class EditProfileLoading extends EditProfileState with EquatableMixin {
+final class EditProfileIsLoading extends EditProfileState with EquatableMixin {
   @override
   List<Object?> get props => [];
 }
 
 final class EditProfileSuccess extends EditProfileState with EquatableMixin {
-  final String editProfileData;
+  final EditProfileDataEntity editProfileData;
 
   EditProfileSuccess({
     required this.editProfileData,
