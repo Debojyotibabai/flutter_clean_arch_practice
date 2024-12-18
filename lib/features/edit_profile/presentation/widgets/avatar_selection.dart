@@ -1,11 +1,18 @@
+import 'dart:io';
+
 import 'package:clean_architecture_rivaan_ranawat/assets/images.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
 import 'package:flutter/material.dart';
 
 class AvatarSelection extends StatelessWidget {
-  final String avatarImage;
+  final String? avatarImage;
+  final Future Function() getImageFromGallery;
 
-  const AvatarSelection({super.key, required this.avatarImage});
+  const AvatarSelection({
+    super.key,
+    required this.avatarImage,
+    required this.getImageFromGallery,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +40,9 @@ class AvatarSelection extends StatelessWidget {
                   height: 20,
                 ),
                 AppPrimarySoidButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    getImageFromGallery();
+                  },
                   buttonText: "Select from Gallery",
                   width: 0.6,
                   backgroundColor: Colors.red[900]!,
@@ -54,9 +63,22 @@ class AvatarSelection extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          avatarImage != ""
-              ? Image.network(avatarImage)
-              : Image.asset(Images.avatarImage),
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              image: DecorationImage(
+                image: avatarImage == null
+                    ? const AssetImage(Images.avatarImage)
+                    : avatarImage!.startsWith('http://') ||
+                            avatarImage!.startsWith('https://')
+                        ? NetworkImage(avatarImage!) as ImageProvider
+                        : FileImage(File(avatarImage!)),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Positioned(
             bottom: 5,
             right: 0,

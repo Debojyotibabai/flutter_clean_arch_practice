@@ -8,6 +8,7 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_phone_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -21,7 +22,7 @@ class _EditProfileState extends State<EditProfile> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String avatar = "";
+  String? avatar;
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -29,6 +30,18 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController phoneCountryCodeController =
       TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future getImageFromGallery() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      avatar = image?.path;
+    });
+
+    Navigator.pop(context);
+  }
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
@@ -82,7 +95,7 @@ class _EditProfileState extends State<EditProfile> {
         child: BlocConsumer<EditProfileBloc, EditProfileState>(
           listener: (context, state) {
             if (state is EditProfileSuccess) {
-              avatar = state.editProfileData.user!.profileImageUrl ?? "";
+              avatar = state.editProfileData.user!.profileImageUrl;
               firstNameController.text = state.editProfileData.user!.firstName!;
               lastNameController.text = state.editProfileData.user!.lastName!;
               emailController.text = state.editProfileData.user!.emailAddress!;
@@ -119,7 +132,11 @@ class _EditProfileState extends State<EditProfile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        AvatarSelection(avatarImage: avatar),
+                        AvatarSelection(
+                          avatarImage: avatar ??
+                              state.editProfileData.user!.profileImageUrl,
+                          getImageFromGallery: getImageFromGallery,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 40),
