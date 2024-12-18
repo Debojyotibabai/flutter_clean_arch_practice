@@ -4,6 +4,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/auth/presentation/blo
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/report_recommendation/report_recommendation_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/particular_restaurant_foods/particular_restaurant_foods_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/recommendation_details/recommendation_details_bloc.dart';
@@ -28,6 +29,7 @@ void main() {
         BlocProvider(
             create: (_) => serviceLocator<ParticularRestaurantFoodsBloc>()),
         BlocProvider(create: (_) => serviceLocator<EditProfileDataBloc>()),
+        BlocProvider(create: (_) => serviceLocator<EditProfileBloc>()),
       ],
       child: const MyApp(),
     ),
