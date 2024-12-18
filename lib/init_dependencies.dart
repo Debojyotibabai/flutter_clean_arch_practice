@@ -20,7 +20,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/data/dat
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/data/repositories/edit_profile_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/domain/repositories/edit_profile_repository.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/domain/use_cases/get_edit_profile_data_use_case.dart';
-import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/data_sources/recommendation_details_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/repositories/recommendation_details_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/repositories/recommendation_details_repository.dart';
@@ -148,6 +148,6 @@ void _editProfileDependencies() {
           editProfileRepositoryImpl: serviceLocator()),
     )
     ..registerLazySingleton(
-      () => EditProfileBloc(getEditProfileDataUseCase: serviceLocator()),
+      () => EditProfileDataBloc(getEditProfileDataUseCase: serviceLocator()),
     );
 }

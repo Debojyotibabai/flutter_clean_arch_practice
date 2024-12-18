@@ -1,4 +1,4 @@
-import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/widgets/avatar_selection.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
@@ -67,7 +67,7 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    BlocProvider.of<EditProfileBloc>(context).add(
+    BlocProvider.of<EditProfileDataBloc>(context).add(
       GetEditProfileDataEvent(),
     );
 
@@ -92,9 +92,9 @@ class _EditProfileState extends State<EditProfile> {
       drawer: CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(20).copyWith(bottom: 60),
-        child: BlocConsumer<EditProfileBloc, EditProfileState>(
+        child: BlocConsumer<EditProfileDataBloc, EditProfileDataState>(
           listener: (context, state) {
-            if (state is EditProfileSuccess) {
+            if (state is EditProfileDataSuccess) {
               avatar = state.editProfileData.user!.profileImageUrl;
               firstNameController.text = state.editProfileData.user!.firstName!;
               lastNameController.text = state.editProfileData.user!.lastName!;
@@ -104,7 +104,7 @@ class _EditProfileState extends State<EditProfile> {
             }
           },
           builder: (context, state) {
-            if (state is EditProfileIsLoading) {
+            if (state is EditProfileDataIsLoading) {
               return Center(
                 child: SpinKitThreeInOut(
                   color: Colors.yellow[700],
@@ -112,7 +112,7 @@ class _EditProfileState extends State<EditProfile> {
               );
             }
 
-            if (state is EditProfileSuccess) {
+            if (state is EditProfileDataSuccess) {
               return Form(
                 key: formKey,
                 child: Column(

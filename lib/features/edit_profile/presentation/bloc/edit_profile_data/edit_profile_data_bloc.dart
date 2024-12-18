@@ -4,23 +4,24 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-part 'edit_profile_event.dart';
-part 'edit_profile_state.dart';
+part 'edit_profile_data_event.dart';
+part 'edit_profile_data_state.dart';
 
-class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
+class EditProfileDataBloc
+    extends Bloc<EditProfileDataEvent, EditProfileDataState> {
   final GetEditProfileDataUseCase getEditProfileDataUseCase;
 
-  EditProfileBloc({
+  EditProfileDataBloc({
     required this.getEditProfileDataUseCase,
-  }) : super(EditProfileInitial()) {
+  }) : super(EditProfileDataInitial()) {
     on<GetEditProfileDataEvent>((event, emit) async {
-      emit(EditProfileIsLoading());
+      emit(EditProfileDataIsLoading());
 
       final response = await getEditProfileDataUseCase(Params());
 
       response.fold(
-        (err) => emit(EditProfileError(message: err.message)),
-        (res) => emit(EditProfileSuccess(editProfileData: res)),
+        (err) => emit(EditProfileDataError(message: err.message)),
+        (res) => emit(EditProfileDataSuccess(editProfileData: res)),
       );
     });
   }
