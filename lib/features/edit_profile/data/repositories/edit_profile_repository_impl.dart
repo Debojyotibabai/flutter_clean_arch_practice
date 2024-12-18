@@ -21,4 +21,31 @@ class EditProfileRepositoryImpl implements EditProfileRepository {
       return left(Failure(err.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> editProfile({
+    required String? profilePicture,
+    required String? firstName,
+    required String? lastName,
+    required String? emailAddress,
+    required String? phoneCountryCode,
+    required String? phoneNumber,
+  }) async {
+    try {
+      final response = await editProfileDataSourceImpl.editProfile(
+        profilePicture: profilePicture,
+        firstName: firstName,
+        lastName: lastName,
+        emailAddress: emailAddress,
+        phoneCountryCode: phoneCountryCode,
+        phoneNumber: phoneNumber,
+      );
+
+      return right(response);
+    } catch (err) {
+      {
+        return left(Failure(err.toString()));
+      }
+    }
+  }
 }

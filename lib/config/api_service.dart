@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum DioMethod { post, get, put, delete }
+enum DioMethod { post, get, put, patch, delete }
 
 enum ContentType { json, formUrlEncoded, multiPartFormData }
 
@@ -72,6 +72,11 @@ class APIService {
           );
         case DioMethod.delete:
           return await dio.delete(
+            endpoint,
+            data: param ?? formData,
+          );
+        case DioMethod.patch:
+          return await dio.patch(
             endpoint,
             data: param ?? formData,
           );

@@ -2,9 +2,19 @@ import 'dart:developer';
 
 import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/data/models/edit_profile_data_model.dart';
+import 'package:dio/dio.dart';
 
 abstract class EditProfileDataSource {
   Future<EditProfileDataModel> getEditProfileData();
+
+  Future<String> editProfile({
+    required String? profilePicture,
+    required String? firstName,
+    required String? lastName,
+    required String? emailAddress,
+    required String? phoneCountryCode,
+    required String? phoneNumber,
+  });
 }
 
 class EditProfileDataSourceImpl extends EditProfileDataSource {
@@ -22,6 +32,39 @@ class EditProfileDataSourceImpl extends EditProfileDataSource {
     } catch (err, s) {
       log(err.toString() + s.toString());
 
+      throw err.toString();
+    }
+  }
+
+  @override
+  Future<String> editProfile({
+    required String? profilePicture,
+    required String? firstName,
+    required String? lastName,
+    required String? emailAddress,
+    required String? phoneCountryCode,
+    required String? phoneNumber,
+  }) async {
+    final formData = FormData.fromMap({
+      'profilePicture': await MultipartFile.fromFile(profilePicture!),
+      "firstName": firstName ?? "",
+      "lastName": lastName ?? "",
+      "emailAddress": emailAddress ?? "",
+      "phoneCountryCode": phoneCountryCode ?? "",
+      "phoneNumber": phoneNumber ?? "",
+    });
+
+    try {
+      final response = await APIService.instance.request(
+        "/auth/update-profile",
+        DioMethod.patch,
+        contentType: ContentType.multiPartFormData,
+        formData: formData,
+      );
+
+      return response.data["message"];
+    } catch (err, s) {
+      log(err.toString() + s.toString());
       throw err.toString();
     }
   }
