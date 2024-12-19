@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/widgets/avatar_selection.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
@@ -62,7 +63,27 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void editProfile() {
-    if (formKey.currentState!.validate()) {}
+    if (avatar == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a profile picture'),
+        ),
+      );
+      return;
+    }
+
+    if (formKey.currentState!.validate()) {
+      BlocProvider.of<EditProfileBloc>(context).add(
+        UpdateEditProfileEvent(
+          profilePicture: avatar,
+          firstName: firstNameController.text,
+          lastName: lastNameController.text,
+          emailAddress: emailController.text,
+          phoneCountryCode: phoneCountryCodeController.text,
+          phoneNumber: phoneNumberController.text,
+        ),
+      );
+    }
   }
 
   @override
@@ -133,8 +154,7 @@ class _EditProfileState extends State<EditProfile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AvatarSelection(
-                          avatarImage: avatar ??
-                              state.editProfileData.user!.profileImageUrl,
+                          avatarImage: avatar,
                           getImageFromGallery: getImageFromGallery,
                         ),
                       ],
@@ -180,31 +200,56 @@ class _EditProfileState extends State<EditProfile> {
                       phoneNumberController: phoneNumberController,
                     ),
                     const Spacer(),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AppPrimarySoidButton(
-                            onPressed: () {},
-                            buttonText: "Cancel",
-                            width: 0.5,
-                            backgroundColor: Colors.white,
-                            textColor: Colors.red[900]!,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: AppPrimarySoidButton(
-                            onPressed: () {
-                              editProfile();
-                            },
-                            buttonText: "Done",
-                            width: 0.4,
-                            backgroundColor: Colors.yellow[800]!,
-                          ),
-                        ),
-                      ],
+                    BlocConsumer<EditProfileBloc, EditProfileState>(
+                      listener: (context, state) {
+                        if (state is EditProfileSuccess) {
+                          BlocProvider.of<EditProfileDataBloc>(context)
+                              .add(GetEditProfileDataEvent());
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(state.message),
+                            ),
+                          );
+                        }
+
+                        if (state is EditProfileError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(state.message),
+                            ),
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: AppPrimarySoidButton(
+                                onPressed: () {},
+                                buttonText: "Cancel",
+                                width: 0.5,
+                                backgroundColor: Colors.white,
+                                textColor: Colors.red[900]!,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: AppPrimarySoidButton(
+                                onPressed: () {
+                                  editProfile();
+                                },
+                                buttonText: "Done",
+                                width: 0.4,
+                                backgroundColor: Colors.yellow[800]!,
+                                isLoading: state is EditProfileIsLoading,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),

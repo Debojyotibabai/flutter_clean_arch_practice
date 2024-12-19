@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/data/models/edit_profile_data_model.dart';
 import 'package:dio/dio.dart';
+import 'package:mime/mime.dart';
 
 abstract class EditProfileDataSource {
   Future<EditProfileDataModel> getEditProfileData();
@@ -46,12 +47,20 @@ class EditProfileDataSourceImpl extends EditProfileDataSource {
     required String? phoneNumber,
   }) async {
     final formData = FormData.fromMap({
-      'profilePicture': await MultipartFile.fromFile(profilePicture!),
-      "firstName": firstName ?? "",
-      "lastName": lastName ?? "",
-      "emailAddress": emailAddress ?? "",
-      "phoneCountryCode": phoneCountryCode ?? "",
-      "phoneNumber": phoneNumber ?? "",
+      if (!(profilePicture!.startsWith('http://') ||
+          profilePicture.startsWith('https://')))
+        'profilePicture': await MultipartFile.fromFile(
+          profilePicture,
+          filename: profilePicture.split('/').last,
+          contentType: DioMediaType.parse(
+            lookupMimeType(profilePicture) ?? 'application/octet-stream',
+          ),
+        ),
+      "firstName": firstName,
+      "lastName": lastName,
+      "emailAddress": emailAddress,
+      "phoneCountryCode": phoneCountryCode,
+      "phoneNumber": phoneNumber,
     });
 
     try {
