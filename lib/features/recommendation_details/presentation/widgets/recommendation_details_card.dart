@@ -65,7 +65,7 @@ class RecommendationDetailsCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      constraints: const BoxConstraints(maxWidth: 275),
+                      constraints: const BoxConstraints(maxWidth: 260),
                       child: Text(
                         foodName!,
                         style: const TextStyle(
@@ -111,7 +111,9 @@ class RecommendationDetailsCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 5),
                             Container(
-                              constraints: const BoxConstraints(maxWidth: 160),
+                              constraints: const BoxConstraints(
+                                maxWidth: 160,
+                              ),
                               child: Text(
                                 "\$$price",
                                 style: TextStyle(

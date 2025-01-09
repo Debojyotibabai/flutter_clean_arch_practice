@@ -16,6 +16,11 @@ class CustomDrawer extends StatelessWidget {
       "icon": Icons.face,
       "route": Routes.editProfile,
     },
+    {
+      "title": "Group",
+      "icon": Icons.group,
+      "route": Routes.groupListing,
+    },
   ];
 
   @override

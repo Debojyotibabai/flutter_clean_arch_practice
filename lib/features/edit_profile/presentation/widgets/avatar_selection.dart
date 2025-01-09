@@ -16,72 +16,72 @@ class AvatarSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => showDialog(
-        context: context,
-        builder: (BuildContext context) => Dialog(
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  "Select your avatar",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: Colors.black54,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                AppPrimarySoidButton(
-                  onPressed: () {
-                    getImageFromGallery();
-                  },
-                  buttonText: "Select from Gallery",
-                  width: 0.6,
-                  backgroundColor: Colors.red[900]!,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                AppPrimarySoidButton(
-                  onPressed: () {},
-                  buttonText: "Open Camera",
-                  width: 0.5,
-                  backgroundColor: Colors.red[900]!,
-                ),
-              ],
+    return Stack(
+      children: [
+        Container(
+          width: 120,
+          height: 120,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            image: DecorationImage(
+              image: avatarImage == null
+                  ? const AssetImage(Images.avatarImage)
+                  : avatarImage!.startsWith('http://') ||
+                          avatarImage!.startsWith('https://')
+                      ? NetworkImage(avatarImage!) as ImageProvider
+                      : FileImage(File(avatarImage!)),
+              fit: BoxFit.cover,
             ),
           ),
         ),
-      ),
-      child: Stack(
-        children: [
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              image: DecorationImage(
-                image: avatarImage == null
-                    ? const AssetImage(Images.avatarImage)
-                    : avatarImage!.startsWith('http://') ||
-                            avatarImage!.startsWith('https://')
-                        ? NetworkImage(avatarImage!) as ImageProvider
-                        : FileImage(File(avatarImage!)),
-                fit: BoxFit.cover,
+        Positioned(
+          bottom: 5,
+          right: 0,
+          child: GestureDetector(
+            onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) => Dialog(
+                backgroundColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "Select your avatar",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      AppPrimarySoidButton(
+                        onPressed: () {
+                          getImageFromGallery();
+                        },
+                        buttonText: "Select from Gallery",
+                        width: 0.6,
+                        backgroundColor: Colors.red[900]!,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      AppPrimarySoidButton(
+                        onPressed: () {},
+                        buttonText: "Open Camera",
+                        width: 0.5,
+                        backgroundColor: Colors.red[900]!,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 5,
-            right: 0,
             child: Container(
               width: 35,
               height: 35,
@@ -98,8 +98,8 @@ class AvatarSelection extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

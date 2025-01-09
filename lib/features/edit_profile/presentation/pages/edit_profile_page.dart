@@ -144,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
                       "Edit Your Account",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 23,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
