@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 
 class GroupListingCard extends StatelessWidget {
-  const GroupListingCard({super.key});
+  final String groupName;
+  final String creatorName;
+
+  const GroupListingCard({
+    super.key,
+    required this.groupName,
+    required this.creatorName,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15),
+      margin: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        bottom: 15,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -31,9 +42,9 @@ class GroupListingCard extends StatelessWidget {
               children: [
                 Container(
                   constraints: const BoxConstraints(maxWidth: 260),
-                  child: const Text(
-                    "Appstango Employees",
-                    style: TextStyle(
+                  child: Text(
+                    groupName,
+                    style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
@@ -45,9 +56,9 @@ class GroupListingCard extends StatelessWidget {
                 ),
                 Container(
                   constraints: const BoxConstraints(maxWidth: 260),
-                  child: const Text(
-                    "Created by John Doe",
-                    style: TextStyle(
+                  child: Text(
+                    creatorName,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black45,
                     ),

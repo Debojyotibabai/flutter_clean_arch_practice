@@ -23,6 +23,11 @@ import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/domain/u
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/domain/use_cases/get_edit_profile_data_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/data/data_sources/group_data_source.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/data/repositories/group_repository_impl.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/domain/repositories/group_repository.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_all_groups_use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_all_group/get_all_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/data_sources/recommendation_details_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/repositories/recommendation_details_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/repositories/recommendation_details_repository.dart';
@@ -41,6 +46,7 @@ void initiDependencies() {
   _initRecommendationDependencies();
   _initRecommendationDetailsAndGetParticularRestaurantAllFoodDependencies();
   _editProfileDependencies();
+  _initGroupDependencies();
 }
 
 void _initAuthenticationDependencies() {
@@ -157,5 +163,21 @@ void _editProfileDependencies() {
     )
     ..registerLazySingleton(
       () => EditProfileBloc(editProfileUseCase: serviceLocator()),
+    );
+}
+
+void _initGroupDependencies() {
+  serviceLocator
+    ..registerLazySingleton(
+      () => GetAllGroupBloc(getAllGroupsUseCase: serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetAllGroupsUseCase(groupRepositoryImpl: serviceLocator()),
+    )
+    ..registerFactory<GroupRepository>(
+      () => GroupRepositoryImpl(groupDataSourceImpl: serviceLocator()),
+    )
+    ..registerFactory<GroupDataSource>(
+      () => GroupDataSourceImpl(),
     );
 }
