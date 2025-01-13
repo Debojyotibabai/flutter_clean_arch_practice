@@ -44,12 +44,15 @@ class ParticularRestaurantFoodsBloc extends Bloc<ParticularRestaurantFoodsEvent,
             if (event.page == 1) {
               emit(ParticularRestaurantFoodsSuccess(foods: res));
             } else {
-              emit(ParticularRestaurantFoodsSuccess(
+              emit(
+                ParticularRestaurantFoodsSuccess(
                   foods: (state as ParticularRestaurantFoodsSuccess)
                       .foods
                       .copyWith(
-                foods: [...previousFoods!, ...res.foods!],
-              )));
+                    foods: [...previousFoods!, ...res.foods!],
+                  ),
+                ),
+              );
             }
           },
         );

@@ -19,9 +19,16 @@ class _GroupListingState extends State<GroupListing> {
   int? page = 1;
   int? size = 10;
 
-  @override
-  void initState() {
-    super.initState();
+  int? lastPage = 0;
+
+  final ScrollController scrollController = ScrollController();
+
+  bool isFetchingGroups = false;
+
+  void getGroups() {
+    setState(() {
+      isFetchingGroups = true;
+    });
 
     BlocProvider.of<GetAllGroupBloc>(context).add(
       GetAllGroups(
@@ -31,6 +38,35 @@ class _GroupListingState extends State<GroupListing> {
         ),
       ),
     );
+  }
+
+  Future<void> onRefresh() async {
+    setState(() {
+      page = 1;
+      size = 10;
+    });
+
+    getGroups();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getGroups();
+
+    scrollController.addListener(() {
+      if (isFetchingGroups || page! >= lastPage!) {
+        return;
+      }
+
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        page = page! + 1;
+
+        getGroups();
+      }
+    });
   }
 
   @override
@@ -97,68 +133,76 @@ class _GroupListingState extends State<GroupListing> {
               ],
             ),
           ),
-          BlocBuilder<GetAllGroupBloc, GetAllGroupState>(
-            builder: (context, state) {
-              if (state is GetAllGroupLoading) {
-                return Expanded(
-                  child: SpinKitThreeInOut(
-                    color: Colors.yellow[700],
-                  ),
-                );
-              }
-
-              if (state is GetAllGroupError) {
-                return Expanded(
-                  child: Center(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: Text(
-                        state.message,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey,
-                        ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: onRefresh,
+              child: BlocConsumer<GetAllGroupBloc, GetAllGroupState>(
+                listener: (context, state) {
+                  if (state is GetAllGroupSuccess) {
+                    setState(() {
+                      isFetchingGroups = false;
+                      lastPage = state.group.pagination!.lastPage;
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  if (state is GetAllGroupLoading) {
+                    return Center(
+                      child: SpinKitThreeInOut(
+                        color: Colors.yellow[700],
                       ),
-                    ),
-                  ),
-                );
-              }
+                    );
+                  }
 
-              if (state is GetAllGroupSuccess) {
-                if (state.group.groups!.isNotEmpty) {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: state.group.groups!.length,
-                      itemBuilder: (context, index) => GroupListingCard(
-                        groupName: state.group.groups![index].groupName!,
-                        creatorName:
-                            "${state.group.groups![index].creator!.firstName!} ${state.group.groups![index].creator!.lastName!}",
-                      ),
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: Center(
+                  if (state is GetAllGroupError) {
+                    return Center(
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: const Text(
-                          "You don’t currently have any groups. Tap the plus button above to get one started.",
+                        child: Text(
+                          state.message,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             color: Colors.grey,
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }
-              }
-              return Container();
-            },
+                    );
+                  }
+
+                  if (state is GetAllGroupSuccess) {
+                    if (state.group.groups!.isNotEmpty) {
+                      return ListView.builder(
+                        controller: scrollController,
+                        itemCount: state.group.groups!.length,
+                        itemBuilder: (context, index) => GroupListingCard(
+                          groupName: state.group.groups![index].groupName!,
+                          creatorName:
+                              "${state.group.groups![index].creator!.firstName!} ${state.group.groups![index].creator!.lastName!}",
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: const Text(
+                            "You don’t currently have any groups. Tap the plus button above to get one started.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  }
+                  return Container();
+                },
+              ),
+            ),
           ),
         ],
       ),

@@ -54,4 +54,16 @@ class GetAllGroupsEntity {
     this.groups,
     this.message,
   });
+
+  GetAllGroupsEntity copyWith({
+    PaginationEntity? pagination,
+    List<GroupEntity>? groups,
+    String? message,
+  }) {
+    return GetAllGroupsEntity(
+      pagination: pagination ?? this.pagination,
+      groups: groups ?? this.groups,
+      message: message ?? this.message,
+    );
+  }
 }

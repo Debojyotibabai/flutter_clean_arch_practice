@@ -1,10 +1,7 @@
 part of 'get_all_group_bloc.dart';
 
-sealed class GetAllGroupState extends Equatable {
+sealed class GetAllGroupState {
   const GetAllGroupState();
-
-  @override
-  List<Object> get props => [];
 }
 
 final class GetAllGroupInitial extends GetAllGroupState {}
