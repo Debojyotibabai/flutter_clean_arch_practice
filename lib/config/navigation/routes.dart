@@ -5,4 +5,5 @@ abstract class Routes {
   static const String recommendationDetails = '/recommendationDetails';
   static const String editProfile = '/editProfile';
   static const String groupListing = '/groupListing';
+  static const String groupDetails = '/groupDetails';
 }

@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class GroupListing extends StatefulWidget {
-  const GroupListing({super.key});
+class GroupListingPage extends StatefulWidget {
+  const GroupListingPage({super.key});
 
   @override
-  State<GroupListing> createState() => _GroupListingState();
+  State<GroupListingPage> createState() => _GroupListingPageState();
 }
 
-class _GroupListingState extends State<GroupListing> {
+class _GroupListingPageState extends State<GroupListingPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   int? page = 1;
