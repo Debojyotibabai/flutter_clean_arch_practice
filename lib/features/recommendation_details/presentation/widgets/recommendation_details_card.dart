@@ -70,7 +70,7 @@ class RecommendationDetailsCard extends StatelessWidget {
                         foodName!,
                         style: const TextStyle(
                           color: Colors.black87,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           fontSize: 18,
                         ),
                       ),

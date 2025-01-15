@@ -72,12 +72,14 @@ class RecommendationCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              constraints: const BoxConstraints(maxWidth: 150),
+                              constraints: const BoxConstraints(
+                                maxWidth: 150,
+                              ),
                               child: Text(
                                 foodName,
                                 style: const TextStyle(
                                   color: Colors.black87,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                 ),
                               ),
@@ -86,7 +88,9 @@ class RecommendationCard extends StatelessWidget {
                               width: 15,
                             ),
                             Container(
-                              constraints: const BoxConstraints(maxWidth: 120),
+                              constraints: const BoxConstraints(
+                                maxWidth: 120,
+                              ),
                               child: Text(
                                 "$rating% match",
                                 style: TextStyle(

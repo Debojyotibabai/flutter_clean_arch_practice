@@ -33,9 +33,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+    super.initState();
     BlocProvider.of<FoodCategoryBloc>(context).add(GetFoodCategoryEvent());
     getRecommendation();
-    super.initState();
   }
 
   void getRecommendation() {
@@ -141,6 +141,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20).copyWith(bottom: 5),
+              child: const Text(
+                "Your Recommendations",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
                 ),
               ),
             ),

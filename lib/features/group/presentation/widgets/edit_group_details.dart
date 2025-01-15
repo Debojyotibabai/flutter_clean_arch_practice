@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dialog/confirmation_dialog.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_without_label.dart';
 import 'package:flutter/material.dart';
 
@@ -97,9 +98,34 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
         selectedMenuItem == ""
             ? PopupMenuButton(
                 onSelected: (item) {
-                  setState(() {
-                    selectedMenuItem = item;
-                  });
+                  if (item == "Edit Group Name" ||
+                      item == "Edit Group Location") {
+                    setState(() {
+                      selectedMenuItem = item;
+                    });
+                  } else if (item == "Delete Group") {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          const ConfirmationDialog(
+                        title: "Delete Group",
+                        subTitle:
+                            "Are you sure you want to delete this group? This process is irreversible.",
+                        confirmButtonText: "Delete Group",
+                      ),
+                    );
+                  } else if (item == "Leave Group") {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          const ConfirmationDialog(
+                        title: "Are you sure you want leave this group?",
+                        subTitle:
+                            "Are you sure you want to leave this group? You will have to have the link if you want to rejoin later.",
+                        confirmButtonText: "Leave Group",
+                      ),
+                    );
+                  }
                 },
                 color: Colors.white,
                 icon: const Icon(
