@@ -31,7 +31,7 @@ class AppNavigation {
       // otherwise redirect them to the login page
       return '/login';
     },
-    initialLocation: "/groupListing/groupDetails",
+    // initialLocation: "/groupListing/groupDetails",
     routes: [
       GoRoute(
         path: "/login",
@@ -69,9 +69,11 @@ class AppNavigation {
         builder: (context, state) => const GroupListingPage(),
         routes: [
           GoRoute(
-            path: "groupDetails",
+            path: "groupDetails/:groupId",
             name: Routes.groupDetails,
-            builder: (context, state) => const GroupDetailsPage(),
+            builder: (context, state) => GroupDetailsPage(
+              groupId: state.pathParameters["groupId"]!,
+            ),
           ),
         ],
       )

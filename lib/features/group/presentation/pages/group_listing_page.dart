@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/config/navigation/routes.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_all_group/get_all_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/group_listing_card.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
@@ -5,6 +6,7 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/custom_drawer.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 
 class GroupListingPage extends StatefulWidget {
   const GroupListingPage({super.key});
@@ -180,6 +182,14 @@ class _GroupListingPageState extends State<GroupListingPage> {
                           groupName: state.group.groups![index].groupName!,
                           creatorName:
                               "${state.group.groups![index].creator!.firstName!} ${state.group.groups![index].creator!.lastName!}",
+                          onPress: () {
+                            context.goNamed(
+                              Routes.groupDetails,
+                              pathParameters: {
+                                "groupId": state.group.groups![index].groupId!
+                              },
+                            );
+                          },
                         ),
                       );
                     } else {

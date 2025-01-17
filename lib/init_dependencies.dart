@@ -27,7 +27,9 @@ import 'package:clean_architecture_rivaan_ranawat/features/group/data/data_sourc
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/repositories/group_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/repositories/group_repository.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_all_groups_use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_group_details_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_all_group/get_all_group_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_details/get_group_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/data_sources/recommendation_details_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/repositories/recommendation_details_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/domain/repositories/recommendation_details_repository.dart';
@@ -179,5 +181,11 @@ void _initGroupDependencies() {
     )
     ..registerFactory<GroupDataSource>(
       () => GroupDataSourceImpl(),
+    )
+    ..registerLazySingleton(
+      () => GetGroupDetailsBloc(getGroupDetailsUseCase: serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetGroupDetailsUseCase(groupRepositoryImpl: serviceLocator()),
     );
 }

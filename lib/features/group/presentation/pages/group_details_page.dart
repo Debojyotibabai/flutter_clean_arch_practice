@@ -10,7 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class GroupDetailsPage extends StatefulWidget {
-  const GroupDetailsPage({super.key});
+  const GroupDetailsPage({
+    super.key,
+    required this.groupId,
+  });
+
+  final String groupId;
 
   @override
   State<GroupDetailsPage> createState() => _GroupDetailsPageState();
@@ -44,14 +49,16 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                EditGroupDetails(),
-                SizedBox(height: 30),
-                ViewParticipantsCard(),
-                SizedBox(height: 5),
+                EditGroupDetails(
+                  groupId: widget.groupId,
+                ),
+                const SizedBox(height: 30),
+                const ViewParticipantsCard(),
+                const SizedBox(height: 5),
               ],
             ),
           ),
