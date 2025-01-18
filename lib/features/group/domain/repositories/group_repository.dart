@@ -12,4 +12,8 @@ abstract class GroupRepository {
   Future<Either<Failure, GetGroupDetailsEntity>> getGroupDetails({
     required String groupId,
   });
+
+  Future<Either<Failure, String>> updateGroupDetails({
+    required UpdateGroupDetailsParams params,
+  });
 }

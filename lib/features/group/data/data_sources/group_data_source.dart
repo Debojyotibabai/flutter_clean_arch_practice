@@ -10,6 +10,10 @@ abstract class GroupDataSource {
   Future<GetAllGroupsModel> getAllGroups(GetAllGroupsParams params);
 
   Future<GetGroupDetailsModel> getGroupDetails({required String groupId});
+
+  Future<String> updateGroupDetails({
+    required UpdateGroupDetailsParams params,
+  });
 }
 
 class GroupDataSourceImpl implements GroupDataSource {
@@ -44,6 +48,29 @@ class GroupDataSourceImpl implements GroupDataSource {
       );
 
       return getGroupDetailsModelFromMap(json.encode(response.data["group"]));
+    } catch (err, s) {
+      log(err.toString() + s.toString());
+      throw err.toString();
+    }
+  }
+
+  @override
+  Future<String> updateGroupDetails({
+    required UpdateGroupDetailsParams params,
+  }) async {
+    try {
+      final response = await APIService.instance.request(
+        "/group/update-group/${params.groupId}",
+        DioMethod.patch,
+        formData: {
+          "groupName": params.groupName,
+          "city": params.city,
+          "state": params.state,
+        },
+        contentType: ContentType.json,
+      );
+
+      return response.data["message"];
     } catch (err, s) {
       log(err.toString() + s.toString());
       throw err.toString();

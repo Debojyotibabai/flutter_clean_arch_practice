@@ -36,4 +36,19 @@ class GroupRepositoryImpl implements GroupRepository {
       return left(Failure(err.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> updateGroupDetails({
+    required UpdateGroupDetailsParams params,
+  }) async {
+    try {
+      final response = await groupDataSourceImpl.updateGroupDetails(
+        params: params,
+      );
+
+      return right(response);
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
 }
