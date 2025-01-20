@@ -1,12 +1,15 @@
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/food_category_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_recommendations/get_group_recommendations_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/edit_group_details.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/group_recommendation_card.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/view_participants_card.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dropdown/dropdown_with_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 
 class GroupDetailsPage extends StatefulWidget {
@@ -22,13 +25,38 @@ class GroupDetailsPage extends StatefulWidget {
 }
 
 class _GroupDetailsPageState extends State<GroupDetailsPage> {
-  RecommendedFoodsSortByOption? selectedSortByOption;
   FoodCategoryEntity? restaurantCategoryIds;
+  GroupRecommendedFoodsSortByOption? selectedSortByOption;
+
+  double latitude = 40.758701;
+  double longitude = -111.876183;
+  String unit = "Mile";
+  int page = 1;
+  int size = 10;
+
+  void getGroupRecommendations() {
+    BlocProvider.of<GetGroupRecommendationsBloc>(context).add(
+      GetGroupRecommendations(
+        params: GetGroupRecommendationsParams(
+          groupId: widget.groupId,
+          restaurantCategoryIds: restaurantCategoryIds,
+          sortBy: selectedSortByOption,
+          latitude: latitude,
+          longitude: longitude,
+          unit: unit,
+          page: page,
+          size: size,
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<FoodCategoryBloc>(context).add(GetFoodCategoryEvent());
+
+    getGroupRecommendations();
   }
 
   @override
@@ -55,6 +83,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
               children: [
                 EditGroupDetails(
                   groupId: widget.groupId,
+                  getGroupRecommendations: getGroupRecommendations,
                 ),
                 const SizedBox(height: 30),
                 const ViewParticipantsCard(),
@@ -77,11 +106,16 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                     width: MediaQuery.of(context).size.width * 0.45,
                     child: DropdownWithIcon(
                       selectTitle: "Sort by",
-                      options: Constants.recommendedFoodsSortByOptions
+                      options: Constants.groupRecommendedFoodsSortByOptions
                           .map((item) => item.label)
                           .toList(),
                       onChanged: (index) {
-                        setState(() {});
+                        setState(() {
+                          selectedSortByOption = Constants
+                              .groupRecommendedFoodsSortByOptions[index!];
+                        });
+
+                        getGroupRecommendations();
                       },
                       resetValue: selectedSortByOption?.label,
                     ),
@@ -89,15 +123,20 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.45,
                     child: BlocBuilder<FoodCategoryBloc, FoodCategoryState>(
-                      builder: (context, state) {
-                        if (state is GetFoodCategorySuccess) {
+                      builder: (context, getFoodCategoryState) {
+                        if (getFoodCategoryState is GetFoodCategorySuccess) {
                           return DropdownWithIcon(
                             selectTitle: "Filter",
-                            options: state.foodCategory
+                            options: getFoodCategoryState.foodCategory
                                 .map((e) => e.restaurantCategoryName)
                                 .toList(),
                             onChanged: (index) {
-                              setState(() {});
+                              setState(() {
+                                restaurantCategoryIds =
+                                    getFoodCategoryState.foodCategory[index!];
+                              });
+
+                              getGroupRecommendations();
                             },
                             resetValue:
                                 restaurantCategoryIds?.restaurantCategoryName,
@@ -124,7 +163,30 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
               ),
             ),
           ),
-          const GroupRecommendationCard(),
+          Expanded(
+            child: BlocConsumer<GetGroupRecommendationsBloc,
+                GetGroupRecommendationsState>(
+              listener: (context, getGroupRecommendationsState) {},
+              builder: (context, getGroupRecommendationsState) {
+                if (getGroupRecommendationsState
+                    is GetGroupRecommendationsLoading) {
+                  return SpinKitThreeInOut(
+                    color: Colors.yellow[700],
+                  );
+                } else if (getGroupRecommendationsState
+                    is GetGroupRecommendationsSuccess) {
+                  return ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return const GroupRecommendationCard();
+                    },
+                  );
+                }
+
+                return Container();
+              },
+            ),
+          ),
         ],
       ),
     );

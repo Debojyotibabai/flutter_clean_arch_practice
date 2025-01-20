@@ -51,4 +51,18 @@ class GroupRepositoryImpl implements GroupRepository {
       return left(Failure(err.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> getGroupRecommendations({
+    required GetGroupRecommendationsParams params,
+  }) async {
+    try {
+      final response =
+          await groupDataSourceImpl.getGroupRecommendations(params: params);
+
+      return right(response);
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
 }

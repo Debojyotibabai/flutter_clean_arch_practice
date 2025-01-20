@@ -16,4 +16,8 @@ abstract class GroupRepository {
   Future<Either<Failure, String>> updateGroupDetails({
     required UpdateGroupDetailsParams params,
   });
+
+  Future<Either<Failure, String>> getGroupRecommendations({
+    required GetGroupRecommendationsParams params,
+  });
 }

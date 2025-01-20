@@ -14,6 +14,10 @@ abstract class GroupDataSource {
   Future<String> updateGroupDetails({
     required UpdateGroupDetailsParams params,
   });
+
+  Future<String> getGroupRecommendations({
+    required GetGroupRecommendationsParams params,
+  });
 }
 
 class GroupDataSourceImpl implements GroupDataSource {
@@ -71,6 +75,42 @@ class GroupDataSourceImpl implements GroupDataSource {
       );
 
       return response.data["message"];
+    } catch (err, s) {
+      log(err.toString() + s.toString());
+      throw err.toString();
+    }
+  }
+
+  @override
+  Future<String> getGroupRecommendations({
+    required GetGroupRecommendationsParams params,
+  }) async {
+    try {
+      Map<String, dynamic> param = {
+        "latitude": params.latitude,
+        "longitude": params.longitude,
+        "unit": params.unit,
+        "page": params.page,
+        "size": params.size,
+      };
+
+      if (params.sortBy != null) {
+        param["sortBy"] = params.sortBy!.value;
+      }
+      if (params.restaurantCategoryIds != null) {
+        param["restaurantCategoryIds"] =
+            params.restaurantCategoryIds!.restaurantCategoryId;
+      }
+
+      final response = await APIService.instance.request(
+        "/group/get-restaurant-recommendations/${params.groupId}",
+        DioMethod.get,
+        param: param,
+      );
+
+      log(response.toString());
+
+      return "";
     } catch (err, s) {
       log(err.toString() + s.toString());
       throw err.toString();

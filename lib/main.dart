@@ -8,6 +8,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presenta
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_all_group/get_all_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_details/get_group_details_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_recommendations/get_group_recommendations_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/update_group_details/update_group_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/particular_restaurant_foods/particular_restaurant_foods_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/recommendation_details/recommendation_details_bloc.dart';
@@ -36,6 +37,8 @@ void main() {
         BlocProvider(create: (_) => serviceLocator<GetAllGroupBloc>()),
         BlocProvider(create: (_) => serviceLocator<GetGroupDetailsBloc>()),
         BlocProvider(create: (_) => serviceLocator<UpdateGroupDetailsBloc>()),
+        BlocProvider(
+            create: (_) => serviceLocator<GetGroupRecommendationsBloc>()),
       ],
       child: const MyApp(),
     ),

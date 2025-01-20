@@ -10,6 +10,18 @@ class RecommendedFoodsSortByOption {
   final String order;
 }
 
+class GroupRecommendedFoodsSortByOption {
+  GroupRecommendedFoodsSortByOption({
+    required this.label,
+    required this.value,
+    required this.order,
+  });
+
+  final String label;
+  final String value;
+  final String order;
+}
+
 abstract class Constants {
   static final List<RecommendedFoodsSortByOption>
       recommendedFoodsSortByOptions = [
@@ -37,6 +49,20 @@ abstract class Constants {
       label: 'Try it Again',
       value: 'try-it-again',
       order: "desc",
+    ),
+  ];
+
+  static final List<GroupRecommendedFoodsSortByOption>
+      groupRecommendedFoodsSortByOptions = [
+    GroupRecommendedFoodsSortByOption(
+      label: 'Rating',
+      value: 'rating',
+      order: "asc",
+    ),
+    GroupRecommendedFoodsSortByOption(
+      label: 'Distance',
+      value: 'distance',
+      order: "asc",
     ),
   ];
 
