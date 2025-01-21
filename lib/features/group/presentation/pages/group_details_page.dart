@@ -59,6 +59,17 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
     getGroupRecommendations();
   }
 
+  Future<void> onRefresh() async {
+    setState(() {
+      restaurantCategoryIds = null;
+      selectedSortByOption = null;
+      page = 1;
+      size = 10;
+    });
+
+    getGroupRecommendations();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,12 +186,37 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                   );
                 } else if (getGroupRecommendationsState
                     is GetGroupRecommendationsSuccess) {
-                  return ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return const GroupRecommendationCard();
-                    },
-                  );
+                  if (getGroupRecommendationsState.recommendations.message !=
+                          "" &&
+                      getGroupRecommendationsState.recommendations.message !=
+                          null &&
+                      getGroupRecommendationsState
+                          .recommendations.restaurantRecommendations!.isEmpty) {
+                    return Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Text(
+                          getGroupRecommendationsState.recommendations.message!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return RefreshIndicator(
+                      onRefresh: onRefresh,
+                      child: ListView.builder(
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return const GroupRecommendationCard();
+                        },
+                      ),
+                    );
+                  }
                 }
 
                 return Container();

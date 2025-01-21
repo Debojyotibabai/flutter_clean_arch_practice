@@ -2,6 +2,7 @@ import 'package:clean_architecture_rivaan_ranawat/config/error/failure.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/data_sources/group_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_all_groups_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_details_model.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_recommendations_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/repositories/group_repository.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
 import 'package:fpdart/fpdart.dart';
@@ -53,7 +54,8 @@ class GroupRepositoryImpl implements GroupRepository {
   }
 
   @override
-  Future<Either<Failure, String>> getGroupRecommendations({
+  Future<Either<Failure, GetGroupRecommendationsModel>>
+      getGroupRecommendations({
     required GetGroupRecommendationsParams params,
   }) async {
     try {

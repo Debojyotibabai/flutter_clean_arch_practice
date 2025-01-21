@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_all_groups_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_details_model.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_recommendations_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
 
 abstract class GroupDataSource {
@@ -15,7 +16,7 @@ abstract class GroupDataSource {
     required UpdateGroupDetailsParams params,
   });
 
-  Future<String> getGroupRecommendations({
+  Future<GetGroupRecommendationsModel> getGroupRecommendations({
     required GetGroupRecommendationsParams params,
   });
 }
@@ -82,7 +83,7 @@ class GroupDataSourceImpl implements GroupDataSource {
   }
 
   @override
-  Future<String> getGroupRecommendations({
+  Future<GetGroupRecommendationsModel> getGroupRecommendations({
     required GetGroupRecommendationsParams params,
   }) async {
     try {
@@ -108,9 +109,10 @@ class GroupDataSourceImpl implements GroupDataSource {
         param: param,
       );
 
-      log(response.toString());
+      final data =
+          getGroupRecommendationsModelFromMap(json.encode(response.data));
 
-      return "";
+      return data;
     } catch (err, s) {
       log(err.toString() + s.toString());
       throw err.toString();

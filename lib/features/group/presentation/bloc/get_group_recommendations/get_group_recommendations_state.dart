@@ -10,7 +10,7 @@ final class GetGroupRecommendationsLoading
 
 final class GetGroupRecommendationsSuccess
     extends GetGroupRecommendationsState {
-  final String recommendations;
+  final GetGroupRecommendationsEntity recommendations;
 
   GetGroupRecommendationsSuccess({required this.recommendations});
 }

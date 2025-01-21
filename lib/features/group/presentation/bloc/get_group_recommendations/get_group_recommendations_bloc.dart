@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/group/domain/entities/get_group_recommendations_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_group_recommendations_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
