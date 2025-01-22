@@ -6,6 +6,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentatio
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/report_recommendation/report_recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/delete_group/delete_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_all_group/get_all_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_details/get_group_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_recommendations/get_group_recommendations_bloc.dart';
@@ -39,6 +40,7 @@ void main() {
         BlocProvider(create: (_) => serviceLocator<UpdateGroupDetailsBloc>()),
         BlocProvider(
             create: (_) => serviceLocator<GetGroupRecommendationsBloc>()),
+        BlocProvider(create: (_) => serviceLocator<DeleteGroupBloc>()),
       ],
       child: const MyApp(),
     ),

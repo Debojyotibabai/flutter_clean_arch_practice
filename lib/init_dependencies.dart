@@ -26,10 +26,12 @@ import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presenta
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/data_sources/group_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/repositories/group_repository_impl.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/repositories/group_repository.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/delete_group_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_all_groups_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_group_details_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_group_recommendations_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/update_group_details_use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/delete_group/delete_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_all_group/get_all_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_details/get_group_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_recommendations/get_group_recommendations_bloc.dart';
@@ -205,5 +207,11 @@ void _initGroupDependencies() {
     ..registerFactory(
       () =>
           GetGroupRecommendationsUseCase(groupRepositoryImpl: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => DeleteGroupBloc(deleteGroupUseCase: serviceLocator()),
+    )
+    ..registerFactory(
+      () => DeleteGroupUseCase(groupRepositoryImpl: serviceLocator()),
     );
 }

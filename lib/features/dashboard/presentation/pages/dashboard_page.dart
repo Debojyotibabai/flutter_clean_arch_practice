@@ -3,6 +3,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/enti
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/recommendation/recommendation_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/widgets/recommendation_card.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/custom_drawer.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dropdown/dropdown_with_icon.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+
+    BlocProvider.of<EditProfileDataBloc>(context)
+        .add(GetEditProfileDataEvent());
+
     BlocProvider.of<FoodCategoryBloc>(context).add(GetFoodCategoryEvent());
     getRecommendation();
   }

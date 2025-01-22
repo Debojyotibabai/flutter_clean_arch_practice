@@ -19,6 +19,8 @@ abstract class GroupDataSource {
   Future<GetGroupRecommendationsModel> getGroupRecommendations({
     required GetGroupRecommendationsParams params,
   });
+
+  Future<String> deleteGroup({required String groupId});
 }
 
 class GroupDataSourceImpl implements GroupDataSource {
@@ -113,6 +115,21 @@ class GroupDataSourceImpl implements GroupDataSource {
           getGroupRecommendationsModelFromMap(json.encode(response.data));
 
       return data;
+    } catch (err, s) {
+      log(err.toString() + s.toString());
+      throw err.toString();
+    }
+  }
+
+  @override
+  Future<String> deleteGroup({required String groupId}) async {
+    try {
+      final response = await APIService.instance.request(
+        "/group/delete-group/$groupId",
+        DioMethod.delete,
+      );
+
+      return response.data["message"];
     } catch (err, s) {
       log(err.toString() + s.toString());
       throw err.toString();

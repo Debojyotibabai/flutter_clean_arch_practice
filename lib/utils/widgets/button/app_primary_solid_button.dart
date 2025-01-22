@@ -14,7 +14,7 @@ class AppPrimarySoidButton extends StatelessWidget {
   });
 
   final bool isLoading;
-  final VoidCallback onPressed;
+  final void Function() onPressed;
   final String buttonText;
   final double width;
   final double height;
@@ -24,7 +24,7 @@ class AppPrimarySoidButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: isLoading ? null : onPressed,
       style: ButtonStyle(
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(

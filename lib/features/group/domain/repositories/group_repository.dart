@@ -22,4 +22,6 @@ abstract class GroupRepository {
       getGroupRecommendations({
     required GetGroupRecommendationsParams params,
   });
+
+  Future<Either<Failure, String>> deleteGroup({required String groupId});
 }

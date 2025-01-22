@@ -67,4 +67,17 @@ class GroupRepositoryImpl implements GroupRepository {
       return left(Failure(err.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> deleteGroup({required String groupId}) async {
+    try {
+      final response = await groupDataSourceImpl.deleteGroup(
+        groupId: groupId,
+      );
+
+      return right(response);
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
 }
