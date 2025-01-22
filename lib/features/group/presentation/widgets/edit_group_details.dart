@@ -204,55 +204,58 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
                               size: 30,
                             )
                           : selectedMenuItem == ""
-                              ? BlocConsumer<DeleteGroupBloc, DeleteGroupState>(
-                                  listener: (context, deleteGroupState) {
-                                    if (deleteGroupState is DeleteGroupError) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            deleteGroupState.message,
-                                          ),
-                                        ),
-                                      );
-                                    } else if (deleteGroupState
-                                        is DeleteGroupSuccess) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            deleteGroupState.message,
-                                          ),
-                                        ),
-                                      );
+                              ? PopupMenuButton(
+                                  onSelected: (item) {
+                                    if (item == "Edit Group Name" ||
+                                        item == "Edit Group Location") {
+                                      setState(() {
+                                        selectedMenuItem = item;
+                                        groupNameController.text =
+                                            getGroupDetailsState
+                                                .groupDetails.groupName!;
+                                        cityController.text =
+                                            getGroupDetailsState
+                                                .groupDetails.city!;
+                                        stateController.text =
+                                            getGroupDetailsState
+                                                .groupDetails.state!;
+                                      });
+                                    } else if (item == "Delete Group") {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            BlocConsumer<DeleteGroupBloc,
+                                                DeleteGroupState>(
+                                          listener:
+                                              (context, deleteGroupState) {
+                                            if (deleteGroupState
+                                                is DeleteGroupError) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    deleteGroupState.message,
+                                                  ),
+                                                ),
+                                              );
+                                            } else if (deleteGroupState
+                                                is DeleteGroupSuccess) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    deleteGroupState.message,
+                                                  ),
+                                                ),
+                                              );
 
-                                      int count = 0;
-                                      Navigator.of(context)
-                                          .popUntil((_) => count++ >= 2);
-                                    }
-                                  },
-                                  builder: (context, deleteGroupState) {
-                                    return PopupMenuButton(
-                                      onSelected: (item) {
-                                        if (item == "Edit Group Name" ||
-                                            item == "Edit Group Location") {
-                                          setState(() {
-                                            selectedMenuItem = item;
-                                            groupNameController.text =
-                                                getGroupDetailsState
-                                                    .groupDetails.groupName!;
-                                            cityController.text =
-                                                getGroupDetailsState
-                                                    .groupDetails.city!;
-                                            stateController.text =
-                                                getGroupDetailsState
-                                                    .groupDetails.state!;
-                                          });
-                                        } else if (item == "Delete Group") {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                ConfirmationDialog(
+                                              int count = 0;
+                                              Navigator.of(context).popUntil(
+                                                  (_) => count++ >= 2);
+                                            }
+                                          },
+                                          builder: (context, deleteGroupState) {
+                                            return ConfirmationDialog(
                                               title: "Delete Group",
                                               subTitle:
                                                   "Are you sure you want to delete this group? This process is irreversible.",
@@ -265,60 +268,60 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
                                               disableConfirmationButton:
                                                   deleteGroupState
                                                       is DeleteGroupLoading,
-                                            ),
-                                          );
-                                        } else if (item == "Leave Group") {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                const ConfirmationDialog(
-                                              title:
-                                                  "Are you sure you want leave this group?",
-                                              subTitle:
-                                                  "Are you sure you want to leave this group? You will have to have the link if you want to rejoin later.",
-                                              confirmButtonText: "Leave Group",
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      color: Colors.white,
-                                      icon: const Icon(
-                                        Icons.more_vert,
-                                        color: Colors.black38,
-                                        size: 25,
-                                      ),
-                                      itemBuilder: (context) {
-                                        List<String> menuItems =
-                                            editProfileDataState
-                                                    is EditProfileDataSuccess
-                                                ? editProfileDataState
-                                                            .editProfileData
-                                                            .user!
-                                                            .userId ==
-                                                        getGroupDetailsState
-                                                            .groupDetails
-                                                            .creator!
-                                                            .creatorId
-                                                    ? menuItemsForGroupOwner
-                                                    : menuItemsForGroupJoiner
-                                                : [];
-
-                                        return menuItems.map(
-                                          (item) {
-                                            return PopupMenuItem(
-                                              value: item,
-                                              child: Text(
-                                                item,
-                                                style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black54,
-                                                ),
-                                              ),
                                             );
                                           },
-                                        ).toList();
+                                        ),
+                                      );
+                                    } else if (item == "Leave Group") {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            const ConfirmationDialog(
+                                          title:
+                                              "Are you sure you want leave this group?",
+                                          subTitle:
+                                              "Are you sure you want to leave this group? You will have to have the link if you want to rejoin later.",
+                                          confirmButtonText: "Leave Group",
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  color: Colors.white,
+                                  icon: const Icon(
+                                    Icons.more_vert,
+                                    color: Colors.black38,
+                                    size: 25,
+                                  ),
+                                  itemBuilder: (context) {
+                                    List<String> menuItems =
+                                        editProfileDataState
+                                                is EditProfileDataSuccess
+                                            ? editProfileDataState
+                                                        .editProfileData
+                                                        .user!
+                                                        .userId ==
+                                                    getGroupDetailsState
+                                                        .groupDetails
+                                                        .creator!
+                                                        .creatorId
+                                                ? menuItemsForGroupOwner
+                                                : menuItemsForGroupJoiner
+                                            : [];
+
+                                    return menuItems.map(
+                                      (item) {
+                                        return PopupMenuItem(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.black54,
+                                            ),
+                                          ),
+                                        );
                                       },
-                                    );
+                                    ).toList();
                                   },
                                 )
                               : IconButton(
