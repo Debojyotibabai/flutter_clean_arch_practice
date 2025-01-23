@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/remove_participant_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -11,7 +12,14 @@ class ParticipantCard extends StatelessWidget {
         motion: const BehindMotion(),
         children: [
           SlidableAction(
-            onPressed: (context) {},
+            onPressed: (context) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const RemoveParticipantDialog();
+                },
+              );
+            },
             backgroundColor: Colors.red[800]!,
             icon: null,
             label: 'Remove',
