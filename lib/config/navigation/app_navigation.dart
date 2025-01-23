@@ -7,6 +7,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentatio
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/pages/edit_profile_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/pages/group_details_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/pages/group_listing_page.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/pages/group_participants_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/pages/recommendation_details_page.dart';
 import 'package:clean_architecture_rivaan_ranawat/init_dependencies.dart';
 import 'package:go_router/go_router.dart';
@@ -31,7 +32,7 @@ class AppNavigation {
       // otherwise redirect them to the login page
       return '/login';
     },
-    // initialLocation: "/groupListing/groupDetails",
+    initialLocation: "/groupListing/groupParticipants",
     routes: [
       GoRoute(
         path: "/login",
@@ -74,6 +75,13 @@ class AppNavigation {
             builder: (context, state) => GroupDetailsPage(
               groupId: state.pathParameters["groupId"]!,
             ),
+          ),
+          GoRoute(
+            path: "groupParticipants",
+            name: Routes.groupParticipants,
+            builder: (context, state) => GroupParticipantsPage(
+                // groupId: state.pathParameters["groupId"]!,
+                ),
           ),
         ],
       )

@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/config/navigation/routes.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/food_category_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_recommendations/get_group_recommendations_bloc.dart';
@@ -97,7 +98,14 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                   getGroupRecommendations: getGroupRecommendations,
                 ),
                 const SizedBox(height: 30),
-                const ViewParticipantsCard(),
+                ViewParticipantsCard(
+                  onTap: () => context.pushNamed(
+                    Routes.groupParticipants,
+                    pathParameters: {
+                      "groupId": widget.groupId,
+                    },
+                  ),
+                ),
                 const SizedBox(height: 5),
               ],
             ),

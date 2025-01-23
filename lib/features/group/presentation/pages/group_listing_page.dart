@@ -183,7 +183,7 @@ class _GroupListingPageState extends State<GroupListingPage> {
                           creatorName:
                               "${state.group.groups![index].creator!.firstName!} ${state.group.groups![index].creator!.lastName!}",
                           onPress: () {
-                            context.goNamed(
+                            context.pushNamed(
                               Routes.groupDetails,
                               pathParameters: {
                                 "groupId": state.group.groups![index].groupId!

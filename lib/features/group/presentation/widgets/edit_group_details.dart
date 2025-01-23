@@ -13,11 +13,11 @@ class EditGroupDetails extends StatefulWidget {
   const EditGroupDetails({
     super.key,
     required this.groupId,
-    required this.getGroupRecommendations,
+    this.getGroupRecommendations,
   });
 
   final String groupId;
-  final void Function() getGroupRecommendations;
+  final void Function()? getGroupRecommendations;
 
   @override
   State<EditGroupDetails> createState() => _EditGroupDetailsState();
@@ -116,7 +116,10 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
                 });
 
                 getGroupDetails();
-                widget.getGroupRecommendations();
+
+                if (widget.getGroupRecommendations != null) {
+                  widget.getGroupRecommendations!();
+                }
               }
             },
             builder: (context, updateGroupDetailsState) {
