@@ -8,7 +8,7 @@ class AppPrimarySoidButton extends StatelessWidget {
     required this.onPressed,
     required this.buttonText,
     required this.width,
-    this.height = 48,
+    this.height = 53,
     this.backgroundColor = Colors.black,
     this.textColor = Colors.white,
   });

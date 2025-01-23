@@ -1,14 +1,38 @@
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/edit_group_details.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/participant_card.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_without_label.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class GroupParticipantsPage extends StatelessWidget {
+class GroupParticipantsPage extends StatefulWidget {
   const GroupParticipantsPage({
     super.key,
-    // required this.groupId,
+    required this.groupId,
   });
 
-  // final String groupId;
+  final String groupId;
+
+  @override
+  State<GroupParticipantsPage> createState() => _GroupParticipantsPageState();
+}
+
+class _GroupParticipantsPageState extends State<GroupParticipantsPage> {
+  TextEditingController controller = TextEditingController();
+
+  bool isInviteSectionVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.text = "https://www.google.com";
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +54,8 @@ class GroupParticipantsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const EditGroupDetails(
-              groupId: "b55fa4ac-3086-4009-b339-25a9640a2ed5",
+            EditGroupDetails(
+              groupId: widget.groupId,
             ),
             const SizedBox(
               height: 30,
@@ -51,47 +75,55 @@ class GroupParticipantsPage extends StatelessWidget {
               child: ListView.builder(
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15,
-                      horizontal: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey[300]!,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 25,
-                          backgroundImage: NetworkImage(
-                            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.7,
-                          ),
-                          child: const Text(
-                            "John Smith",
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  return const ParticipantCard();
                 },
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  isInviteSectionVisible
+                      ? Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AppInputWithoutLabel(
+                                    label: "",
+                                    controller: controller,
+                                    hintText: "Link",
+                                    isEnabled: false,
+                                  ),
+                                ),
+                                AppPrimarySoidButton(
+                                  onPressed: () {},
+                                  buttonText: "Invite",
+                                  width: 0.25,
+                                  backgroundColor: Colors.red[900]!,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  AppPrimarySoidButton(
+                    onPressed: () {
+                      setState(() {
+                        isInviteSectionVisible = !isInviteSectionVisible;
+                      });
+                    },
+                    buttonText: "Invite Friends",
+                    width: 0.65,
+                    backgroundColor: Colors.yellow[700]!,
+                  ),
+                ],
               ),
             ),
           ],
