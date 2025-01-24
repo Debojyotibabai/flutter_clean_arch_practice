@@ -17,10 +17,10 @@ class APIService {
 
   String get baseUrl {
     if (kDebugMode) {
-      return 'https://dev-api.myrecommenu.com/';
+      return 'https://api.myrecommenu.com/';
     }
 
-    return 'https://dev-api.myrecommenu.com/';
+    return 'https://api.myrecommenu.com/';
   }
 
   String getContentType(ContentType type) {

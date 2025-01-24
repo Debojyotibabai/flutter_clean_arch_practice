@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:clean_architecture_rivaan_ranawat/config/navigation/routes.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/food_category_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/wi
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/view_participants_card.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/constants.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
+import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/dropdown/dropdown_with_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +38,11 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
   int page = 1;
   int size = 10;
 
+  Timer? timerForRecallingRecommendations;
+
   void getGroupRecommendations() {
+    timerForRecallingRecommendations?.cancel();
+
     BlocProvider.of<GetGroupRecommendationsBloc>(context).add(
       GetGroupRecommendations(
         params: GetGroupRecommendationsParams(
@@ -185,7 +192,24 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
           Expanded(
             child: BlocConsumer<GetGroupRecommendationsBloc,
                 GetGroupRecommendationsState>(
-              listener: (context, getGroupRecommendationsState) {},
+              listener: (context, getGroupRecommendationsState) {
+                if (getGroupRecommendationsState
+                    is GetGroupRecommendationsSuccess) {
+                  if (getGroupRecommendationsState.recommendations.message !=
+                          null &&
+                      getGroupRecommendationsState.recommendations.message !=
+                          "" &&
+                      getGroupRecommendationsState
+                          .recommendations.restaurantRecommendations!.isEmpty) {
+                    setState(() {
+                      timerForRecallingRecommendations =
+                          Timer(const Duration(seconds: 30), () async {
+                        onRefresh();
+                      });
+                    });
+                  }
+                }
+              },
               builder: (context, getGroupRecommendationsState) {
                 if (getGroupRecommendationsState
                     is GetGroupRecommendationsLoading) {
@@ -195,22 +219,38 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                 } else if (getGroupRecommendationsState
                     is GetGroupRecommendationsSuccess) {
                   if (getGroupRecommendationsState.recommendations.message !=
-                          "" &&
-                      getGroupRecommendationsState.recommendations.message !=
                           null &&
+                      getGroupRecommendationsState.recommendations.message !=
+                          "" &&
                       getGroupRecommendationsState
                           .recommendations.restaurantRecommendations!.isEmpty) {
                     return Center(
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: Text(
-                          getGroupRecommendationsState.recommendations.message!,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey,
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              getGroupRecommendationsState
+                                  .recommendations.message!,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            AppPrimarySoidButton(
+                              onPressed: onRefresh,
+                              buttonText: "Reload Again",
+                              width: 0.6,
+                              backgroundColor: Colors.yellow[700]!,
+                              isLoading: getGroupRecommendationsState
+                                  is GetGroupRecommendationsLoading,
+                            ),
+                          ],
                         ),
                       ),
                     );
@@ -218,9 +258,41 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                     return RefreshIndicator(
                       onRefresh: onRefresh,
                       child: ListView.builder(
-                        itemCount: 10,
+                        itemCount: getGroupRecommendationsState
+                            .recommendations.restaurantRecommendations?.length,
                         itemBuilder: (context, index) {
-                          return const GroupRecommendationCard();
+                          return GroupRecommendationCard(
+                            restaurantName: getGroupRecommendationsState
+                                .recommendations
+                                .restaurantRecommendations![index]
+                                .restaurantName!,
+                            distance: getGroupRecommendationsState
+                                .recommendations
+                                .restaurantRecommendations![index]
+                                .nearestRestaurantAddress!
+                                .nearestRestaurantAddressDistance!,
+                            groupMatch: getGroupRecommendationsState
+                                .recommendations
+                                .restaurantRecommendations![index]
+                                .averagePercentage!,
+                            onTap: () {
+                              context.pushNamed(
+                                Routes.recommendationDetails,
+                                pathParameters: {
+                                  "restaurantAddressId":
+                                      getGroupRecommendationsState
+                                          .recommendations
+                                          .restaurantRecommendations![index]
+                                          .nearestRestaurantAddress!
+                                          .nearestRestaurantAddressId!,
+                                },
+                                extra: getGroupRecommendationsState
+                                    .recommendations
+                                    .restaurantRecommendations![index]
+                                    .restaurantId,
+                              );
+                            },
+                          );
                         },
                       ),
                     );

@@ -180,7 +180,15 @@ class _RecommendationDetailsScreenState
                   Expanded(
                     child: selectedTab == 1
                         ? ListView.builder(
-                            itemCount: 5,
+                            itemCount: state
+                                        .recommendationDetails
+                                        .restaurantLocationDetails!
+                                        .foods!
+                                        .length >
+                                    5
+                                ? 5
+                                : state.recommendationDetails
+                                    .restaurantLocationDetails!.foods?.length,
                             itemBuilder: (context, index) =>
                                 RecommendationDetailsCard(
                               index: index + 1,

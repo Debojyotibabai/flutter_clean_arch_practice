@@ -217,7 +217,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 isDealAvailable: state.recommendations
                                     .recommendedFoods![index].deals!.isNotEmpty,
                                 onTap: () {
-                                  context.goNamed(
+                                  context.pushNamed(
                                     Routes.recommendationDetails,
                                     pathParameters: {
                                       "restaurantAddressId": state
