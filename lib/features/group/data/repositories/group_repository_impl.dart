@@ -1,6 +1,7 @@
 import 'package:clean_architecture_rivaan_ranawat/config/error/failure.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/data_sources/group_data_source.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_all_groups_model.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_food_as_per_restaurants_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_details_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_recommendations_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/repositories/group_repository.dart';
@@ -74,6 +75,19 @@ class GroupRepositoryImpl implements GroupRepository {
       final response = await groupDataSourceImpl.deleteGroup(
         groupId: groupId,
       );
+
+      return right(response);
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetFoodAsPerRestaurantsModel>> getFoodAsPerRestaurants(
+      List<String> restaurantIds) async {
+    try {
+      final response =
+          await groupDataSourceImpl.getFoodAsPerRestaurants(restaurantIds);
 
       return right(response);
     } catch (err) {

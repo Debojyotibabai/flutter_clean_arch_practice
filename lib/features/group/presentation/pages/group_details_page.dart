@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clean_architecture_rivaan_ranawat/config/navigation/routes.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/domain/entities/food_category_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/dashboard/presentation/bloc/food_category/food_category_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_foods_as_per_restaurants/get_food_as_per_restaurants_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_recommendations/get_group_recommendations_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/edit_group_details.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/group_recommendation_card.dart';
@@ -39,6 +40,8 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
   int size = 10;
 
   Timer? timerForRecallingRecommendations;
+
+  List<String>? restaurantIdsForFEtchRecommendations = [];
 
   void getGroupRecommendations() {
     timerForRecallingRecommendations?.cancel();
@@ -207,6 +210,21 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                         onRefresh();
                       });
                     });
+                  } else if (getGroupRecommendationsState
+                      .recommendations.restaurantRecommendations!.isNotEmpty) {
+                    setState(() {
+                      restaurantIdsForFEtchRecommendations =
+                          getGroupRecommendationsState
+                              .recommendations.restaurantRecommendations!
+                              .map((e) => e.restaurantId!)
+                              .toList();
+                    });
+
+                    BlocProvider.of<GetFoodAsPerRestaurantsBloc>(context).add(
+                      GetFoodAsPerRestaurants(
+                        restaurantIds: restaurantIdsForFEtchRecommendations!,
+                      ),
+                    );
                   }
                 }
               },

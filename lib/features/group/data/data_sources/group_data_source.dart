@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_all_groups_model.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_food_as_per_restaurants_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_details_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_recommendations_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
@@ -21,6 +22,9 @@ abstract class GroupDataSource {
   });
 
   Future<String> deleteGroup({required String groupId});
+
+  Future<GetFoodAsPerRestaurantsModel> getFoodAsPerRestaurants(
+      List<String> restaurantIds);
 }
 
 class GroupDataSourceImpl implements GroupDataSource {
@@ -130,6 +134,28 @@ class GroupDataSourceImpl implements GroupDataSource {
       );
 
       return response.data["message"];
+    } catch (err, s) {
+      log(err.toString() + s.toString());
+      throw err.toString();
+    }
+  }
+
+  @override
+  Future<GetFoodAsPerRestaurantsModel> getFoodAsPerRestaurants(
+      List<String> restaurantIds) async {
+    try {
+      final response = await APIService.instance.request(
+        "/group/fetch-restaurant-wise-recommendations",
+        DioMethod.get,
+        param: {
+          "restaurant_ids": restaurantIds,
+        },
+      );
+
+      final data =
+          getFoodAsPerRestaurantsModelFromMap(json.encode(response.data));
+
+      return data;
     } catch (err, s) {
       log(err.toString() + s.toString());
       throw err.toString();
