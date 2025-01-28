@@ -40,10 +40,16 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
   int size = 10;
 
   Timer? timerForRecallingRecommendations;
+  List<String>? restaurantIdsForFetchRecommendations = [];
+  int lastPage = 0;
 
-  List<String>? restaurantIdsForFEtchRecommendations = [];
+  bool isRecommendationsLoading = false;
 
   void getGroupRecommendations() {
+    setState(() {
+      isRecommendationsLoading = true;
+    });
+
     timerForRecallingRecommendations?.cancel();
 
     BlocProvider.of<GetGroupRecommendationsBloc>(context).add(
@@ -76,6 +82,8 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
       selectedSortByOption = null;
       page = 1;
       size = 10;
+      restaurantIdsForFetchRecommendations = [];
+      lastPage = 0;
     });
 
     getGroupRecommendations();
@@ -140,6 +148,11 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                           .toList(),
                       onChanged: (index) {
                         setState(() {
+                          page = 1;
+                          size = 10;
+                          restaurantIdsForFetchRecommendations = [];
+                          lastPage = 0;
+
                           selectedSortByOption = Constants
                               .groupRecommendedFoodsSortByOptions[index!];
                         });
@@ -161,6 +174,11 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                                 .toList(),
                             onChanged: (index) {
                               setState(() {
+                                page = 1;
+                                size = 10;
+                                restaurantIdsForFetchRecommendations = [];
+                                lastPage = 0;
+
                                 restaurantCategoryIds =
                                     getFoodCategoryState.foodCategory[index!];
                               });
@@ -196,6 +214,10 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             child: BlocConsumer<GetGroupRecommendationsBloc,
                 GetGroupRecommendationsState>(
               listener: (context, getGroupRecommendationsState) {
+                setState(() {
+                  isRecommendationsLoading = false;
+                });
+
                 if (getGroupRecommendationsState
                     is GetGroupRecommendationsSuccess) {
                   if (getGroupRecommendationsState.recommendations.message !=
@@ -213,16 +235,19 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                   } else if (getGroupRecommendationsState
                       .recommendations.restaurantRecommendations!.isNotEmpty) {
                     setState(() {
-                      restaurantIdsForFEtchRecommendations =
+                      restaurantIdsForFetchRecommendations =
                           getGroupRecommendationsState
                               .recommendations.restaurantRecommendations!
                               .map((e) => e.restaurantId!)
                               .toList();
+
+                      lastPage = getGroupRecommendationsState
+                          .recommendations.pagination!.lastPage!;
                     });
 
                     BlocProvider.of<GetFoodAsPerRestaurantsBloc>(context).add(
                       GetFoodAsPerRestaurants(
-                        restaurantIds: restaurantIdsForFEtchRecommendations!,
+                        restaurantIds: restaurantIdsForFetchRecommendations!,
                       ),
                     );
                   }
@@ -321,6 +346,34 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
               },
             ),
           ),
+          lastPage > page
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          page++;
+                        });
+
+                        getGroupRecommendations();
+                      },
+                      child: isRecommendationsLoading
+                          ? SpinKitThreeInOut(
+                              color: Colors.yellow[700],
+                            )
+                          : const Text(
+                              "Load More",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black54,
+                              ),
+                            ),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       ),
     );

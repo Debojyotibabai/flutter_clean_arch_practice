@@ -56,4 +56,16 @@ class GetGroupRecommendationsEntity {
     this.pagination,
     this.restaurantRecommendations,
   });
+
+  GetGroupRecommendationsEntity copyWith({
+    String? message,
+    PaginationEntity? pagination,
+    List<RestaurantRecommendationEntity>? restaurantRecommendations,
+  }) =>
+      GetGroupRecommendationsEntity(
+        message: message ?? this.message,
+        pagination: pagination ?? this.pagination,
+        restaurantRecommendations:
+            restaurantRecommendations ?? this.restaurantRecommendations,
+      );
 }

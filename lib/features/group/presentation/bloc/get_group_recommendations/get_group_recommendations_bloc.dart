@@ -13,15 +13,45 @@ class GetGroupRecommendationsBloc
   GetGroupRecommendationsBloc({
     required this.getGroupRecommendationsUseCase,
   }) : super(GetGroupRecommendationsInitial()) {
-    on<GetGroupRecommendations>((event, emit) async {
-      emit(GetGroupRecommendationsLoading());
+    on<GetGroupRecommendations>(
+      (event, emit) async {
+        if (event.params.page <= 1) {
+          emit(GetGroupRecommendationsLoading());
+        }
 
-      final response = await getGroupRecommendationsUseCase(event.params);
+        GetGroupRecommendationsEntity? previousRecommendations;
 
-      response.fold(
-        (err) => emit(GetGroupRecommendationsError(message: err.message)),
-        (res) => emit(GetGroupRecommendationsSuccess(recommendations: res)),
-      );
-    });
+        if (state is GetGroupRecommendationsSuccess) {
+          previousRecommendations =
+              (state as GetGroupRecommendationsSuccess).recommendations;
+        }
+
+        final response = await getGroupRecommendationsUseCase(event.params);
+
+        response.fold(
+          (err) => emit(GetGroupRecommendationsError(message: err.message)),
+          (res) {
+            if (event.params.page <= 1) {
+              emit(GetGroupRecommendationsSuccess(recommendations: res));
+            } else {
+              final List<RestaurantRecommendationEntity>
+                  restaurantRecommendations = [
+                ...previousRecommendations!.restaurantRecommendations!,
+                ...res.restaurantRecommendations!
+              ];
+
+              emit(
+                GetGroupRecommendationsSuccess(
+                  recommendations: res.copyWith(
+                    pagination: res.pagination,
+                    restaurantRecommendations: restaurantRecommendations,
+                  ),
+                ),
+              );
+            }
+          },
+        );
+      },
+    );
   }
 }
