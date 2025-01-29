@@ -7,3 +7,11 @@ final class GetGroupRecommendations extends GetGroupRecommendationsEvent {
 
   GetGroupRecommendations({required this.params});
 }
+
+final class AttachFoodToRecommendations extends GetGroupRecommendationsEvent {
+  final GetFoodAsPerRestaurantsEntity recommendations;
+
+  AttachFoodToRecommendations({
+    required this.recommendations,
+  });
+}

@@ -298,46 +298,62 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                       ),
                     );
                   } else {
-                    return RefreshIndicator(
-                      onRefresh: onRefresh,
-                      child: ListView.builder(
-                        itemCount: getGroupRecommendationsState
-                            .recommendations.restaurantRecommendations?.length,
-                        itemBuilder: (context, index) {
-                          return GroupRecommendationCard(
-                            restaurantName: getGroupRecommendationsState
+                    return BlocConsumer<GetFoodAsPerRestaurantsBloc,
+                        GetFoodAsPerRestaurantsState>(
+                      listener: (context, getFoodAsPerRestaurantsState) {
+                        if (getFoodAsPerRestaurantsState
+                            is GetFoodAsPerRestaurantsSuccess) {
+                          BlocProvider.of<GetGroupRecommendationsBloc>(context)
+                              .add(AttachFoodToRecommendations(
+                                  recommendations: getFoodAsPerRestaurantsState
+                                      .recommendations));
+                        }
+                      },
+                      builder: (context, getFoodAsPerRestaurantsState) {
+                        return RefreshIndicator(
+                          onRefresh: onRefresh,
+                          child: ListView.builder(
+                            itemCount: getGroupRecommendationsState
                                 .recommendations
-                                .restaurantRecommendations![index]
-                                .restaurantName!,
-                            distance: getGroupRecommendationsState
-                                .recommendations
-                                .restaurantRecommendations![index]
-                                .nearestRestaurantAddress!
-                                .nearestRestaurantAddressDistance!,
-                            groupMatch: getGroupRecommendationsState
-                                .recommendations
-                                .restaurantRecommendations![index]
-                                .averagePercentage!,
-                            onTap: () {
-                              context.pushNamed(
-                                Routes.recommendationDetails,
-                                pathParameters: {
-                                  "restaurantAddressId":
-                                      getGroupRecommendationsState
-                                          .recommendations
-                                          .restaurantRecommendations![index]
-                                          .nearestRestaurantAddress!
-                                          .nearestRestaurantAddressId!,
-                                },
-                                extra: getGroupRecommendationsState
+                                .restaurantRecommendations
+                                ?.length,
+                            itemBuilder: (context, index) {
+                              return GroupRecommendationCard(
+                                restaurantName: getGroupRecommendationsState
                                     .recommendations
                                     .restaurantRecommendations![index]
-                                    .restaurantId,
+                                    .restaurantName!,
+                                distance: getGroupRecommendationsState
+                                    .recommendations
+                                    .restaurantRecommendations![index]
+                                    .nearestRestaurantAddress!
+                                    .nearestRestaurantAddressDistance!,
+                                groupMatch: getGroupRecommendationsState
+                                    .recommendations
+                                    .restaurantRecommendations![index]
+                                    .averagePercentage!,
+                                onTap: () {
+                                  context.pushNamed(
+                                    Routes.recommendationDetails,
+                                    pathParameters: {
+                                      "restaurantAddressId":
+                                          getGroupRecommendationsState
+                                              .recommendations
+                                              .restaurantRecommendations![index]
+                                              .nearestRestaurantAddress!
+                                              .nearestRestaurantAddressId!,
+                                    },
+                                    extra: getGroupRecommendationsState
+                                        .recommendations
+                                        .restaurantRecommendations![index]
+                                        .restaurantId,
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     );
                   }
                 }
