@@ -44,6 +44,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
   int lastPage = 0;
 
   bool isRecommendationsLoading = false;
+  bool isFoodsLoading = false;
 
   void getGroupRecommendations() {
     setState(() {
@@ -214,14 +215,13 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             child: BlocConsumer<GetGroupRecommendationsBloc,
                 GetGroupRecommendationsState>(
               listener: (context, getGroupRecommendationsState) {
-                print("------------");
-
                 setState(() {
                   isRecommendationsLoading = false;
                 });
 
                 if (getGroupRecommendationsState
-                    is GetGroupRecommendationsSuccess) {
+                        is GetGroupRecommendationsSuccess &&
+                    !isFoodsLoading) {
                   if (getGroupRecommendationsState.recommendations.message !=
                           null &&
                       getGroupRecommendationsState.recommendations.message !=
@@ -247,6 +247,8 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
 
                       lastPage = getGroupRecommendationsState
                           .recommendations.pagination!.lastPage!;
+
+                      isFoodsLoading = true;
                     });
 
                     BlocProvider.of<GetFoodAsPerRestaurantsBloc>(context).add(
@@ -311,6 +313,12 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                               .add(AttachFoodToRecommendations(
                                   recommendations: getFoodAsPerRestaurantsState
                                       .recommendations));
+
+                          Future.delayed(const Duration(seconds: 0), () {
+                            setState(() {
+                              isFoodsLoading = false;
+                            });
+                          });
                         }
                       },
                       builder: (context, getFoodAsPerRestaurantsState) {

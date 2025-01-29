@@ -73,12 +73,12 @@ class GetGroupRecommendationsBloc
                   (element) => element.restaurantId == item.restaurantId));
         }).toList();
 
-        // emit(GetGroupRecommendationsSuccess(
-        //     recommendations: (state as GetGroupRecommendationsSuccess)
-        //         .recommendations
-        //         .copyWith(
-        //             restaurantRecommendations:
-        //                 updateRestaurantRecommendations)));
+        emit(GetGroupRecommendationsSuccess(
+            recommendations: (state as GetGroupRecommendationsSuccess)
+                .recommendations
+                .copyWith(
+                    restaurantRecommendations:
+                        updateRestaurantRecommendations)));
       },
     );
   }
