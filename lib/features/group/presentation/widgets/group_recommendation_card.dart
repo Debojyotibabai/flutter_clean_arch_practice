@@ -7,14 +7,14 @@ class GroupRecommendationCard extends StatelessWidget {
     required this.restaurantName,
     required this.distance,
     required this.groupMatch,
-    this.foodName,
+    required this.foodName,
     required this.onTap,
   });
 
   final String restaurantName;
   final double distance;
   final double groupMatch;
-  final String? foodName;
+  final String foodName;
   final void Function() onTap;
 
   @override
@@ -109,7 +109,7 @@ class GroupRecommendationCard extends StatelessWidget {
                 height: 4,
               ),
               Text(
-                foodName ?? "",
+                foodName,
                 style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 17,

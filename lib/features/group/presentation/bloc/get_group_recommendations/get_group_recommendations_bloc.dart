@@ -56,7 +56,30 @@ class GetGroupRecommendationsBloc
     );
 
     on<AttachFoodToRecommendations>(
-      (event, emit) async {},
+      (event, emit) async {
+        List<RestaurantRecommendationEntity> restaurantRecommendations =
+            (state as GetGroupRecommendationsSuccess)
+                .recommendations
+                .restaurantRecommendations!;
+
+        if (restaurantRecommendations.isEmpty) {
+          return;
+        }
+
+        final updateRestaurantRecommendations =
+            restaurantRecommendations.map((item) {
+          return item.copyWith(
+              recommendation: event.recommendations.recommendations!.firstWhere(
+                  (element) => element.restaurantId == item.restaurantId));
+        }).toList();
+
+        // emit(GetGroupRecommendationsSuccess(
+        //     recommendations: (state as GetGroupRecommendationsSuccess)
+        //         .recommendations
+        //         .copyWith(
+        //             restaurantRecommendations:
+        //                 updateRestaurantRecommendations)));
+      },
     );
   }
 }

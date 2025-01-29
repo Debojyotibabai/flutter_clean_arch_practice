@@ -1,3 +1,5 @@
+import 'package:clean_architecture_rivaan_ranawat/features/group/domain/entities/get_food_as_per_restaurants_entity.dart';
+
 class NearestRestaurantAddressEntity {
   final String? nearestRestaurantAddressId;
   final String? latitude;
@@ -21,6 +23,7 @@ class RestaurantRecommendationEntity {
   final double? averageRating;
   final NearestRestaurantAddressEntity? nearestRestaurantAddress;
   final int? index;
+  final RecommendationEntity? recommendation;
 
   RestaurantRecommendationEntity({
     this.restaurantId,
@@ -29,7 +32,28 @@ class RestaurantRecommendationEntity {
     this.averageRating,
     this.nearestRestaurantAddress,
     this.index,
+    this.recommendation,
   });
+
+  RestaurantRecommendationEntity copyWith({
+    String? restaurantId,
+    String? restaurantName,
+    double? averagePercentage,
+    double? averageRating,
+    NearestRestaurantAddressEntity? nearestRestaurantAddress,
+    int? index,
+    RecommendationEntity? recommendation,
+  }) =>
+      RestaurantRecommendationEntity(
+        restaurantId: restaurantId ?? this.restaurantId,
+        restaurantName: restaurantName ?? this.restaurantName,
+        averagePercentage: averagePercentage ?? this.averagePercentage,
+        averageRating: averageRating ?? this.averageRating,
+        nearestRestaurantAddress:
+            nearestRestaurantAddress ?? this.nearestRestaurantAddress,
+        index: index ?? this.index,
+        recommendation: recommendation ?? this.recommendation,
+      );
 }
 
 class PaginationEntity {

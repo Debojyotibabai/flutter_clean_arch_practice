@@ -214,6 +214,8 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             child: BlocConsumer<GetGroupRecommendationsBloc,
                 GetGroupRecommendationsState>(
               listener: (context, getGroupRecommendationsState) {
+                print("------------");
+
                 setState(() {
                   isRecommendationsLoading = false;
                 });
@@ -227,10 +229,12 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                       getGroupRecommendationsState
                           .recommendations.restaurantRecommendations!.isEmpty) {
                     setState(() {
-                      timerForRecallingRecommendations =
-                          Timer(const Duration(seconds: 30), () async {
-                        onRefresh();
-                      });
+                      timerForRecallingRecommendations = Timer(
+                        const Duration(seconds: 30),
+                        () {
+                          onRefresh();
+                        },
+                      );
                     });
                   } else if (getGroupRecommendationsState
                       .recommendations.restaurantRecommendations!.isNotEmpty) {
@@ -332,6 +336,12 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                                     .recommendations
                                     .restaurantRecommendations![index]
                                     .averagePercentage!,
+                                foodName: getGroupRecommendationsState
+                                        .recommendations
+                                        .restaurantRecommendations![index]
+                                        .recommendation
+                                        ?.foodName ??
+                                    "",
                                 onTap: () {
                                   context.pushNamed(
                                     Routes.recommendationDetails,
