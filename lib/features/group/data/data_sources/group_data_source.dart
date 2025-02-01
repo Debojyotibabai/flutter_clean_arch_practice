@@ -5,6 +5,7 @@ import 'package:clean_architecture_rivaan_ranawat/config/api_service.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_all_groups_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_food_as_per_restaurants_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_details_model.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_participants_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_recommendations_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
 
@@ -25,6 +26,9 @@ abstract class GroupDataSource {
 
   Future<GetFoodAsPerRestaurantsModel> getFoodAsPerRestaurants(
       List<String> restaurantIds);
+
+  Future<GetGroupParticipantsModel> getGroupParticipants(
+      {required String groupId});
 }
 
 class GroupDataSourceImpl implements GroupDataSource {
@@ -156,6 +160,22 @@ class GroupDataSourceImpl implements GroupDataSource {
           getFoodAsPerRestaurantsModelFromMap(json.encode(response.data));
 
       return data;
+    } catch (err, s) {
+      log(err.toString() + s.toString());
+      throw err.toString();
+    }
+  }
+
+  @override
+  Future<GetGroupParticipantsModel> getGroupParticipants(
+      {required String groupId}) async {
+    try {
+      final response = await APIService.instance.request(
+        "/group/get-group-members/$groupId",
+        DioMethod.get,
+      );
+
+      return getGroupParticipantsModelFromMap(json.encode(response.data));
     } catch (err, s) {
       log(err.toString() + s.toString());
       throw err.toString();

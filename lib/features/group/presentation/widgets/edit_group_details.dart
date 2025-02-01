@@ -1,3 +1,4 @@
+import 'package:clean_architecture_rivaan_ranawat/config/navigation/routes.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/delete_group/delete_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_details/get_group_details_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 
 class EditGroupDetails extends StatefulWidget {
   const EditGroupDetails({
@@ -252,9 +254,11 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
                                                 ),
                                               );
 
-                                              int count = 0;
-                                              Navigator.of(context).popUntil(
-                                                  (_) => count++ >= 2);
+                                              // int count = 0;
+                                              // Navigator.of(context).popUntil(
+                                              //     (_) => count++ >= 2);
+
+                                              context.go(Routes.groupListing);
                                             }
                                           },
                                           builder: (context, deleteGroupState) {
@@ -279,12 +283,13 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) =>
-                                            const ConfirmationDialog(
+                                            ConfirmationDialog(
                                           title:
                                               "Are you sure you want leave this group?",
                                           subTitle:
                                               "Are you sure you want to leave this group? You will have to have the link if you want to rejoin later.",
                                           confirmButtonText: "Leave Group",
+                                          onConfirm: () {},
                                         ),
                                       );
                                     }
@@ -352,7 +357,6 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
             },
           );
         }
-
         return Container();
       },
     );

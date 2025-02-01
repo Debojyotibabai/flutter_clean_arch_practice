@@ -10,6 +10,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bl
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_all_group/get_all_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_foods_as_per_restaurants/get_food_as_per_restaurants_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_details/get_group_details_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_participants/get_group_participants_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_recommendations/get_group_recommendations_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/update_group_details/update_group_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/presentation/bloc/particular_restaurant_foods/particular_restaurant_foods_bloc.dart';
@@ -44,6 +45,7 @@ void main() {
         BlocProvider(create: (_) => serviceLocator<DeleteGroupBloc>()),
         BlocProvider(
             create: (_) => serviceLocator<GetFoodAsPerRestaurantsBloc>()),
+        BlocProvider(create: (_) => serviceLocator<GetGroupParticipantsBloc>()),
       ],
       child: const MyApp(),
     ),
@@ -67,7 +69,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: "Recommenu",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

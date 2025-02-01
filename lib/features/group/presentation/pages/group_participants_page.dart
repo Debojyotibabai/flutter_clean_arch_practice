@@ -1,8 +1,11 @@
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_participants/get_group_participants_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/edit_group_details.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/participant_card.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/button/app_primary_solid_button.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/widgets/input/app_input_without_label.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 
 class GroupParticipantsPage extends StatefulWidget {
@@ -25,7 +28,11 @@ class _GroupParticipantsPageState extends State<GroupParticipantsPage> {
   @override
   void initState() {
     super.initState();
+
     controller.text = "https://www.google.com";
+
+    BlocProvider.of<GetGroupParticipantsBloc>(context)
+        .add(GetGroupParticipants(groupId: widget.groupId));
   }
 
   @override
@@ -72,10 +79,68 @@ class _GroupParticipantsPageState extends State<GroupParticipantsPage> {
               height: 15,
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return const ParticipantCard();
+              child: BlocConsumer<GetGroupParticipantsBloc,
+                  GetGroupParticipantsState>(
+                listener: (context, getGroupParticipantsState) {
+                  if (getGroupParticipantsState is GetGroupParticipantsError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(getGroupParticipantsState.message),
+                      ),
+                    );
+                  }
+                },
+                builder: (context, getGroupParticipantsState) {
+                  if (getGroupParticipantsState
+                      is GetGroupParticipantsIsLoading) {
+                    return SpinKitThreeInOut(
+                      color: Colors.yellow[700],
+                    );
+                  } else if (getGroupParticipantsState
+                      is GetGroupParticipantsError) {
+                    return const Center(
+                      child: Text(
+                        "Something went wrong!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    );
+                  } else if (getGroupParticipantsState
+                      is GetGroupParticipantsSuccess) {
+                    if (getGroupParticipantsState
+                        .participants.groupMembers!.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          "No participants found!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return ListView.builder(
+                        itemCount: getGroupParticipantsState
+                            .participants.groupMembers!.length,
+                        itemBuilder: (context, index) {
+                          return ParticipantCard(
+                            name:
+                                "${getGroupParticipantsState.participants.groupMembers![index].firstName!} ${getGroupParticipantsState.participants.groupMembers![index].lastName!}",
+                            avatar: getGroupParticipantsState.participants
+                                .groupMembers![index].profileImageUrl,
+                          );
+                        },
+                      );
+                    }
+                  }
+
+                  return Container();
                 },
               ),
             ),

@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ParticipantCard extends StatelessWidget {
-  const ParticipantCard({super.key});
+  const ParticipantCard({super.key, required this.name, required this.avatar});
+
+  final String name;
+  final String? avatar;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +44,11 @@ class ParticipantCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 25,
               backgroundImage: NetworkImage(
-                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+                avatar ??
+                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
               ),
             ),
             const SizedBox(
@@ -54,9 +58,9 @@ class ParticipantCard extends StatelessWidget {
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.7,
               ),
-              child: const Text(
-                "John Smith",
-                style: TextStyle(
+              child: Text(
+                name,
+                style: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                   color: Colors.black87,

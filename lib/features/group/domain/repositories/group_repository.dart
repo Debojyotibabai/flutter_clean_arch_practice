@@ -2,6 +2,7 @@ import 'package:clean_architecture_rivaan_ranawat/config/error/failure.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/entities/get_all_groups_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/entities/get_food_as_per_restaurants_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/entities/get_group_details_entity.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/domain/entities/get_group_participants_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/entities/get_group_recommendations_entity.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
 import 'package:fpdart/fpdart.dart';
@@ -30,4 +31,7 @@ abstract class GroupRepository {
       getFoodAsPerRestaurants(
     List<String> restaurantIds,
   );
+
+  Future<Either<Failure, GetGroupParticipantsEntity>> getGroupParticipants(
+      {required String groupId});
 }

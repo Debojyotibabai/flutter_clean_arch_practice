@@ -3,6 +3,7 @@ import 'package:clean_architecture_rivaan_ranawat/features/group/data/data_sourc
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_all_groups_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_food_as_per_restaurants_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_details_model.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_participants_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/data/models/get_group_recommendations_model.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/repositories/group_repository.dart';
 import 'package:clean_architecture_rivaan_ranawat/utils/models/group_model.dart';
@@ -88,6 +89,19 @@ class GroupRepositoryImpl implements GroupRepository {
     try {
       final response =
           await groupDataSourceImpl.getFoodAsPerRestaurants(restaurantIds);
+
+      return right(response);
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetGroupParticipantsModel>> getGroupParticipants(
+      {required String groupId}) async {
+    try {
+      final response =
+          await groupDataSourceImpl.getGroupParticipants(groupId: groupId);
 
       return right(response);
     } catch (err) {

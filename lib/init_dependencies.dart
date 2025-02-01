@@ -30,12 +30,14 @@ import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_case
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_all_groups_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_food_as_per_restaurants_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_group_details_use_case.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_group_participants_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/get_group_recommendations_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/domain/use_cases/update_group_details_use_case.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/delete_group/delete_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_all_group/get_all_group_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_foods_as_per_restaurants/get_food_as_per_restaurants_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_details/get_group_details_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_participants/get_group_participants_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_recommendations/get_group_recommendations_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/update_group_details/update_group_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/recommendation_details/data/data_sources/recommendation_details_data_source.dart';
@@ -223,5 +225,12 @@ void _initGroupDependencies() {
     ..registerFactory(
       () =>
           GetFoodAsPerRestaurantsUseCase(groupRepositoryImpl: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => GetGroupParticipantsBloc(
+          getGroupParticipantsUseCase: serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetGroupParticipantsUseCase(groupRepositoryImpl: serviceLocator()),
     );
 }
