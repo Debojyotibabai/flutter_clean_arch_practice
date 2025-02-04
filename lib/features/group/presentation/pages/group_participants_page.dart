@@ -1,3 +1,5 @@
+import 'package:clean_architecture_rivaan_ranawat/features/edit_profile/presentation/bloc/edit_profile_data/edit_profile_data_bloc.dart';
+import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_details/get_group_details_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/bloc/get_group_participants/get_group_participants_bloc.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/edit_group_details.dart';
 import 'package:clean_architecture_rivaan_ranawat/features/group/presentation/widgets/participant_card.dart';
@@ -30,6 +32,12 @@ class _GroupParticipantsPageState extends State<GroupParticipantsPage> {
     super.initState();
 
     controller.text = "https://www.google.com";
+
+    BlocProvider.of<EditProfileDataBloc>(context)
+        .add(GetEditProfileDataEvent());
+
+    BlocProvider.of<GetGroupDetailsBloc>(context)
+        .add(GetGroupDetails(groupId: widget.groupId));
 
     BlocProvider.of<GetGroupParticipantsBloc>(context)
         .add(GetGroupParticipants(groupId: widget.groupId));
@@ -79,25 +87,22 @@ class _GroupParticipantsPageState extends State<GroupParticipantsPage> {
               height: 15,
             ),
             Expanded(
-              child: BlocConsumer<GetGroupParticipantsBloc,
-                  GetGroupParticipantsState>(
-                listener: (context, getGroupParticipantsState) {
-                  if (getGroupParticipantsState is GetGroupParticipantsError) {
+              child: BlocConsumer<EditProfileDataBloc, EditProfileDataState>(
+                listener: (context, editProfileDataState) {
+                  if (editProfileDataState is EditProfileDataError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(getGroupParticipantsState.message),
+                        content: Text(editProfileDataState.message),
                       ),
                     );
                   }
                 },
-                builder: (context, getGroupParticipantsState) {
-                  if (getGroupParticipantsState
-                      is GetGroupParticipantsIsLoading) {
+                builder: (context, editProfileDataState) {
+                  if (editProfileDataState is EditProfileDataIsLoading) {
                     return SpinKitThreeInOut(
                       color: Colors.yellow[700],
                     );
-                  } else if (getGroupParticipantsState
-                      is GetGroupParticipantsError) {
+                  } else if (editProfileDataState is EditProfileDataError) {
                     return const Center(
                       child: Text(
                         "Something went wrong!",
@@ -109,37 +114,118 @@ class _GroupParticipantsPageState extends State<GroupParticipantsPage> {
                         ),
                       ),
                     );
-                  } else if (getGroupParticipantsState
-                      is GetGroupParticipantsSuccess) {
-                    if (getGroupParticipantsState
-                        .participants.groupMembers!.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          "No participants found!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: getGroupParticipantsState
-                            .participants.groupMembers!.length,
-                        itemBuilder: (context, index) {
-                          return ParticipantCard(
-                            name:
-                                "${getGroupParticipantsState.participants.groupMembers![index].firstName!} ${getGroupParticipantsState.participants.groupMembers![index].lastName!}",
-                            avatar: getGroupParticipantsState.participants
-                                .groupMembers![index].profileImageUrl,
+                  } else if (editProfileDataState is EditProfileDataSuccess) {
+                    return BlocConsumer<GetGroupDetailsBloc,
+                        GetGroupDetailsState>(
+                      listener: (context, getGroupDetailsState) {
+                        if (getGroupDetailsState is GetGroupDetailsError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(getGroupDetailsState.message),
+                            ),
                           );
-                        },
-                      );
-                    }
+                        }
+                      },
+                      builder: (context, getGroupDetailsState) {
+                        if (getGroupDetailsState is GetGroupDetailsLoading) {
+                          return SpinKitThreeInOut(
+                            color: Colors.yellow[700],
+                          );
+                        } else if (getGroupDetailsState
+                            is GetGroupDetailsError) {
+                          return const Center(
+                            child: Text(
+                              "Something went wrong!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          );
+                        } else if (getGroupDetailsState
+                            is GetGroupDetailsSuccess) {
+                          return BlocConsumer<GetGroupParticipantsBloc,
+                              GetGroupParticipantsState>(
+                            listener: (context, getGroupParticipantsState) {
+                              if (getGroupParticipantsState
+                                  is GetGroupParticipantsError) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text(getGroupParticipantsState.message),
+                                  ),
+                                );
+                              }
+                            },
+                            builder: (context, getGroupParticipantsState) {
+                              if (getGroupParticipantsState
+                                  is GetGroupParticipantsIsLoading) {
+                                return SpinKitThreeInOut(
+                                  color: Colors.yellow[700],
+                                );
+                              } else if (getGroupParticipantsState
+                                  is GetGroupParticipantsError) {
+                                return const Center(
+                                  child: Text(
+                                    "Something went wrong!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                );
+                              } else if (getGroupParticipantsState
+                                  is GetGroupParticipantsSuccess) {
+                                if (getGroupParticipantsState
+                                    .participants.groupMembers!.isEmpty) {
+                                  return const Center(
+                                    child: Text(
+                                      "No participants found!",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return ListView.builder(
+                                    itemCount: getGroupParticipantsState
+                                        .participants.groupMembers!.length,
+                                    itemBuilder: (context, index) {
+                                      return ParticipantCard(
+                                        name:
+                                            "${getGroupParticipantsState.participants.groupMembers![index].firstName!} ${getGroupParticipantsState.participants.groupMembers![index].lastName!}",
+                                        avatar: getGroupParticipantsState
+                                            .participants
+                                            .groupMembers![index]
+                                            .profileImageUrl,
+                                        groupOwnerUserId: getGroupDetailsState
+                                            .groupDetails.creator!.creatorId!,
+                                        currentUserId: editProfileDataState
+                                            .editProfileData.user!.userId!,
+                                        participantId: getGroupParticipantsState
+                                            .participants
+                                            .groupMembers![index]
+                                            .userId!,
+                                      );
+                                    },
+                                  );
+                                }
+                              }
+                              return Container();
+                            },
+                          );
+                        }
+                        return Container();
+                      },
+                    );
                   }
-
                   return Container();
                 },
               ),
